@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "BookStore"
   "BookStore.pdb"
-  "CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o"
-  "CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o.d"
+  "CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o"
+  "CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp" "CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o" "gcc" "CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o.d"
+  "/home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp" "CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o" "gcc" "CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o.d"
   )
 
 # Targets to which this target links.

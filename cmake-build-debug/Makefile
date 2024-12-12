@@ -117,41 +117,41 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named BookStore
+# Target rules for targets named code
 
 # Build rule for target.
-BookStore: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 BookStore
-.PHONY : BookStore
+code: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 code
+.PHONY : code
 
 # fast build rule for target.
-BookStore/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BookStore.dir/build.make CMakeFiles/BookStore.dir/build
-.PHONY : BookStore/fast
+code/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/build
+.PHONY : code/fast
 
-src/UnrolledLinkedList.o: src/UnrolledLinkedList.cpp.o
-.PHONY : src/UnrolledLinkedList.o
+src/unrolled_linked_list.o: src/unrolled_linked_list.cpp.o
+.PHONY : src/unrolled_linked_list.o
 
 # target to build an object file
-src/UnrolledLinkedList.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BookStore.dir/build.make CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o
-.PHONY : src/UnrolledLinkedList.cpp.o
+src/unrolled_linked_list.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o
+.PHONY : src/unrolled_linked_list.cpp.o
 
-src/UnrolledLinkedList.i: src/UnrolledLinkedList.cpp.i
-.PHONY : src/UnrolledLinkedList.i
+src/unrolled_linked_list.i: src/unrolled_linked_list.cpp.i
+.PHONY : src/unrolled_linked_list.i
 
 # target to preprocess a source file
-src/UnrolledLinkedList.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BookStore.dir/build.make CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.i
-.PHONY : src/UnrolledLinkedList.cpp.i
+src/unrolled_linked_list.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/unrolled_linked_list.cpp.i
+.PHONY : src/unrolled_linked_list.cpp.i
 
-src/UnrolledLinkedList.s: src/UnrolledLinkedList.cpp.s
-.PHONY : src/UnrolledLinkedList.s
+src/unrolled_linked_list.s: src/unrolled_linked_list.cpp.s
+.PHONY : src/unrolled_linked_list.s
 
 # target to generate assembly for a file
-src/UnrolledLinkedList.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/BookStore.dir/build.make CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.s
-.PHONY : src/UnrolledLinkedList.cpp.s
+src/unrolled_linked_list.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/unrolled_linked_list.cpp.s
+.PHONY : src/unrolled_linked_list.cpp.s
 
 # Help Target
 help:
@@ -161,10 +161,10 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... BookStore"
-	@echo "... src/UnrolledLinkedList.o"
-	@echo "... src/UnrolledLinkedList.i"
-	@echo "... src/UnrolledLinkedList.s"
+	@echo "... code"
+	@echo "... src/unrolled_linked_list.o"
+	@echo "... src/unrolled_linked_list.i"
+	@echo "... src/unrolled_linked_list.s"
 .PHONY : help
 
 

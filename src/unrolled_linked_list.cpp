@@ -9,8 +9,8 @@
 #include <array>
 #include <iostream>
 #include <cstring>
-#include "MemoryRiver.hpp"
-#include "UnrolledLinkedList.h"
+#include "memory_river.hpp"
+#include "unrolled_linked_list.h"
 
 template<class key_type, class value_type, size_t max_size, size_t max_block_size>
 UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::UnrolledLinkedList(const std::string &file_name) : head_file_(file_name + "_Head"), body_file_(file_name + "_Body") {
@@ -19,15 +19,15 @@ UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::UnrolledLink
   std::cerr << "size of body node : " << size_of_body_node_ << "\n";
 #endif
 
-  head_file_.initialise();
-  body_file_.initialise();
-  head_file_.get_info(cur_size_, 2);
+  head_file_.Initialise();
+  body_file_.Initialise();
+  head_file_.GetInfo(cur_size_, 2);
 
   if (cur_size_) {
     HeadNode cur_head;
     size_t head_pos;
-    head_file_.get_info(head_pos, 1);
-    head_file_.read(cur_head, head_pos);
+    head_file_.GetInfo(head_pos, 1);
+    head_file_.Read(cur_head, head_pos);
     cache_head_ = new CacheHeadNode(cur_head, head_pos);
     CacheHeadNode *tmp = cache_head_;
     while (true) {
@@ -35,7 +35,7 @@ UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::UnrolledLink
         break;
       }
       head_pos = cur_head.nxt_;
-      head_file_.read(cur_head, head_pos);
+      head_file_.Read(cur_head, head_pos);
       tmp->nxt_ = new CacheHeadNode(cur_head, head_pos);
       tmp = tmp->nxt_;
     }
@@ -44,11 +44,11 @@ UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::UnrolledLink
 
 template<class key_type, class value_type, size_t max_size, size_t max_block_size>
 UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::~UnrolledLinkedList() {
-  head_file_.write_info(cur_size_, 2);
+  head_file_.WriteInfo(cur_size_, 2);
   if (cur_size_) {
-    head_file_.write_info(cache_head_->pos_, 1);
+    head_file_.WriteInfo(cache_head_->pos_, 1);
     while (true) {
-      head_file_.update(cache_head_->node_, cache_head_->pos_);
+      head_file_.Update(cache_head_->node_, cache_head_->pos_);
       CacheHeadNode *tmp = cache_head_->nxt_;
       delete cache_head_;
       if (tmp == nullptr) {
@@ -64,11 +64,11 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::Insert(
   if (cur_size_ == 0) {
     HeadNode head = {key, val, key, val, 0, 1};
 
-    size_t head_pos = head_file_.reserve();
+    size_t head_pos = head_file_.Reserve();
     cache_head_ = new CacheHeadNode(head, head_pos);
 
     BodyNode body = {std::make_pair(key, val)};
-    body_file_.update(body, head_pos);
+    body_file_.Update(body, head_pos);
   } else {
     CacheHeadNode *tmp = cache_head_;
     while (true) {
@@ -89,7 +89,7 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::Insert(
 template<class key_type, class value_type, size_t max_size, size_t max_block_size>
 void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockInsert(CacheHeadNode *head_node, const key_type &key, const value_type &val) {
   BodyNode tmp_array;
-  body_file_.read(tmp_array, head_node->pos_);
+  body_file_.Read(tmp_array, head_node->pos_);
   std::pair<key_type, value_type> tmp_node = std::make_pair(key, val);
   size_t tmp_size = head_node->node_.block_size_;
   if (!tmp_size) {
@@ -119,19 +119,19 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockIn
   if (tmp_size == max_block_size) { // Split block
     size_t split_pos = tmp_size / 2;
 
-    CacheHeadNode *new_node = new CacheHeadNode({tmp_array[split_pos].first, tmp_array[split_pos].second, tmp_array[tmp_size - 1].first, tmp_array[tmp_size - 1].second, head_node->node_.nxt_, tmp_size - split_pos}, head_file_.reserve(), head_node->nxt_);
+    CacheHeadNode *new_node = new CacheHeadNode({tmp_array[split_pos].first, tmp_array[split_pos].second, tmp_array[tmp_size - 1].first, tmp_array[tmp_size - 1].second, head_node->node_.nxt_, tmp_size - split_pos}, head_file_.Reserve(), head_node->nxt_);
 
     BodyNode tmp_body;
     std::copy(tmp_array.begin() + split_pos, tmp_array.begin() + tmp_size, tmp_body.begin());
-    body_file_.update(tmp_body, new_node->pos_);
+    body_file_.Update(tmp_body, new_node->pos_);
 
     head_node->node_ = {tmp_array[0].first, tmp_array[0].second, tmp_array[split_pos - 1].first, tmp_array[split_pos - 1].second, new_node->pos_, split_pos};
     head_node->nxt_ = new_node;
 
     std::copy(tmp_array.begin(), tmp_array.begin() + split_pos, tmp_body.begin());
-    body_file_.update(tmp_body, head_node->pos_);
+    body_file_.Update(tmp_body, head_node->pos_);
   } else {
-    body_file_.update(tmp_array, head_node->pos_);
+    body_file_.Update(tmp_array, head_node->pos_);
     head_node->node_ = {tmp_array[0].first, tmp_array[0].second, tmp_array[tmp_size - 1].first, tmp_array[tmp_size - 1].second, head_node->node_.nxt_, tmp_size};
   }
 }
@@ -159,7 +159,7 @@ std::vector<value_type> UnrolledLinkedList<key_type, value_type, max_size, max_b
 template<class key_type, class value_type, size_t max_size, size_t max_block_size>
 void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockFind(std::vector<value_type> &res, CacheHeadNode *head_node, const key_type &key) {
   BodyNode tmp_array;
-  body_file_.read(tmp_array, head_node->pos_);
+  body_file_.Read(tmp_array, head_node->pos_);
   for (size_t i = 0; i < head_node->node_.block_size_; ++i) {
     if (tmp_array[i].first == key) {
       res.emplace_back(tmp_array[i].second);
@@ -200,7 +200,7 @@ bool UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::Delete(
 template<class key_type, class value_type, size_t max_size, size_t max_block_size>
 bool UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockDelete(CacheHeadNode *head_node, const std::pair<key_type, value_type> &key_val) {
   BodyNode tmp_array;
-  body_file_.read(tmp_array, head_node->pos_);
+  body_file_.Read(tmp_array, head_node->pos_);
 
   size_t tmp_size = head_node->node_.block_size_;
   size_t pos = tmp_size;
@@ -220,25 +220,25 @@ bool UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockDe
 
   // if (cur_head.nxt_) {
   //   HeadNode nxt_head;
-  //   head_file_.read(nxt_head, cur_head.nxt_);
+  //   head_file_.Read(nxt_head, cur_head.nxt_);
   //   if (tmp_size + nxt_head.block_size_ < 3 * max_block_size / 4) {
   //     body_pos = cur_head.nxt_ * max_block_size;
   //     tmp_array.resize(tmp_size + nxt_head.block_size_);
   //     for (size_t i = 0; i < nxt_head.block_size_; ++i) {
-  //       body_file_.read(tmp_array[i + tmp_size], body_pos + i);
+  //       body_file_.Read(tmp_array[i + tmp_size], body_pos + i);
   //     }
   //     body_pos = head_pos * max_block_size;
   //     tmp_size += nxt_head.block_size_;
   //     for (size_t i = 0; i < tmp_size; ++i) {
-  //       body_file_.update(tmp_array[i], body_pos + i);
+  //       body_file_.Update(tmp_array[i], body_pos + i);
   //     }
   //     HeadNode tmp = {tmp_array[0].key_, tmp_array[0].val_, tmp_array[tmp_size - 1].key_, tmp_array[tmp_size - 1].val_, nxt_head.nxt_, tmp_size};
-  //     head_file_.update(tmp, head_pos);
+  //     head_file_.Update(tmp, head_pos);
   //     return true;
   //   }
   // }
 
-  body_file_.update(tmp_array, head_node->pos_);
+  body_file_.Update(tmp_array, head_node->pos_);
 
   head_node->node_ = {tmp_array[0].first, tmp_array[0].second, tmp_array[tmp_size - 1].first, tmp_array[tmp_size - 1].second, head_node->node_.nxt_, tmp_size};
   return true;
@@ -265,7 +265,7 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::Print()
 template<class key_type, class value_type, size_t max_size, size_t max_block_size>
 void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockPrint(CacheHeadNode * head_node) {
   BodyNode tmp_array;
-  body_file_.read(tmp_array, head_node->pos_);
+  body_file_.Read(tmp_array, head_node->pos_);
   for (size_t i = 0; i < head_node->node_.block_size_; ++i) {
     std::cerr << "(" << tmp_array[i].first << " " << tmp_array[i].second << ") ";
   }

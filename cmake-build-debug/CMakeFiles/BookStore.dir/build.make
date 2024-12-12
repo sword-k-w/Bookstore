@@ -69,28 +69,28 @@ include CMakeFiles/BookStore.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/BookStore.dir/flags.make
 
-CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o: CMakeFiles/BookStore.dir/flags.make
-CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o: ../src/UnrolledLinkedList.cpp
-CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o: CMakeFiles/BookStore.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o -MF CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o.d -o CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o -c /home/sword/swordProject/Bookstore/src/UnrolledLinkedList.cpp
+CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o: CMakeFiles/BookStore.dir/flags.make
+CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o: ../src/unrolled_linked_list.cpp
+CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o: CMakeFiles/BookStore.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o -MF CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o.d -o CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o -c /home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp
 
-CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/UnrolledLinkedList.cpp > CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.i
+CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp > CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.i
 
-CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/UnrolledLinkedList.cpp -o CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.s
+CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp -o CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.s
 
 # Object files for target BookStore
 BookStore_OBJECTS = \
-"CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o"
+"CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o"
 
 # External object files for target BookStore
 BookStore_EXTERNAL_OBJECTS =
 
-BookStore: CMakeFiles/BookStore.dir/src/UnrolledLinkedList.cpp.o
+BookStore: CMakeFiles/BookStore.dir/src/unrolled_linked_list.cpp.o
 BookStore: CMakeFiles/BookStore.dir/build.make
 BookStore: CMakeFiles/BookStore.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable BookStore"

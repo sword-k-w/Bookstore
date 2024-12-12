@@ -5,6 +5,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 
-add_executable(BookStore
-        src/UnrolledLinkedList.cpp
+add_executable(code
+        src/unrolled_linked_list.cpp
 )

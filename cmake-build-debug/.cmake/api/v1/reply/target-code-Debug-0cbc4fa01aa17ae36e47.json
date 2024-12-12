@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "BookStore"
+			"path" : "code"
 		}
 	],
 	"backtrace" : 1,
@@ -67,7 +67,7 @@
 			]
 		}
 	],
-	"id" : "BookStore::@6890427a1f51a3e7e1df",
+	"id" : "code::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -83,8 +83,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "BookStore",
-	"nameOnDisk" : "BookStore",
+	"name" : "code",
+	"nameOnDisk" : "code",
 	"paths" : 
 	{
 		"build" : ".",
@@ -105,7 +105,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/UnrolledLinkedList.cpp",
+			"path" : "src/unrolled_linked_list.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
