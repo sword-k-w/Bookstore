@@ -129,6 +129,54 @@ code/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/build
 .PHONY : code/fast
 
+src/account.o: src/account.cpp.o
+.PHONY : src/account.o
+
+# target to build an object file
+src/account.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/account.cpp.o
+.PHONY : src/account.cpp.o
+
+src/account.i: src/account.cpp.i
+.PHONY : src/account.i
+
+# target to preprocess a source file
+src/account.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/account.cpp.i
+.PHONY : src/account.cpp.i
+
+src/account.s: src/account.cpp.s
+.PHONY : src/account.s
+
+# target to generate assembly for a file
+src/account.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/account.cpp.s
+.PHONY : src/account.cpp.s
+
+src/book.o: src/book.cpp.o
+.PHONY : src/book.o
+
+# target to build an object file
+src/book.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/book.cpp.o
+.PHONY : src/book.cpp.o
+
+src/book.i: src/book.cpp.i
+.PHONY : src/book.i
+
+# target to preprocess a source file
+src/book.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/book.cpp.i
+.PHONY : src/book.cpp.i
+
+src/book.s: src/book.cpp.s
+.PHONY : src/book.s
+
+# target to generate assembly for a file
+src/book.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/book.cpp.s
+.PHONY : src/book.cpp.s
+
 src/unrolled_linked_list.o: src/unrolled_linked_list.cpp.o
 .PHONY : src/unrolled_linked_list.o
 
@@ -162,6 +210,12 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... code"
+	@echo "... src/account.o"
+	@echo "... src/account.i"
+	@echo "... src/account.s"
+	@echo "... src/book.o"
+	@echo "... src/book.i"
+	@echo "... src/book.s"
 	@echo "... src/unrolled_linked_list.o"
 	@echo "... src/unrolled_linked_list.i"
 	@echo "... src/unrolled_linked_list.s"

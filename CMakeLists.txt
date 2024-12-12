@@ -7,4 +7,6 @@ include_directories(include)
 
 add_executable(code
         src/unrolled_linked_list.cpp
+        src/account.cpp
+        src/book.cpp
 )
