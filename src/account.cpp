@@ -2,9 +2,16 @@
 #include <vector>
 #include <cassert>
 
-bool Account::Online() const {
-  return online_;
+size_t Account::OnlineCount() const {
+  return online_count_;
 }
+
+void Account::ModifyOnlineCount(const int &delta) {
+  assert(delta == 1 || delta == -1);
+  assert(delta == 1 || online_count_ > 0);
+  online_count_ += delta;
+}
+
 
 bool Account::CheckPassword(const std::array<char, 30> &password) const {
   return password == password_;
@@ -20,6 +27,14 @@ std::array<char, 30> Account::UserID() const {
 
 unsigned char Account::Privilege() const {
   return privilege_;
+}
+
+bool operator < (const Account &x, const Account &y) {
+  return x.userID_ < y.userID_;
+}
+
+bool operator == (const Account &x, const Account &y) {
+  return x.userID_ == y.userID_;
 }
 
 /**
@@ -49,7 +64,7 @@ bool AccountSystem::Add(const Account &new_account) {
 bool AccountSystem::Delete(const std::array<char, 30> &userID) {
   Account tmp = Find(userID);
   if (tmp.Privilege()) {
-    if (tmp.Online()) {
+    if (tmp.OnlineCount()) {
       return false;
     }
     accounts_.Delete(userID, tmp);

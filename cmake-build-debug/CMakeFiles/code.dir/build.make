@@ -69,24 +69,10 @@ include CMakeFiles/code.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/code.dir/flags.make
 
-CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o: CMakeFiles/code.dir/flags.make
-CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o: ../src/unrolled_linked_list.cpp
-CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o -MF CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o.d -o CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o -c /home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp
-
-CMakeFiles/code.dir/src/unrolled_linked_list.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/src/unrolled_linked_list.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp > CMakeFiles/code.dir/src/unrolled_linked_list.cpp.i
-
-CMakeFiles/code.dir/src/unrolled_linked_list.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/src/unrolled_linked_list.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/unrolled_linked_list.cpp -o CMakeFiles/code.dir/src/unrolled_linked_list.cpp.s
-
 CMakeFiles/code.dir/src/account.cpp.o: CMakeFiles/code.dir/flags.make
 CMakeFiles/code.dir/src/account.cpp.o: ../src/account.cpp
 CMakeFiles/code.dir/src/account.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/code.dir/src/account.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/code.dir/src/account.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/account.cpp.o -MF CMakeFiles/code.dir/src/account.cpp.o.d -o CMakeFiles/code.dir/src/account.cpp.o -c /home/sword/swordProject/Bookstore/src/account.cpp
 
 CMakeFiles/code.dir/src/account.cpp.i: cmake_force
@@ -100,7 +86,7 @@ CMakeFiles/code.dir/src/account.cpp.s: cmake_force
 CMakeFiles/code.dir/src/book.cpp.o: CMakeFiles/code.dir/flags.make
 CMakeFiles/code.dir/src/book.cpp.o: ../src/book.cpp
 CMakeFiles/code.dir/src/book.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/code.dir/src/book.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/code.dir/src/book.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/book.cpp.o -MF CMakeFiles/code.dir/src/book.cpp.o.d -o CMakeFiles/code.dir/src/book.cpp.o -c /home/sword/swordProject/Bookstore/src/book.cpp
 
 CMakeFiles/code.dir/src/book.cpp.i: cmake_force
@@ -111,21 +97,83 @@ CMakeFiles/code.dir/src/book.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/src/book.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/book.cpp -o CMakeFiles/code.dir/src/book.cpp.s
 
+CMakeFiles/code.dir/src/log.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/src/log.cpp.o: ../src/log.cpp
+CMakeFiles/code.dir/src/log.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/code.dir/src/log.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/log.cpp.o -MF CMakeFiles/code.dir/src/log.cpp.o.d -o CMakeFiles/code.dir/src/log.cpp.o -c /home/sword/swordProject/Bookstore/src/log.cpp
+
+CMakeFiles/code.dir/src/log.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/src/log.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/log.cpp > CMakeFiles/code.dir/src/log.cpp.i
+
+CMakeFiles/code.dir/src/log.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/src/log.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/log.cpp -o CMakeFiles/code.dir/src/log.cpp.s
+
+CMakeFiles/code.dir/src/command.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/src/command.cpp.o: ../src/command.cpp
+CMakeFiles/code.dir/src/command.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/code.dir/src/command.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/command.cpp.o -MF CMakeFiles/code.dir/src/command.cpp.o.d -o CMakeFiles/code.dir/src/command.cpp.o -c /home/sword/swordProject/Bookstore/src/command.cpp
+
+CMakeFiles/code.dir/src/command.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/src/command.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/command.cpp > CMakeFiles/code.dir/src/command.cpp.i
+
+CMakeFiles/code.dir/src/command.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/src/command.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/command.cpp -o CMakeFiles/code.dir/src/command.cpp.s
+
+CMakeFiles/code.dir/src/front_end.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/src/front_end.cpp.o: ../src/front_end.cpp
+CMakeFiles/code.dir/src/front_end.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/code.dir/src/front_end.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/front_end.cpp.o -MF CMakeFiles/code.dir/src/front_end.cpp.o.d -o CMakeFiles/code.dir/src/front_end.cpp.o -c /home/sword/swordProject/Bookstore/src/front_end.cpp
+
+CMakeFiles/code.dir/src/front_end.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/src/front_end.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/front_end.cpp > CMakeFiles/code.dir/src/front_end.cpp.i
+
+CMakeFiles/code.dir/src/front_end.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/src/front_end.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/front_end.cpp -o CMakeFiles/code.dir/src/front_end.cpp.s
+
+CMakeFiles/code.dir/src/main.cpp.o: CMakeFiles/code.dir/flags.make
+CMakeFiles/code.dir/src/main.cpp.o: ../src/main.cpp
+CMakeFiles/code.dir/src/main.cpp.o: CMakeFiles/code.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/code.dir/src/main.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/code.dir/src/main.cpp.o -MF CMakeFiles/code.dir/src/main.cpp.o.d -o CMakeFiles/code.dir/src/main.cpp.o -c /home/sword/swordProject/Bookstore/src/main.cpp
+
+CMakeFiles/code.dir/src/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/code.dir/src/main.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/sword/swordProject/Bookstore/src/main.cpp > CMakeFiles/code.dir/src/main.cpp.i
+
+CMakeFiles/code.dir/src/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/code.dir/src/main.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/sword/swordProject/Bookstore/src/main.cpp -o CMakeFiles/code.dir/src/main.cpp.s
+
 # Object files for target code
 code_OBJECTS = \
-"CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o" \
 "CMakeFiles/code.dir/src/account.cpp.o" \
-"CMakeFiles/code.dir/src/book.cpp.o"
+"CMakeFiles/code.dir/src/book.cpp.o" \
+"CMakeFiles/code.dir/src/log.cpp.o" \
+"CMakeFiles/code.dir/src/command.cpp.o" \
+"CMakeFiles/code.dir/src/front_end.cpp.o" \
+"CMakeFiles/code.dir/src/main.cpp.o"
 
 # External object files for target code
 code_EXTERNAL_OBJECTS =
 
-code: CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o
 code: CMakeFiles/code.dir/src/account.cpp.o
 code: CMakeFiles/code.dir/src/book.cpp.o
+code: CMakeFiles/code.dir/src/log.cpp.o
+code: CMakeFiles/code.dir/src/command.cpp.o
+code: CMakeFiles/code.dir/src/front_end.cpp.o
+code: CMakeFiles/code.dir/src/main.cpp.o
 code: CMakeFiles/code.dir/build.make
 code: CMakeFiles/code.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable code"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sword/swordProject/Bookstore/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable code"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/code.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

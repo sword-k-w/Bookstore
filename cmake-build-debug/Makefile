@@ -177,29 +177,101 @@ src/book.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/book.cpp.s
 .PHONY : src/book.cpp.s
 
-src/unrolled_linked_list.o: src/unrolled_linked_list.cpp.o
-.PHONY : src/unrolled_linked_list.o
+src/command.o: src/command.cpp.o
+.PHONY : src/command.o
 
 # target to build an object file
-src/unrolled_linked_list.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/unrolled_linked_list.cpp.o
-.PHONY : src/unrolled_linked_list.cpp.o
+src/command.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/command.cpp.o
+.PHONY : src/command.cpp.o
 
-src/unrolled_linked_list.i: src/unrolled_linked_list.cpp.i
-.PHONY : src/unrolled_linked_list.i
+src/command.i: src/command.cpp.i
+.PHONY : src/command.i
 
 # target to preprocess a source file
-src/unrolled_linked_list.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/unrolled_linked_list.cpp.i
-.PHONY : src/unrolled_linked_list.cpp.i
+src/command.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/command.cpp.i
+.PHONY : src/command.cpp.i
 
-src/unrolled_linked_list.s: src/unrolled_linked_list.cpp.s
-.PHONY : src/unrolled_linked_list.s
+src/command.s: src/command.cpp.s
+.PHONY : src/command.s
 
 # target to generate assembly for a file
-src/unrolled_linked_list.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/unrolled_linked_list.cpp.s
-.PHONY : src/unrolled_linked_list.cpp.s
+src/command.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/command.cpp.s
+.PHONY : src/command.cpp.s
+
+src/front_end.o: src/front_end.cpp.o
+.PHONY : src/front_end.o
+
+# target to build an object file
+src/front_end.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/front_end.cpp.o
+.PHONY : src/front_end.cpp.o
+
+src/front_end.i: src/front_end.cpp.i
+.PHONY : src/front_end.i
+
+# target to preprocess a source file
+src/front_end.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/front_end.cpp.i
+.PHONY : src/front_end.cpp.i
+
+src/front_end.s: src/front_end.cpp.s
+.PHONY : src/front_end.s
+
+# target to generate assembly for a file
+src/front_end.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/front_end.cpp.s
+.PHONY : src/front_end.cpp.s
+
+src/log.o: src/log.cpp.o
+.PHONY : src/log.o
+
+# target to build an object file
+src/log.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/log.cpp.o
+.PHONY : src/log.cpp.o
+
+src/log.i: src/log.cpp.i
+.PHONY : src/log.i
+
+# target to preprocess a source file
+src/log.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/log.cpp.i
+.PHONY : src/log.cpp.i
+
+src/log.s: src/log.cpp.s
+.PHONY : src/log.s
+
+# target to generate assembly for a file
+src/log.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/log.cpp.s
+.PHONY : src/log.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
 
 # Help Target
 help:
@@ -216,9 +288,18 @@ help:
 	@echo "... src/book.o"
 	@echo "... src/book.i"
 	@echo "... src/book.s"
-	@echo "... src/unrolled_linked_list.o"
-	@echo "... src/unrolled_linked_list.i"
-	@echo "... src/unrolled_linked_list.s"
+	@echo "... src/command.o"
+	@echo "... src/command.i"
+	@echo "... src/command.s"
+	@echo "... src/front_end.o"
+	@echo "... src/front_end.i"
+	@echo "... src/front_end.s"
+	@echo "... src/log.o"
+	@echo "... src/log.i"
+	@echo "... src/log.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 

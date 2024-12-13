@@ -28,12 +28,12 @@ public:
     }
     if (FN != "") file_name_ = FN;
 #ifdef FileClear
-    file.open(file_name_, std::ios::out);
+    file_.open(file_name_, std::ios::out);
     size_t tmp = 0;
     for (size_t i = 0; i < info_len; ++i) {
-      file.write(reinterpret_cast<char *>(&tmp), sizeof(size_t));
+      file_.write(reinterpret_cast<char *>(&tmp), sizeof(size_t));
     }
-    file.close();
+    file_.close();
 #else
     file_.open(file_name_, std::ios::in);
     if (!file_) {
