@@ -99,6 +99,10 @@ void FrontEnd::Logout() {
     std::cout << "Invalid\n";
     return;
   }
+  if (!cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   cur_account_.ModifyOnlineCount(-1);
   account_system_.Modify(cur_account_.UserID(), cur_account_);
   online_.pop();
@@ -140,11 +144,69 @@ void FrontEnd::Register() {
     std::cout << "Invalid\n";
     return;
   }
+  if (!cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   account_system_.Add(Account(userID, password, username));
 }
 
 void FrontEnd::Password() {
-
+  if (cur_account_.Privilege() < 1) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::string tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::array<char, 30> userID = ToUserID(tmp);
+  if (userID[0] == '\n') {
+    std::cout << "Invalid\n";
+    return;
+  }
+  Account tmp_acc = account_system_.Find(userID);
+  if (!tmp_acc.Privilege()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::array<char, 30> password = ToPassword(tmp);
+  if (password[0] == '\n') {
+    std::cout << "Invalid\n";
+    return;
+  }
+  tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    if (cur_account_.Privilege() != 7) {
+      std::cout << "Invalid\n";
+      return;
+    }
+    tmp_acc.UpdatePassword(password);
+    if (userID == cur_account_.UserID()) {
+      cur_account_.UpdatePassword(password);
+    }
+  } else {
+    std::array<char, 30> password_prime = ToPassword(tmp);
+    if (password_prime[0] == '\n' || !tmp_acc.CheckPassword(password)) {
+      std::cout << "Invalid\n";
+      return;
+    }
+    if (!cur_command_.GetToken().empty()) {
+      std::cout << "Invalid\n";
+      return;
+    }
+    tmp_acc.UpdatePassword(password_prime);
+    if (userID == cur_account_.UserID()) {
+      cur_account_.UpdatePassword(password);
+    }
+  }
+  account_system_.Modify(userID, tmp_acc);
 }
 
 void FrontEnd::Useradd() {
@@ -192,11 +254,38 @@ void FrontEnd::Useradd() {
     std::cout << "Invalid\n";
     return;
   }
+  if (!cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
   account_system_.Add(Account(userID, password, username, privilege));
 }
 
 void FrontEnd::Delete() {
-
+  if (cur_account_.Privilege() != 7) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::string tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::array<char, 30> userID = ToUserID(tmp);
+  if (userID[0] == '\n') {
+    std::cout << "Invalid\n";
+    return;
+  }
+  if (!cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  Account tmp_acc = account_system_.Find(userID);
+  if (!tmp_acc.Privilege() || tmp_acc.OnlineCount()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  account_system_.Delete(userID);
 }
 
 void FrontEnd::Show() {

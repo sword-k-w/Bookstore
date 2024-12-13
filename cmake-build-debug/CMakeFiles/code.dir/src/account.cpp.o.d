@@ -159,4 +159,5 @@ CMakeFiles/code.dir/src/account.cpp.o: \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
  /usr/include/c++/11/bits/fstream.tcc /usr/include/c++/11/cassert \
- /usr/include/assert.h
+ /usr/include/assert.h \
+ /home/sword/swordProject/Bookstore/include/command.h

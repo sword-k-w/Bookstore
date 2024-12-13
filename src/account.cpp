@@ -1,6 +1,7 @@
 #include "account.h"
 #include <vector>
 #include <cassert>
+#include <command.h>
 
 size_t Account::OnlineCount() const {
   return online_count_;
@@ -77,7 +78,7 @@ bool AccountSystem::Delete(const std::array<char, 30> &userID) {
 bool AccountSystem::Modify(const std::array<char, 30> &userID, const Account &new_account) {
   Account tmp = Find(userID);
   if (tmp.Privilege()) {
-    accounts_.Delete(userID, tmp);
+    assert(accounts_.Delete(userID, tmp));
     accounts_.Insert(userID, new_account);
     return true;
   } else {

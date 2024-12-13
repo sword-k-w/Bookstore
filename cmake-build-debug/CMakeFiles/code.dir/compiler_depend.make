@@ -202,7 +202,8 @@ CMakeFiles/code.dir/src/account.cpp.o: ../src/account.cpp \
   /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
   /usr/include/c++/11/bits/fstream.tcc \
   /usr/include/c++/11/cassert \
-  /usr/include/assert.h
+  /usr/include/assert.h \
+  ../include/command.h
 
 CMakeFiles/code.dir/src/book.cpp.o: ../src/book.cpp \
   /usr/include/stdc-predef.h \

@@ -204,6 +204,7 @@ CMakeFiles/code.dir/src/account.cpp.o
  /usr/include/c++/11/bits/fstream.tcc
  /usr/include/c++/11/cassert
  /usr/include/assert.h
+ /home/sword/swordProject/Bookstore/include/command.h
 
 CMakeFiles/code.dir/src/book.cpp.o
  /home/sword/swordProject/Bookstore/src/book.cpp
