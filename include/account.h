@@ -1,6 +1,7 @@
 #ifndef ACCOUNT_H
 #define ACCOUNT_H
 
+#include "book.h"
 #include "unrolled_linked_list.hpp"
 #include <array>
 #include <string>
@@ -13,6 +14,7 @@ private:
   std::array<char, 30> username_;
   unsigned char privilege_;
 public:
+  Book cur_book_;
   Account() : privilege_(0) {}
   Account(const std::array<char, 30> &userID, const std::array<char, 30> &password, const std::array<char, 30> &username, const unsigned char &privilege = 1) : online_count_(0), userID_(userID), password_(password),username_(username), privilege_(privilege) {}
   bool CheckPassword(const std::array<char, 30> &) const;
@@ -23,6 +25,7 @@ public:
   unsigned char Privilege() const;
   friend bool operator < (const Account &x, const Account &y);
   friend bool operator == (const Account &x, const Account &y);
+  void Print() const;
 };
 
 
@@ -33,9 +36,10 @@ public:
   AccountSystem() = delete;
   AccountSystem(const std::string &name) : accounts_(name) {}
   Account Find(const std::array<char, 30> &);
-  bool Add(const Account &);
-  bool Delete(const std::array<char, 30> &);
-  bool Modify(const std::array<char, 30> &, const Account &);
+  std::vector<Account> FindAll();
+  void Add(const Account &);
+  void Delete(const Account &);
+  void Modify(const std::array<char, 30> &, const Account &);
 };
 
 #endif //ACCOUNT_H

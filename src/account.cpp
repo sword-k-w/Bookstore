@@ -1,7 +1,20 @@
 #include "account.h"
 #include <vector>
 #include <cassert>
-#include <command.h>
+
+std::ostream &operator << (std::ostream &os, const std::array<char, 30> &x) {
+  for (size_t i = 0; i < 30; ++i) {
+    if (x[i] != '\0') {
+      os << x[i];
+    }
+  }
+  return os;
+}
+
+// for debug
+void Account::Print() const {
+  std::cerr << "account info:" << online_count_ << '\t' << userID_ << '\t' << password_ << '\t' << username_ << '\t' << static_cast<int>(privilege_) << '\n';
+}
 
 size_t Account::OnlineCount() const {
   return online_count_;
@@ -31,11 +44,26 @@ unsigned char Account::Privilege() const {
 }
 
 bool operator < (const Account &x, const Account &y) {
+  if (x.userID_ == y.userID_) {
+    if (x.password_ == y.password_) {
+      if (x.username_ == y.username_) {
+        if (x.privilege_ == y.privilege_) {
+          if (x.online_count_ == y.online_count_) {
+            return x.cur_book_ < y.cur_book_;
+          }
+          return x.online_count_ < y.online_count_;
+        }
+        return x.privilege_ < y.privilege_;
+      }
+      return x.username_ < y.username_;
+    }
+    return x.password_ < y.password_;
+  }
   return x.userID_ < y.userID_;
 }
 
 bool operator == (const Account &x, const Account &y) {
-  return x.userID_ == y.userID_;
+  return x.userID_ == y.userID_ && x.password_ == y.password_ && x.username_ == y.username_ && x.privilege_ == y.privilege_ && x.online_count_ == y.online_count_ && x.cur_book_ == y.cur_book_;
 }
 
 /**
@@ -52,36 +80,21 @@ Account AccountSystem::Find(const std::array<char, 30> &userID) {
   }
 }
 
-bool AccountSystem::Add(const Account &new_account) {
-  Account tmp = Find(new_account.UserID());
-  if (tmp.Privilege()) {
-    return false;
-  } else {
-    accounts_.Insert(new_account.UserID(), new_account);
-    return true;
-  }
+// for debug
+std::vector<Account> AccountSystem::FindAll() {
+  return accounts_.FindAll();
 }
 
-bool AccountSystem::Delete(const std::array<char, 30> &userID) {
-  Account tmp = Find(userID);
-  if (tmp.Privilege()) {
-    if (tmp.OnlineCount()) {
-      return false;
-    }
-    accounts_.Delete(userID, tmp);
-    return true;
-  } else {
-    return false;
-  }
+void AccountSystem::Add(const Account &new_account) {
+  accounts_.Insert(new_account.UserID(), new_account);
 }
 
-bool AccountSystem::Modify(const std::array<char, 30> &userID, const Account &new_account) {
+void AccountSystem::Delete(const Account &account) {
+  accounts_.Delete(account.UserID(), account);
+}
+
+void AccountSystem::Modify(const std::array<char, 30> &userID, const Account &new_account) {
   Account tmp = Find(userID);
-  if (tmp.Privilege()) {
-    assert(accounts_.Delete(userID, tmp));
-    accounts_.Insert(userID, new_account);
-    return true;
-  } else {
-    return false;
-  }
+  accounts_.Delete(userID, tmp);
+  accounts_.Insert(userID, new_account);
 }

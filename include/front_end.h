@@ -10,6 +10,7 @@
 class FrontEnd {
 private:
   AccountSystem account_system_;
+  BookSystem book_system_;
   LogSystem log_system_;
   size_t time_;
   std::stack<std::array<char, 30>> online_;

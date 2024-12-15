@@ -37,14 +37,19 @@ private:
 
   void BlockInsert(CacheHeadNode *,const key_type &, const value_type &);
   void BlockFind(std::vector<value_type> &, CacheHeadNode *, const key_type &);
+  void BlockFindAll(std::vector<value_type> &, CacheHeadNode *);
   bool BlockDelete(CacheHeadNode *, const std::pair<key_type, value_type> &);
   void BlockPrint(CacheHeadNode *);
 public:
   UnrolledLinkedList() = delete;
   UnrolledLinkedList(const std::string &);
   ~UnrolledLinkedList();
+  size_t Size() const {
+    return cur_size_;
+  }
   void Insert(const key_type &, const value_type &);
   std::vector<value_type> Find(const key_type &);
+  std::vector<value_type> FindAll();
   bool Delete(const key_type &, const value_type &);
   void Print();
 };
@@ -142,17 +147,15 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockIn
         }
       }
     }
+    if (tmp_array[pos] == tmp_node) {
+      return;
+    }
     for (size_t i = tmp_size; i > pos; --i) {
       tmp_array[i] = tmp_array[i - 1];
     }
     tmp_array[pos] = tmp_node;
   }
   ++tmp_size;
-
-  // for (size_t i = 0; i < tmp_size; ++i) {
-  //   std::cerr << tmp_array[i].first[0] << " ";
-  // }
-  // std::cerr << '\n';
 
   if (tmp_size == max_block_size) { // Split block
     size_t split_pos = tmp_size / 2;
@@ -202,6 +205,32 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockFi
     if (tmp_array[i].first == key) {
       res.emplace_back(tmp_array[i].second);
     }
+  }
+}
+
+template<class key_type, class value_type, size_t max_size, size_t max_block_size>
+std::vector<value_type> UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::FindAll() {
+  if (cur_size_ == 0) {
+    return {};
+  }
+  CacheHeadNode *tmp = cache_head_;
+  std::vector<value_type> res;
+  while (true) {
+    BlockFindAll(res, tmp);
+    if (tmp->nxt_ == nullptr) {
+      break;
+    }
+    tmp = tmp->nxt_;
+  }
+  return res;
+}
+
+template<class key_type, class value_type, size_t max_size, size_t max_block_size>
+void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockFindAll(std::vector<value_type> &res, CacheHeadNode *head_node) {
+  BodyNode tmp_array;
+  body_file_.Read(tmp_array, head_node->pos_);
+  for (size_t i = 0; i < head_node->node_.block_size_; ++i) {
+     res.emplace_back(tmp_array[i].second);
   }
 }
 
