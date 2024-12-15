@@ -1,3 +1,6 @@
+# build
+cmake-build-debug/**
+
 # download files
 bonus.md
 README.md
