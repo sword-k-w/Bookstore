@@ -21,7 +21,9 @@ public:
     WriteInfo(length_, 0);
     file_.close();
   }
-
+  size_t Length() {
+    return length_;
+  }
   void Initialise(std::string FN = "") {
     if (file_.is_open()) {
       file_.close();
@@ -94,7 +96,6 @@ public:
   }
 
   void Update(T &t, const size_t index) {
-    /* your code here */
     if (!file_.is_open()) {
       file_.open(file_name_, std::ios::binary | std::ios::in | std::ios::out);
     }
@@ -106,7 +107,6 @@ public:
   }
 
   void Read(T &t, const size_t index) {
-    /* your code here */
     if (!file_.is_open()) {
       file_.open(file_name_, std::ios::binary | std::ios::in | std::ios::out);
     }

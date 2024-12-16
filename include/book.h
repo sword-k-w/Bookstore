@@ -53,6 +53,7 @@ public:
   void ModifyName(const std::array<char, 20> &, const std::array<char, 60> &);
   void ModifyAuthor(const std::array<char, 20> &, const std::array<char, 60> &);
   void ModifyKeyword(const std::array<char, 20> &, const std::array<char, 60> &);
+  void ModifyStock(const std::array<char, 20> &, const int &);
   void ModifyPrice(const std::array<char, 20> &, const double &);
   size_t Size() const { return books_ISBN_.Size(); }
 };

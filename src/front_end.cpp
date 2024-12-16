@@ -320,6 +320,21 @@ void FrontEnd::Show() {
   } else {
     if (tmp == "finance") {
       // finance log
+      if (cur_account_.Privilege() < 7) {
+        std::cout << "Invalid\n";
+        return;
+      }
+      tmp = cur_command_.GetToken();
+      if (tmp.empty()) {
+        log_system_.QueryTrade();
+      } else {
+        auto count = ToCount(tmp);
+        if (count < 0 || !cur_command_.GetToken().empty()) {
+          std::cout << "Invalid\n";
+          return;
+        }
+        log_system_.QueryTrade(count);
+      }
     } else {
       auto ISBN = ToISBN_(tmp);
       if (ISBN[0] == '\n') {
@@ -386,19 +401,46 @@ void FrontEnd::Show() {
         Book book = book_system_.QueryISBN(ISBN)[0];
         if (book.price_ < 0) {
           std::cout << '\n';
+        } else {
+          book.Print();
         }
-        book.Print();
       }
     }
   }
 }
 
 void FrontEnd::Buy() {
-
+  if (cur_account_.Privilege() < 1) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::string tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  auto ISBN = ToISBN(tmp);
+  if (ISBN[0] == '\n') {
+    std::cout << "Invalid\n";
+    return;
+  }
+  tmp = cur_command_.GetToken();
+  auto quantity = ToQuantity(tmp);
+  if (quantity <= 0 || !cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  auto book = book_system_.QueryISBN(ISBN)[0];
+  if (book.stock_ < quantity) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  book_system_.ModifyStock(ISBN, book.stock_ - quantity);
+  log_system_.RecordTrade(quantity * book.price_);
+  std::cout << std::fixed << std::setprecision(2) << quantity * book.price_ << '\n';
 }
 
 void FrontEnd::Select() {
-  std::cerr << "Select\n";
   if (cur_account_.Privilege() < 3) {
     std::cout << "Invalid\n";
     return;
@@ -423,8 +465,6 @@ void FrontEnd::Select() {
 }
 
 void FrontEnd::Modify() {
-
-  std::cerr << "Modify\n";
   Book cur_book = book_system_.QueryId(cur_account_.cur_book_);
 
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
@@ -491,7 +531,7 @@ void FrontEnd::Modify() {
     }
     tmp = cur_command_.GetToken();
   }
-  if (cur_book.ISBN_ == new_ISBN) {
+  if (book_system_.QueryISBN(new_ISBN)[0].price_ >= 0) {
     std::cout << "Invalid\n";
     return;
   }
@@ -518,7 +558,33 @@ void FrontEnd::Modify() {
 }
 
 void FrontEnd::Import() {
-
+  Book cur_book = book_system_.QueryId(cur_account_.cur_book_);
+  if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::string tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  auto quantity = ToQuantity(tmp);
+  if (quantity < 0) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  auto total_cost = ToTotalCost(tmp);
+  if (total_cost < 0 || !cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  book_system_.ModifyStock(cur_book.ISBN_, cur_book.stock_ + quantity);
+  log_system_.RecordTrade(-total_cost);
 }
 
 void FrontEnd::Log() {

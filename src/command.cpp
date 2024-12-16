@@ -244,7 +244,7 @@ double ToPrice(const std::string &s) {
 /**
  * @return -1 if invalid
  */
-double ToTotalCoast(const std::string &s) {
+double ToTotalCost(const std::string &s) {
   return ToPrice(s);
 }
 

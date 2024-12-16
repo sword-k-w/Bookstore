@@ -25,7 +25,7 @@ std::array<char, 60> ToKeyword(const std::string &);
 std::array<char, 60> ToKeywords(const std::string &);
 int ToQuantity(const std::string &);
 double ToPrice(const std::string &);
-double ToTotalCoast(const std::string &);
+double ToTotalCost(const std::string &);
 int ToCount(const std::string &);
 
 std::array<char, 20> ToISBN_(const std::string &);

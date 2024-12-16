@@ -132,6 +132,14 @@ void BookSystem::ModifyKeyword(const std::array<char, 20> &ISBN, const std::arra
   }
 }
 
+void BookSystem::ModifyStock(const std::array<char, 20> &ISBN, const int &new_stock) {
+  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
+  books_id_.Delete(book.id_, book);
+  book.stock_ = new_stock;
+  books_id_.Insert(book.id_, book);
+}
+
+
 void BookSystem::ModifyPrice(const std::array<char, 20> &ISBN, const double &new_price) {
   Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
   books_id_.Delete(book.id_, book);

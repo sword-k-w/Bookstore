@@ -12,6 +12,9 @@ public:
   }
   void RecordTime(const size_t &);
   size_t QueryTime();
+  void RecordTrade(const double &);
+  void QueryTrade();
+  void QueryTrade(const size_t &);
 };
 
 #endif //LOG_H
