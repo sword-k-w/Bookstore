@@ -12,6 +12,9 @@ FrontEnd::FrontEnd() : account_system_("accounts"), book_system_("books"), log_s
 }
 
 FrontEnd::~FrontEnd() {
+  while (!online_.empty()) {
+    Logout();
+  }
   ++time_;
   log_system_.RecordTime(time_);
 }
@@ -108,6 +111,7 @@ void FrontEnd::Logout() {
     return;
   }
   cur_account_.ModifyOnlineCount(-1);
+  cur_account_.cur_book_ = -1;
 
   account_system_.Modify(cur_account_.UserID(), cur_account_);
   online_.pop();
@@ -116,7 +120,6 @@ void FrontEnd::Logout() {
     cur_account_ = Account();
   } else {
     cur_account_ = account_system_.Find(online_.top());
-    std::cerr << cur_account_.OnlineCount() << '\n';
   }
 }
 
