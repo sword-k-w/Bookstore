@@ -566,7 +566,7 @@ void FrontEnd::Import() {
     return;
   }
   auto quantity = ToQuantity(tmp);
-  if (quantity < 0) {
+  if (quantity <= 0) {
     std::cout << "Invalid\n";
     return;
   }
@@ -576,7 +576,7 @@ void FrontEnd::Import() {
     return;
   }
   auto total_cost = ToTotalCost(tmp);
-  if (total_cost < 0 || !cur_command_.GetToken().empty()) {
+  if (total_cost <= 0 || !cur_command_.GetToken().empty()) {
     std::cout << "Invalid\n";
     return;
   }
