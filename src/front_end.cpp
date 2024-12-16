@@ -264,11 +264,7 @@ void FrontEnd::Useradd() {
     return;
   }
   auto username = ToUsername(tmp);
-  if (username[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
-  }
-  if (!cur_command_.GetToken().empty()) {
+  if (username[0] == '\n' || !cur_command_.GetToken().empty()) {
     std::cout << "Invalid\n";
     return;
   }
@@ -286,11 +282,7 @@ void FrontEnd::Delete() {
     return;
   }
   std::array<char, 30> userID = ToUserID(tmp);
-  if (userID[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
-  }
-  if (!cur_command_.GetToken().empty()) {
+  if (userID[0] == '\n' || !cur_command_.GetToken().empty()) {
     std::cout << "Invalid\n";
     return;
   }
@@ -454,7 +446,7 @@ void FrontEnd::Select() {
     return;
   }
   auto ISBN = ToISBN(tmp);
-  if (ISBN[0] == '\n') {
+  if (ISBN[0] == '\n' || !cur_command_.GetToken().empty()) {
     std::cout << "Invalid\n";
     return;
   }
