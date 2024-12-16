@@ -98,6 +98,8 @@ void FrontEnd::Login() {
   nxt.ModifyOnlineCount(1);
   account_system_.Modify(userID, nxt);
   online_.emplace(userID);
+  select_.emplace(-1);
+  cur_book_ = -1;
   cur_account_ = nxt;
 }
 
@@ -111,17 +113,17 @@ void FrontEnd::Logout() {
     return;
   }
   cur_account_.ModifyOnlineCount(-1);
-  if (!cur_account_.OnlineCount()) {
-    cur_account_.cur_book_ = -1;
-  }
 
   account_system_.Modify(cur_account_.UserID(), cur_account_);
   online_.pop();
+  select_.pop();
 
   if (online_.empty()) {
     cur_account_ = Account();
+    cur_book_ = -1;
   } else {
     cur_account_ = account_system_.Find(online_.top());
+    cur_book_ = select_.top();
   }
 }
 
@@ -461,12 +463,14 @@ void FrontEnd::Select() {
     book = Book(book_system_.Size() + 1, ISBN);
     book_system_.Add(book);
   }
-  cur_account_.cur_book_ = book.id_;
+  cur_book_ = book.id_;
+  select_.pop();
+  select_.emplace(book.id_);
   account_system_.Modify(cur_account_.UserID(), cur_account_);
 }
 
 void FrontEnd::Modify() {
-  Book cur_book = book_system_.QueryId(cur_account_.cur_book_);
+  Book cur_book = book_system_.QueryId(cur_book_);
 
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
     std::cout << "Invalid\n";
@@ -559,7 +563,7 @@ void FrontEnd::Modify() {
 }
 
 void FrontEnd::Import() {
-  Book cur_book = book_system_.QueryId(cur_account_.cur_book_);
+  Book cur_book = book_system_.QueryId(cur_book_);
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
     std::cout << "Invalid\n";
     return;

@@ -14,9 +14,8 @@ private:
   std::array<char, 30> username_;
   unsigned char privilege_;
 public:
-  int cur_book_;
   Account() : privilege_(0) {}
-  Account(const std::array<char, 30> &userID, const std::array<char, 30> &password, const std::array<char, 30> &username, const unsigned char &privilege = 1) : online_count_(0), userID_(userID), password_(password),username_(username), privilege_(privilege), cur_book_(-1) {}
+  Account(const std::array<char, 30> &userID, const std::array<char, 30> &password, const std::array<char, 30> &username, const unsigned char &privilege = 1) : online_count_(0), userID_(userID), password_(password),username_(username), privilege_(privilege) {}
   bool CheckPassword(const std::array<char, 30> &) const;
   void UpdatePassword(const std::array<char, 30> &);
   void ModifyOnlineCount(const int &);

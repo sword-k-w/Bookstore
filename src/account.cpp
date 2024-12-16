@@ -48,9 +48,6 @@ bool operator < (const Account &x, const Account &y) {
     if (x.password_ == y.password_) {
       if (x.username_ == y.username_) {
         if (x.privilege_ == y.privilege_) {
-          if (x.online_count_ == y.online_count_) {
-            return x.cur_book_ < y.cur_book_;
-          }
           return x.online_count_ < y.online_count_;
         }
         return x.privilege_ < y.privilege_;
@@ -63,7 +60,7 @@ bool operator < (const Account &x, const Account &y) {
 }
 
 bool operator == (const Account &x, const Account &y) {
-  return x.userID_ == y.userID_ && x.password_ == y.password_ && x.username_ == y.username_ && x.privilege_ == y.privilege_ && x.online_count_ == y.online_count_ && x.cur_book_ == y.cur_book_;
+  return x.userID_ == y.userID_ && x.password_ == y.password_ && x.username_ == y.username_ && x.privilege_ == y.privilege_ && x.online_count_ == y.online_count_;
 }
 
 /**
