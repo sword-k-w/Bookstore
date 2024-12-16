@@ -147,7 +147,7 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockIn
         }
       }
     }
-    if (tmp_array[pos] == tmp_node) {
+    if (pos != tmp_size && tmp_array[pos] == tmp_node) {
       return;
     }
     for (size_t i = tmp_size; i > pos; --i) {

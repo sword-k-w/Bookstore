@@ -167,18 +167,22 @@ std::array<char, 60> ToKeywords(const std::string &s) {
     if (!isprint(s[i]) || s[i] == '\"') {
       return {'\n'};
     }
-    if (s[i] == '|' || i + 1 == size) {
-      std::string tmp;
-      for (size_t j = las; j < i; ++j) {
-        tmp += s[j];
-      }
-      if (keywords.count(tmp) || (s[i] == '|' && i + 1 == size)) {
+    if (s[i] == '|') {
+      std::string tmp(std::string(s.begin() + las, s.begin() + i));
+      if (keywords.count(tmp)) {
         return {'\n'};
       }
       keywords.emplace(tmp);
       las = i + 1;
     }
     res[i] = s[i];
+  }
+  if (las == size) {
+    return {'\n'};
+  }
+  std::string tmp(std::string(s.begin() + las, s.end()));
+  if (keywords.count(tmp)) {
+    return {'\n'};
   }
   return res;
 }

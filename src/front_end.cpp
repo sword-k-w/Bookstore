@@ -2,6 +2,7 @@
 
 #include <iomanip>
 #include <iostream>
+#include <algorithm>
 
 FrontEnd::FrontEnd() : account_system_("accounts"), book_system_("books"), log_system_("finance") {
   time_ = log_system_.QueryTime();
@@ -58,6 +59,7 @@ void FrontEnd::run() {
 }
 
 void FrontEnd::Login() {
+  std::cerr << "Login\n";
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     std::cout << "Invalid\n";
@@ -71,6 +73,7 @@ void FrontEnd::Login() {
   Account nxt = account_system_.Find(userID);
 
   if (!nxt.Privilege()) {
+    std::cerr << "????\n";
     std::cout << "Invalid\n";
     return;
   }
@@ -93,6 +96,7 @@ void FrontEnd::Login() {
   }
   nxt.ModifyOnlineCount(1);
   account_system_.Modify(userID, nxt);
+  std::cerr << nxt.OnlineCount() << '\n';
   online_.emplace(userID);
   cur_account_ = nxt;
 }
@@ -116,6 +120,7 @@ void FrontEnd::Logout() {
     cur_account_ = Account();
   } else {
     cur_account_ = account_system_.Find(online_.top());
+    std::cerr << cur_account_.OnlineCount() << '\n';
   }
 }
 
@@ -306,6 +311,9 @@ void FrontEnd::Show() {
     if (books.empty()) {
       std::cout << '\n';
     }
+    std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+      return x.ISBN_ < y.ISBN_;
+    });
     for (auto &book : books) {
       book.Print();
     }
@@ -329,6 +337,9 @@ void FrontEnd::Show() {
               return;
             }
             auto books = book_system_.QueryKeyword(keyword);
+            std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+              return x.ISBN_ < y.ISBN_;
+            });
             if (books.empty()) {
               std::cout << '\n';
             }
@@ -341,6 +352,9 @@ void FrontEnd::Show() {
               return;
             }
             auto books = book_system_.QueryAuthor(author);
+            std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+              return x.ISBN_ < y.ISBN_;
+            });
             if (books.empty()) {
               std::cout << '\n';
             }
@@ -354,6 +368,9 @@ void FrontEnd::Show() {
             return;
           }
           auto books = book_system_.QueryName(book_name);
+          std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+            return x.ISBN_ < y.ISBN_;
+          });
           if (books.empty()) {
             std::cout << '\n';
           }
@@ -366,7 +383,7 @@ void FrontEnd::Show() {
           std::cout << "Invalid\n";
           return;
         }
-        Book book = book_system_.QueryISBN(ISBN);
+        Book book = book_system_.QueryISBN(ISBN)[0];
         if (book.price_ < 0) {
           std::cout << '\n';
         }
@@ -396,19 +413,21 @@ void FrontEnd::Select() {
     std::cout << "Invalid\n";
     return;
   }
-  auto book = book_system_.QueryISBN(ISBN);
+  auto book = book_system_.QueryISBN(ISBN)[0];
   if (book.price_ < 0) {
     book = Book(book_system_.Size() + 1, ISBN);
     book_system_.Add(book);
   }
-  cur_account_.cur_book_ = book;
+  cur_account_.cur_book_ = book.id_;
   account_system_.Modify(cur_account_.UserID(), cur_account_);
 }
 
 void FrontEnd::Modify() {
-  std::cerr << "Modify\n";
 
-  if (cur_account_.Privilege() < 3 || cur_account_.cur_book_.price_ < 0) {
+  std::cerr << "Modify\n";
+  Book cur_book = book_system_.QueryId(cur_account_.cur_book_);
+
+  if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
     std::cout << "Invalid\n";
     return;
   }
@@ -472,32 +491,30 @@ void FrontEnd::Modify() {
     }
     tmp = cur_command_.GetToken();
   }
-  if (cur_account_.cur_book_.ISBN_ == new_ISBN) {
+  if (cur_book.ISBN_ == new_ISBN) {
     std::cout << "Invalid\n";
     return;
   }
   if (new_ISBN[0] != '\n') {
-    book_system_.ModifyISBN(cur_account_.cur_book_.ISBN_, new_ISBN);
-    cur_account_.cur_book_.ISBN_ = new_ISBN;
+    book_system_.ModifyISBN(cur_book.ISBN_, new_ISBN);
+    cur_book.ISBN_ = new_ISBN;
   }
   if (new_name[0] != '\n') {
-    book_system_.ModifyName(cur_account_.cur_book_.ISBN_, new_name);
-    cur_account_.cur_book_.book_name_ = new_name;
+    book_system_.ModifyName(cur_book.ISBN_, new_name);
+    cur_book.book_name_ = new_name;
   }
   if (new_author[0] != '\n') {
-    book_system_.ModifyAuthor(cur_account_.cur_book_.ISBN_, new_author);
-    cur_account_.cur_book_.author_ = new_author;
+    book_system_.ModifyAuthor(cur_book.ISBN_, new_author);
+    cur_book.author_ = new_author;
   }
   if (new_keyword[0] != '\n') {
-    book_system_.ModifyKeyword(cur_account_.cur_book_.ISBN_, new_keyword);
-    cur_account_.cur_book_.keyword_ = new_keyword;
+    book_system_.ModifyKeyword(cur_book.ISBN_, new_keyword);
+    cur_book.keyword_ = new_keyword;
   }
   if (new_price >= 0) {
-    std::cerr << cur_account_.cur_book_.ISBN_[4] << '\n';
-    book_system_.ModifyPrice(cur_account_.cur_book_.ISBN_, new_price);
-    cur_account_.cur_book_.price_ = new_price;
+    book_system_.ModifyPrice(cur_book.ISBN_, new_price);
+    cur_book.price_ = new_price;
   }
-  account_system_.Modify(cur_account_.UserID(), cur_account_);
 }
 
 void FrontEnd::Import() {

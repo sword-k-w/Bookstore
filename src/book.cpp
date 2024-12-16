@@ -77,92 +77,70 @@ std::vector<std::array<char, 60>> GetKeywords(const std::array<char, 60> &keywor
 }
 
 void BookSystem::Add(const Book &book) {
-  books_ISBN_.Insert(book.ISBN_, book);
-  books_name_.Insert(book.book_name_, book.ISBN_);
-  books_author_.Insert(book.author_, book.ISBN_);
+  books_id_.Insert(book.id_, book);
+  books_ISBN_.Insert(book.ISBN_, book.id_);
+  books_name_.Insert(book.book_name_, book.id_);
+  books_author_.Insert(book.author_, book.id_);
   auto keywords = GetKeywords(book.keyword_);
   for (auto &keyword : keywords) {
-    books_keyword_.Insert(keyword, book.ISBN_);
+    books_keyword_.Insert(keyword, book.id_);
   }
 }
 
 void BookSystem::ModifyISBN(const std::array<char, 20> &ISBN, const std::array<char, 20> &new_ISBN) {
-  Book book = books_ISBN_.Find(ISBN)[0];
-  books_ISBN_.Delete(ISBN, book);
-  books_name_.Delete(book.book_name_, ISBN);
-  books_author_.Delete(book.author_, ISBN);
-
-  auto keywords = GetKeywords(book.keyword_);
-  for (auto &keyword : keywords) {
-    books_keyword_.Delete(keyword, ISBN);
-  }
-
+  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
+  books_id_.Delete(book.id_, book);
+  books_ISBN_.Delete(ISBN, book.id_);
   book.ISBN_ = new_ISBN;
-  books_ISBN_.Insert(new_ISBN, book);
-  books_name_.Insert(book.book_name_, new_ISBN);
-  books_author_.Insert(book.author_, new_ISBN);
-  for (auto &keyword : keywords) {
-    books_keyword_.Insert(keyword, new_ISBN);
-  }
+  books_id_.Insert(book.id_, book);
+  books_ISBN_.Insert(new_ISBN, book.id_);
 }
 
 void BookSystem::ModifyName(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_name) {
-  auto tmp = books_ISBN_.Find(ISBN);
-  if (tmp.size() == 0) {
-    std::cerr << ISBN << '\n';
-    exit(1);
-  }
-  Book book = books_ISBN_.Find(ISBN)[0];
-  books_ISBN_.Delete(ISBN, book);
-  books_name_.Delete(book.book_name_, ISBN);
-
+  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
+  books_id_.Delete(book.id_, book);
+  books_name_.Delete(book.book_name_, book.id_);
   book.book_name_ = new_name;
-  books_ISBN_.Insert(ISBN, book);
-  books_name_.Insert(new_name, ISBN);
+  books_id_.Insert(book.id_, book);
+  books_name_.Insert(new_name, book.id_);
 }
 
 void BookSystem::ModifyAuthor(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_author) {
-  Book book = books_ISBN_.Find(ISBN)[0];
-  books_ISBN_.Delete(ISBN, book);
-  books_author_.Delete(book.author_, ISBN);
-
+  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
+  books_id_.Delete(book.id_, book);
+  books_author_.Delete(book.author_, book.id_);
   book.author_ = new_author;
-  books_ISBN_.Insert(ISBN, book);
-  books_author_.Insert(new_author, ISBN);
+  books_id_.Insert(book.id_, book);
+  books_author_.Insert(new_author, book.id_);
 }
 
 void BookSystem::ModifyKeyword(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_keyword) {
-  Book book = books_ISBN_.Find(ISBN)[0];
-  books_ISBN_.Delete(ISBN, book);
+  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
 
+  books_id_.Delete(book.id_, book);
   auto keywords = GetKeywords(book.keyword_);
   for (auto &keyword : keywords) {
-    books_keyword_.Delete(keyword, ISBN);
+    books_keyword_.Delete(keyword, book.id_);
   }
 
   book.keyword_ = new_keyword;
-  books_ISBN_.Insert(ISBN, book);
 
+  books_id_.Insert(book.id_, book);
   auto new_keywords = GetKeywords(new_keyword);
   for (auto &keyword : new_keywords) {
-    books_keyword_.Insert(keyword, ISBN);
+    books_keyword_.Insert(keyword, book.id_);
   }
 }
 
 void BookSystem::ModifyPrice(const std::array<char, 20> &ISBN, const double &new_price) {
-  auto x = books_ISBN_.Find(ISBN);
-  if (x.empty()) {
-    std::cerr << ISBN << '\n';
-    exit(1);
-  }
-  Book book = books_ISBN_.Find(ISBN)[0];
-  books_ISBN_.Delete(ISBN, book);
+  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
+  books_id_.Delete(book.id_, book);
   book.price_ = new_price;
-  books_ISBN_.Insert(ISBN, book);
+  books_id_.Insert(book.id_, book);
 }
 
-Book BookSystem::QueryISBN(const std::array<char, 20> &ISBN) {
-  std::vector<Book> books = books_ISBN_.Find(ISBN);
+Book BookSystem::QueryId(const int &id) {
+ std::vector<Book> books = books_id_.Find(id);
   if (books.empty()) {
     return Book();
   } else {
@@ -170,36 +148,45 @@ Book BookSystem::QueryISBN(const std::array<char, 20> &ISBN) {
   }
 }
 
+std::vector<Book> BookSystem::QueryISBN(const std::array<char, 20> &ISBN) {
+  std::vector<int> ids = books_ISBN_.Find(ISBN);
+  if (ids.empty()) {
+    return {Book()};
+  } else {
+    return books_id_.Find(ids[0]);
+  }
+}
+
 std::vector<Book> BookSystem::QueryName(const std::array<char, 60> &name) {
-  std::vector<std::array<char, 20>> ISBNs = books_name_.Find(name);
-  size_t size = ISBNs.size();
+  std::vector<int> ids = books_name_.Find(name);
+  size_t size = ids.size();
   std::vector<Book> books(size);
   for (size_t i = 0; i < size; ++i) {
-    books[i] = books_ISBN_.Find(ISBNs[i])[0];
+    books[i] = books_id_.Find(ids[i])[0];
   }
   return books;
 }
 
 std::vector<Book> BookSystem::QueryAuthor(const std::array<char, 60> &author) {
-  std::vector<std::array<char, 20>> ISBNs = books_author_.Find(author);
-  size_t size = ISBNs.size();
+  std::vector<int> ids = books_author_.Find(author);
+  size_t size = ids.size();
   std::vector<Book> books(size);
   for (size_t i = 0; i < size; ++i) {
-    books[i] = books_ISBN_.Find(ISBNs[i])[0];
+    books[i] = books_id_.Find(ids[i])[0];
   }
   return books;
 }
 
 std::vector<Book> BookSystem::QueryKeyword(const std::array<char, 60> &keyword) {
-  std::vector<std::array<char, 20>> ISBNs = books_keyword_.Find(keyword);
-  size_t size = ISBNs.size();
+  std::vector<int> ids = books_keyword_.Find(keyword);
+  size_t size = ids.size();
   std::vector<Book> books(size);
   for (size_t i = 0; i < size; ++i) {
-    books[i] = books_ISBN_.Find(ISBNs[i])[0];
+    books[i] = books_id_.Find(ids[i])[0];
   }
   return books;
 }
 
 std::vector<Book> BookSystem::QueryAll() {
-  return books_ISBN_.FindAll();
+  return books_id_.FindAll();
 }

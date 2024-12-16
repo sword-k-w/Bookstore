@@ -94,7 +94,7 @@ void AccountSystem::Delete(const Account &account) {
 }
 
 void AccountSystem::Modify(const std::array<char, 30> &userID, const Account &new_account) {
-  Account tmp = Find(userID);
+  Account tmp = accounts_.Find(userID)[0];
   accounts_.Delete(userID, tmp);
   accounts_.Insert(userID, new_account);
 }
