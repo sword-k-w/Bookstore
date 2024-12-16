@@ -28,6 +28,10 @@ void FrontEnd::run() {
     if (type.empty()) {
       continue;
     } else if (type == "quit" || type == "exit") {
+      if (!cur_command_.GetToken().empty()) {
+        std::cout << "Invalid\n";
+        continue;
+      }
       break;
     } else if (type == "su") {
       Login();
@@ -534,23 +538,18 @@ void FrontEnd::Modify() {
   }
   if (new_ISBN[0] != '\n') {
     book_system_.ModifyISBN(cur_book.ISBN_, new_ISBN);
-    cur_book.ISBN_ = new_ISBN;
   }
   if (new_name[0] != '\n') {
     book_system_.ModifyName(cur_book.ISBN_, new_name);
-    cur_book.book_name_ = new_name;
   }
   if (new_author[0] != '\n') {
     book_system_.ModifyAuthor(cur_book.ISBN_, new_author);
-    cur_book.author_ = new_author;
   }
   if (new_keyword[0] != '\n') {
     book_system_.ModifyKeyword(cur_book.ISBN_, new_keyword);
-    cur_book.keyword_ = new_keyword;
   }
   if (new_price >= 0) {
     book_system_.ModifyPrice(cur_book.ISBN_, new_price);
-    cur_book.price_ = new_price;
   }
 }
 
