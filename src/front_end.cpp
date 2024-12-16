@@ -59,7 +59,6 @@ void FrontEnd::run() {
 }
 
 void FrontEnd::Login() {
-  std::cerr << "Login\n";
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     std::cout << "Invalid\n";
@@ -73,7 +72,6 @@ void FrontEnd::Login() {
   Account nxt = account_system_.Find(userID);
 
   if (!nxt.Privilege()) {
-    std::cerr << "????\n";
     std::cout << "Invalid\n";
     return;
   }
@@ -96,13 +94,11 @@ void FrontEnd::Login() {
   }
   nxt.ModifyOnlineCount(1);
   account_system_.Modify(userID, nxt);
-  std::cerr << nxt.OnlineCount() << '\n';
   online_.emplace(userID);
   cur_account_ = nxt;
 }
 
 void FrontEnd::Logout() {
-  std::cerr << "Logout\n";
   if (online_.empty()) {
     std::cout << "Invalid\n";
     return;
@@ -214,7 +210,7 @@ void FrontEnd::Password() {
     }
     tmp_acc.UpdatePassword(password_prime);
     if (userID == cur_account_.UserID()) {
-      cur_account_.UpdatePassword(password);
+      cur_account_.UpdatePassword(password_prime);
     }
   }
   account_system_.Modify(userID, tmp_acc);
