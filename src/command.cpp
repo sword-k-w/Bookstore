@@ -196,6 +196,9 @@ int ToQuantity(const std::string &s) {
   if (size > 10) {
     return -1;
   }
+  if (size > 1 && s[0] == '0') {
+    return -1;
+  }
   long long res = 0;
   for (size_t i = 0; i < size; ++i) {
     if (!isdigit(s[i])) {
@@ -231,7 +234,10 @@ double ToPrice(const std::string &s) {
       pos = i;
     }
   }
-  if (pos + 1 == size || pos == 0) {
+  if (pos + 1 == size || pos == 0 || size - pos > 3) {
+    return -1;
+  }
+  if (pos > 1 && s[0] == '0') {
     return -1;
   }
   while (pos + 1 < size) {
