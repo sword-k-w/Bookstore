@@ -42,37 +42,26 @@ void FrontEnd::run() {
     } else if (type == "logout") {
       Logout();
     } else if (type == "register") {
-      exit(1);
       Register();
     } else if (type == "passwd") {
-      exit(1);
       Password();
     } else if (type == "useradd") {
-      exit(1);
       Useradd();
     } else if (type == "delete") {
-      exit(1);
       Delete();
     } else if (type == "show") {
-      exit(1);
       Show();
     } else if (type == "buy") {
-      exit(1);
       Buy();
     } else if (type == "select") {
-      exit(1);
       Select();
     } else if (type == "modify") {
-      exit(1);
       Modify();
     } else if (type == "import") {
-      exit(1);
       Import();
     } else if (type == "log") {
-      exit(1);
       Log();
     } else if (type == "report") {
-      exit(1);
       Report();
     } else {
       std::cout << "Invalid\n";

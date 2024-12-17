@@ -13,9 +13,6 @@ bool Command::Read() {
     if (ch == '\r' || ch == '\n') {
       return true;
     }
-    if (!isprint(ch)) {
-      while (true) {}
-    }
     command += ch;
     ch = getchar();
   }
