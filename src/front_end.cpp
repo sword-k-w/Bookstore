@@ -56,10 +56,8 @@ void FrontEnd::run() {
     } else if (type == "import") {
       Import();
     } else if (type == "log") {
-      exit(1);
       Log();
     } else if (type == "report") {
-      exit(1);
       Report();
     } else {
       std::cout << "Invalid\n";
