@@ -177,16 +177,12 @@ std::array<char, 60> ToKeywords(const std::string &s) {
     }
     res[i] = s[i];
   }
-  if (las == size) {
-    return {'\n'};
-  }
   std::string tmp(std::string(s.begin() + las, s.end()));
   if (keywords.count(tmp)) {
     return {'\n'};
   }
   return res;
 }
-
 
 /**
  * @return -1 if invalid
@@ -233,6 +229,9 @@ double ToPrice(const std::string &s) {
       }
       pos = i;
     }
+  }
+  if (pos + 1 == size) {
+    exit(1);
   }
   if (pos + 1 == size || pos == 0 || size - pos > 3) {
     return -1;
