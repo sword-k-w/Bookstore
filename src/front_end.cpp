@@ -38,6 +38,7 @@ void FrontEnd::run() {
     } else if (type == "logout") {
       Logout();
     } else if (type == "register") {
+      exit(1);
       Register();
     } else if (type == "passwd") {
       exit(1);
