@@ -5,9 +5,9 @@ set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
 
-#add_definitions(-Ddebug)
+add_definitions(-Ddebug)
 
-#add_definitions(-DFileClear)
+add_definitions(-DFileClear)
 
 add_executable(code
         src/account.cpp
@@ -16,4 +16,8 @@ add_executable(code
         src/command.cpp
         src/front_end.cpp
         src/main.cpp
+)
+
+add_executable(gen
+        src/gen.cpp
 )
