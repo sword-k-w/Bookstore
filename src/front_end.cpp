@@ -44,6 +44,7 @@ void FrontEnd::run() {
       exit(1);
       Password();
     } else if (type == "useradd") {
+      exit(1);
       Useradd();
     } else if (type == "delete") {
       exit(1);
