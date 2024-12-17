@@ -231,7 +231,6 @@ double ToPrice(const std::string &s) {
     }
   }
   if (pos + 1 == size || pos == 0 || size - pos > 3) {
-    exit(1);
     return -1;
   }
   if (pos > 1 && s[0] == '0') {

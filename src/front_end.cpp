@@ -46,14 +46,19 @@ void FrontEnd::run() {
     } else if (type == "delete") {
       Delete();
     } else if (type == "show") {
+      exit(1);
       Show();
     } else if (type == "buy") {
+      exit(1);
       Buy();
     } else if (type == "select") {
+      exit(1);
       Select();
     } else if (type == "modify") {
+      exit(1);
       Modify();
     } else if (type == "import") {
+      exit(1);
       Import();
     } else if (type == "log") {
       Log();
