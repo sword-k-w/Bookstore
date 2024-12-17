@@ -21,15 +21,19 @@ FrontEnd::~FrontEnd() {
 
 void FrontEnd::run() {
   while (true) {
-    if (!cur_command_.Read()) {
-      break;
-    }
+    bool res = cur_command_.Read();
     std::string type = cur_command_.GetToken();
     if (type.empty()) {
+      if (!res) {
+        break;
+      }
       continue;
     } else if (type == "quit" || type == "exit") {
       if (!cur_command_.GetToken().empty()) {
         std::cout << "Invalid\n";
+        if (!res) {
+          break;
+        }
         continue;
       }
       break;
@@ -72,6 +76,9 @@ void FrontEnd::run() {
       Report();
     } else {
       std::cout << "Invalid\n";
+    }
+    if (!res) {
+      break;
     }
   }
 }

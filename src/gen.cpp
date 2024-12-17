@@ -2,7 +2,6 @@
 
 int main() {
   freopen("data.txt", "w", stdout);
-  std::cout << "su root sjtu\r";
-  std::cout << "quit\n";
+  std::cout << "quit";
   return 0;
 }
