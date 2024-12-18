@@ -71,6 +71,11 @@ std::vector<std::array<char, 60>> GetKeywords(const std::array<char, 60> &keywor
       }
       res.emplace_back(tmp);
       break;
+    } else if (i == 59) {
+      for (size_t j = las; j <= i; ++j) {
+        tmp[j - las] = keyword[j];
+      }
+      res.emplace_back(tmp);
     }
   }
   return res;
