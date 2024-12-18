@@ -93,7 +93,15 @@ void BookSystem::Add(const Book &book) {
 }
 
 void BookSystem::ModifyISBN(const std::array<char, 20> &ISBN, const std::array<char, 20> &new_ISBN) {
-  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
+  auto tmp = books_ISBN_.Find(ISBN);
+  if (tmp.empty()) {
+    exit(1);
+  }
+  auto tmp_ = books_id_.Find(tmp[0]);
+  if (tmp_.empty()) {
+    exit(1);
+  }
+  Book book = tmp_[0];
   books_id_.Delete(book.id_, book);
   books_ISBN_.Delete(ISBN, book.id_);
   book.ISBN_ = new_ISBN;
@@ -102,8 +110,15 @@ void BookSystem::ModifyISBN(const std::array<char, 20> &ISBN, const std::array<c
 }
 
 void BookSystem::ModifyName(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_name) {
-  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
-  books_id_.Delete(book.id_, book);
+  auto tmp = books_ISBN_.Find(ISBN);
+  if (tmp.empty()) {
+    exit(1);
+  }
+  auto tmp_ = books_id_.Find(tmp[0]);
+  if (tmp_.empty()) {
+    exit(1);
+  }
+  Book book = tmp_[0];books_id_.Delete(book.id_, book);
   books_name_.Delete(book.book_name_, book.id_);
   book.book_name_ = new_name;
   books_id_.Insert(book.id_, book);
@@ -111,8 +126,15 @@ void BookSystem::ModifyName(const std::array<char, 20> &ISBN, const std::array<c
 }
 
 void BookSystem::ModifyAuthor(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_author) {
-  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
-  books_id_.Delete(book.id_, book);
+  auto tmp = books_ISBN_.Find(ISBN);
+  if (tmp.empty()) {
+    exit(1);
+  }
+  auto tmp_ = books_id_.Find(tmp[0]);
+  if (tmp_.empty()) {
+    exit(1);
+  }
+  Book book = tmp_[0];books_id_.Delete(book.id_, book);
   books_author_.Delete(book.author_, book.id_);
   book.author_ = new_author;
   books_id_.Insert(book.id_, book);
@@ -120,8 +142,15 @@ void BookSystem::ModifyAuthor(const std::array<char, 20> &ISBN, const std::array
 }
 
 void BookSystem::ModifyKeyword(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_keyword) {
-  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
-
+  auto tmp = books_ISBN_.Find(ISBN);
+  if (tmp.empty()) {
+    exit(1);
+  }
+  auto tmp_ = books_id_.Find(tmp[0]);
+  if (tmp_.empty()) {
+    exit(1);
+  }
+  Book book = tmp_[0];
   books_id_.Delete(book.id_, book);
   auto keywords = GetKeywords(book.keyword_);
   for (auto &keyword : keywords) {
@@ -138,15 +167,29 @@ void BookSystem::ModifyKeyword(const std::array<char, 20> &ISBN, const std::arra
 }
 
 void BookSystem::ModifyStock(const std::array<char, 20> &ISBN, const int &new_stock) {
-  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
-  books_id_.Delete(book.id_, book);
+  auto tmp = books_ISBN_.Find(ISBN);
+  if (tmp.empty()) {
+    exit(1);
+  }
+  auto tmp_ = books_id_.Find(tmp[0]);
+  if (tmp_.empty()) {
+    exit(1);
+  }
+  Book book = tmp_[0];books_id_.Delete(book.id_, book);
   book.stock_ = new_stock;
   books_id_.Insert(book.id_, book);
 }
 
 void BookSystem::ModifyPrice(const std::array<char, 20> &ISBN, const double &new_price) {
-  Book book = books_id_.Find(books_ISBN_.Find(ISBN)[0])[0];
-  books_id_.Delete(book.id_, book);
+  auto tmp = books_ISBN_.Find(ISBN);
+  if (tmp.empty()) {
+    exit(1);
+  }
+  auto tmp_ = books_id_.Find(tmp[0]);
+  if (tmp_.empty()) {
+    exit(1);
+  }
+  Book book = tmp_[0];books_id_.Delete(book.id_, book);
   book.price_ = new_price;
   books_id_.Insert(book.id_, book);
 }

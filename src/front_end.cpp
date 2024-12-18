@@ -124,11 +124,9 @@ void FrontEnd::Logout(bool force) {
     return;
   }
   cur_account_.ModifyOnlineCount(-1);
-
   account_system_.Modify(cur_account_.UserID(), cur_account_);
   online_.pop();
   select_.pop();
-
   if (online_.empty()) {
     cur_account_ = Account();
     cur_book_ = -1;
