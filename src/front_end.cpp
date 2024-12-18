@@ -44,7 +44,6 @@ void FrontEnd::run() {
     } else if (type == "register") {
       Register();
     } else if (type == "passwd") {
-      exit(1);
       Password();
     } else if (type == "useradd") {
       Useradd();
