@@ -44,10 +44,12 @@ void FrontEnd::run() {
     } else if (type == "register") {
       Register();
     } else if (type == "passwd") {
+      exit(1);
       Password();
     } else if (type == "useradd") {
       Useradd();
     } else if (type == "delete") {
+      exit(1);
       Delete();
     } else if (type == "show") {
       Show();
@@ -60,8 +62,10 @@ void FrontEnd::run() {
     } else if (type == "import") {
       Import();
     } else if (type == "log") {
+      exit(1);
       Log();
     } else if (type == "report") {
+      exit(1);
       Report();
     } else {
       std::cout << "Invalid\n";
