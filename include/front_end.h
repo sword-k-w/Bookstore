@@ -23,7 +23,7 @@ public:
   ~FrontEnd();
   void run();
   void Login();
-  void Logout();
+  void Logout(bool);
   void Register();
   void Password();
   void Useradd();

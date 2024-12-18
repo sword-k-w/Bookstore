@@ -13,7 +13,7 @@ FrontEnd::FrontEnd() : account_system_("accounts"), book_system_("books"), log_s
 
 FrontEnd::~FrontEnd() {
   while (!online_.empty()) {
-    Logout();
+    Logout(true);
   }
   ++time_;
   log_system_.RecordTime(time_);
@@ -40,7 +40,7 @@ void FrontEnd::run() {
     } else if (type == "su") {
       Login();
     } else if (type == "logout") {
-      Logout();
+      Logout(false);
     } else if (type == "register") {
       Register();
     } else if (type == "passwd") {
@@ -50,25 +50,18 @@ void FrontEnd::run() {
     } else if (type == "delete") {
       Delete();
     } else if (type == "show") {
-      exit(1);
       Show();
     } else if (type == "buy") {
-      exit(1);
       Buy();
     } else if (type == "select") {
-      exit(1);
       Select();
     } else if (type == "modify") {
-      exit(1);
       Modify();
     } else if (type == "import") {
-      exit(1);
       Import();
     } else if (type == "log") {
-      exit(1);
       Log();
     } else if (type == "report") {
-      exit(1);
       Report();
     } else {
       std::cout << "Invalid\n";
@@ -121,12 +114,12 @@ void FrontEnd::Login() {
   cur_account_ = nxt;
 }
 
-void FrontEnd::Logout() {
+void FrontEnd::Logout(bool force) {
   if (online_.empty()) {
     std::cout << "Invalid\n";
     return;
   }
-  if (!cur_command_.GetToken().empty()) {
+  if (!cur_command_.GetToken().empty() && !force) {
     std::cout << "Invalid\n";
     return;
   }
