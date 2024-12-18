@@ -60,10 +60,8 @@ void FrontEnd::run() {
     } else if (type == "import") {
       Import();
     } else if (type == "log") {
-      exit(1);
       Log();
     } else if (type == "report") {
-      exit(1);
       Report();
     } else {
       std::cout << "Invalid\n";
@@ -591,9 +589,40 @@ void FrontEnd::Import() {
 }
 
 void FrontEnd::Log() {
-
+  if (cur_account_.Privilege() < 7) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  if (!cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::cout << "ni gao wo ya!!!\n";
 }
 
 void FrontEnd::Report() {
-
+  if (cur_account_.Privilege() < 7) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::string tmp = cur_command_.GetToken();
+  if (tmp.empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  if (tmp == "finance") {
+    if (!cur_command_.GetToken().empty()) {
+      std::cout << "Invalid\n";
+      return;
+    }
+    std::cout << "ni gao wo ya!!!\n";
+  } else if (tmp == "employee") {
+    if (!cur_command_.GetToken().empty()) {
+      std::cout << "Invalid\n";
+      return;
+    }
+    std::cout << "ni gao wo ya!!!\n";
+  } else {
+    std::cout << "Invalid\n";
+  }
 }
