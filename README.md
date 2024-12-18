@@ -1,3 +1,9 @@
+# Acknowledgement
+
+Thank Zihan Zhang TA, Jason Fan and Weixian Xu TA for their thoughtful guidance on explanation of standard requirement.
+
+Thank Jason Fan for his penetrating guidance on file storage.
+
 # 书店管理系统
 
 SJTU ACM 班 2024 级程序设计课程大作业
