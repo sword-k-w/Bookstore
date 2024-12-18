@@ -541,10 +541,6 @@ void FrontEnd::Modify() {
     std::cout << "Invalid\n";
     return;
   }
-  if (new_ISBN[0] != '\n') {
-    book_system_.ModifyISBN(cur_book.ISBN_, new_ISBN);
-    cur_book.ISBN_ = new_ISBN;
-  }
   if (new_name[0] != '\n') {
     book_system_.ModifyName(cur_book.ISBN_, new_name);
   }
@@ -556,6 +552,9 @@ void FrontEnd::Modify() {
   }
   if (new_price >= 0) {
     book_system_.ModifyPrice(cur_book.ISBN_, new_price);
+  }
+  if (new_ISBN[0] != '\n') {
+    book_system_.ModifyISBN(cur_book.ISBN_, new_ISBN);
   }
 }
 
