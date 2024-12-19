@@ -1,8 +1,8 @@
 # Acknowledgement
 
-Thank Zihan Zhang TA, Jason Fan and Weixian Xu TA for their thoughtful guidance on explanation of standard requirement.
+Thank Zihan Zhang TA, Jason Fan TA and Weixian Xu TA for their thoughtful guidance on explanation of standard requirement.
 
-Thank Jason Fan for his penetrating guidance on file storage.
+Thank Jason Fan TA for his penetrating guidance on file storage.
 
 # 书店管理系统
 
