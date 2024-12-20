@@ -4,7 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
-FrontEnd::FrontEnd() : account_system_("accounts"), book_system_("books"), log_system_("finance") {
+FrontEnd::FrontEnd() : account_system_("accounts"), book_system_("books"), log_system_("log") {
   time_ = log_system_.QueryTime();
   if (!time_) {
     account_system_.Add(Account(ToUserID("root"), ToPassword("sjtu"), ToUsername("sword"), 7));
@@ -36,6 +36,12 @@ void FrontEnd::run() {
         }
         continue;
       }
+      ExitOperation exit_ope;
+      exit_ope.time_ = ++time_;
+      Operation ope{};
+      ope.operation_type_ = Operation::kExit;
+      ope.exit_operation_ = exit_ope;
+      log_system_.RecordOperation(ope);
       break;
     } else if (type == "su") {
       Login();
@@ -112,6 +118,14 @@ void FrontEnd::Login() {
   select_.emplace(-1);
   cur_book_ = -1;
   cur_account_ = nxt;
+
+  LoginOperation login_ope;
+  login_ope.time_ = ++time_;
+  login_ope.cur_account_ = cur_account_;
+  Operation ope{};
+  ope.operation_type_ = Operation::kLogin;
+  ope.login_operation_ = login_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Logout(bool force) {
@@ -123,6 +137,11 @@ void FrontEnd::Logout(bool force) {
     std::cout << "Invalid\n";
     return;
   }
+
+  LogoutOperation logout_ope;
+  logout_ope.time_ = ++time_;
+  logout_ope.cur_account_ = cur_account_;
+
   cur_account_.ModifyOnlineCount(-1);
   account_system_.Modify(cur_account_.UserID(), cur_account_);
   online_.pop();
@@ -134,6 +153,11 @@ void FrontEnd::Logout(bool force) {
     cur_account_ = account_system_.Find(online_.top());
     cur_book_ = select_.top();
   }
+
+  Operation ope{};
+  ope.operation_type_ = Operation::kLogout;
+  ope.logout_operation_ = logout_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Register() {
@@ -171,7 +195,16 @@ void FrontEnd::Register() {
     std::cout << "Invalid\n";
     return;
   }
-  account_system_.Add(Account(userID, password, username));
+  Account new_account(userID, password, username);
+  account_system_.Add(new_account);
+
+  RegisterOperation register_ope;
+  register_ope.time_ = ++time_;
+  register_ope.cur_account_ = new_account;
+  Operation ope{};
+  ope.operation_type_ = Operation::kRegister;
+  ope.register_operation_ = register_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Password() {
@@ -205,15 +238,13 @@ void FrontEnd::Password() {
     return;
   }
   tmp = cur_command_.GetToken();
+  std::array<char, 30> new_password;
   if (tmp.empty()) {
     if (cur_account_.Privilege() != 7) {
       std::cout << "Invalid\n";
       return;
     }
-    tmp_acc.UpdatePassword(password);
-    if (userID == cur_account_.UserID()) {
-      cur_account_.UpdatePassword(password);
-    }
+    new_password = password;
   } else {
     std::array<char, 30> password_prime = ToPassword(tmp);
     if (password_prime[0] == '\n' || !tmp_acc.CheckPassword(password)) {
@@ -224,12 +255,23 @@ void FrontEnd::Password() {
       std::cout << "Invalid\n";
       return;
     }
-    tmp_acc.UpdatePassword(password_prime);
-    if (userID == cur_account_.UserID()) {
-      cur_account_.UpdatePassword(password_prime);
-    }
+    new_password = password_prime;
+  }
+  tmp_acc.UpdatePassword(new_password);
+  if (userID == cur_account_.UserID()) {
+    cur_account_.UpdatePassword(new_password);
   }
   account_system_.Modify(userID, tmp_acc);
+
+  PasswordOperation password_ope;
+  password_ope.time_ = ++time_;
+  password_ope.cur_account_ = cur_account_;
+  password_ope.new_password_ = new_password;
+  password_ope.modified_ = tmp_acc;
+  Operation ope{};
+  ope.operation_type_ = Operation::kPassword;
+  ope.password_operation_ = password_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Useradd() {
@@ -277,7 +319,17 @@ void FrontEnd::Useradd() {
     std::cout << "Invalid\n";
     return;
   }
-  account_system_.Add(Account(userID, password, username, privilege));
+  Account new_account(userID, password, username, privilege);
+  account_system_.Add(new_account);
+
+  CreateOperation create_ope;
+  create_ope.time_ = ++time_;
+  create_ope.cur_account_ = cur_account_;
+  create_ope.new_account_ = new_account;
+  Operation ope{};
+  ope.operation_type_ = Operation::kCreate;
+  ope.create_operation_ = create_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Delete() {
@@ -301,6 +353,15 @@ void FrontEnd::Delete() {
     return;
   }
   account_system_.Delete(tmp_acc);
+
+  DeleteOperation delete_ope;
+  delete_ope.time_ = ++time_;
+  delete_ope.cur_account_ = cur_account_;
+  delete_ope.deleted = tmp_acc;
+  Operation ope{};
+  ope.operation_type_ = Operation::kDelete;
+  ope.delete_operation_ = delete_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Show() {
@@ -410,6 +471,13 @@ void FrontEnd::Show() {
         }
       }
     }
+    SearchOperation search_ope;
+    search_ope.time_ = ++time_;
+    search_ope.cur_account_ = cur_account_;
+    Operation ope{};
+    ope.operation_type_ = Operation::kSearch;
+    ope.search_operation_ = search_ope;
+    log_system_.RecordOperation(ope);
   }
 }
 
@@ -442,6 +510,16 @@ void FrontEnd::Buy() {
   book_system_.ModifyStock(ISBN, book.stock_ - quantity);
   log_system_.RecordTrade(quantity * book.price_);
   std::cout << std::fixed << std::setprecision(2) << quantity * book.price_ << '\n';
+
+  BuyOperation buy_ope;
+  buy_ope.time_ = ++time_;
+  buy_ope.cur_account_ = cur_account_;
+  buy_ope.book_ = book;
+  buy_ope.quantity_ = quantity;
+  Operation ope{};
+  ope.operation_type_ = Operation::kBuy;
+  ope.buy_operation_ = buy_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Select() {
@@ -541,21 +619,37 @@ void FrontEnd::Modify() {
     std::cout << "Invalid\n";
     return;
   }
+  Book tmp_book = cur_book;
   if (new_name[0] != '\n') {
     book_system_.ModifyName(cur_book.ISBN_, new_name);
+    cur_book.book_name_ = new_name;
   }
   if (new_author[0] != '\n') {
     book_system_.ModifyAuthor(cur_book.ISBN_, new_author);
+    cur_book.author_ = new_author;
   }
   if (new_keyword[0] != '\n') {
     book_system_.ModifyKeyword(cur_book.ISBN_, new_keyword);
+    cur_book.keyword_ = new_keyword;
   }
   if (new_price >= 0) {
     book_system_.ModifyPrice(cur_book.ISBN_, new_price);
+    cur_book.price_ = new_price;
   }
   if (new_ISBN[0] != '\n') {
     book_system_.ModifyISBN(cur_book.ISBN_, new_ISBN);
+    cur_book.ISBN_ = new_ISBN;
   }
+
+  ModifyOperation modify_ope;
+  modify_ope.time_ = ++time_;
+  modify_ope.cur_account_ = cur_account_;
+  modify_ope.book_ = tmp_book;
+  modify_ope.new_book_ = cur_book;
+  Operation ope{};
+  ope.operation_type_ = Operation::kModify;
+  ope.modify_operation_ = modify_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Import() {
@@ -586,6 +680,17 @@ void FrontEnd::Import() {
   }
   book_system_.ModifyStock(cur_book.ISBN_, cur_book.stock_ + quantity);
   log_system_.RecordTrade(-total_cost);
+
+  ImportOperation import_ope;
+  import_ope.time_ = ++time_;
+  import_ope.cur_account_ = cur_account_;
+  import_ope.book_ = cur_book;
+  import_ope.quantity_ = quantity;
+  import_ope.cost_ = total_cost;
+  Operation ope{};
+  ope.operation_type_ = Operation::kImport;
+  ope.import_operation_ = import_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void FrontEnd::Log() {
@@ -597,7 +702,7 @@ void FrontEnd::Log() {
     std::cout << "Invalid\n";
     return;
   }
-  std::cout << "ni gao wo ya!!!\n";
+  log_system_.ReportLog();
 }
 
 void FrontEnd::Report() {
@@ -615,13 +720,13 @@ void FrontEnd::Report() {
       std::cout << "Invalid\n";
       return;
     }
-    std::cout << "ni gao wo ya!!!\n";
+    log_system_.ReportFinance();
   } else if (tmp == "employee") {
     if (!cur_command_.GetToken().empty()) {
       std::cout << "Invalid\n";
       return;
     }
-    std::cout << "ni gao wo ya!!!\n";
+    log_system_.ReportEmployee();
   } else {
     std::cout << "Invalid\n";
   }

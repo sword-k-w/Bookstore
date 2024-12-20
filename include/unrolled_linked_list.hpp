@@ -38,6 +38,7 @@ private:
   void BlockInsert(CacheHeadNode *,const key_type &, const value_type &);
   void BlockFind(std::vector<value_type> &, CacheHeadNode *, const key_type &);
   void BlockFindAll(std::vector<value_type> &, CacheHeadNode *);
+  void BlockFindAllInfo(std::vector<std::pair<key_type, value_type>> &, CacheHeadNode *);
   bool BlockDelete(CacheHeadNode *, const std::pair<key_type, value_type> &);
   void BlockPrint(CacheHeadNode *);
 public:
@@ -50,6 +51,7 @@ public:
   void Insert(const key_type &, const value_type &);
   std::vector<value_type> Find(const key_type &);
   std::vector<value_type> FindAll();
+  std::vector<std::pair<key_type, value_type>> FindAllInfo();
   bool Delete(const key_type &, const value_type &);
   void Print();
 };
@@ -233,6 +235,34 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockFi
      res.emplace_back(tmp_array[i].second);
   }
 }
+
+template<class key_type, class value_type, size_t max_size, size_t max_block_size>
+std::vector<std::pair<key_type, value_type>> UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::FindAllInfo() {
+  if (cur_size_ == 0) {
+    return {};
+  }
+  CacheHeadNode *tmp = cache_head_;
+  std::vector<std::pair<key_type, value_type>> res;
+  while (true) {
+    BlockFindAllInfo(res, tmp);
+    if (tmp->nxt_ == nullptr) {
+      break;
+    }
+    tmp = tmp->nxt_;
+  }
+  return res;
+}
+
+template<class key_type, class value_type, size_t max_size, size_t max_block_size>
+void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockFindAllInfo(std::vector<std::pair<key_type, value_type>> &res, CacheHeadNode *head_node) {
+  BodyNode tmp_array;
+  body_file_.Read(tmp_array, head_node->pos_);
+  for (size_t i = 0; i < head_node->node_.block_size_; ++i) {
+    res.emplace_back(tmp_array[i]);
+  }
+}
+
+
 
 /**
  * @return whether (key, val) exists

@@ -39,6 +39,10 @@ std::array<char, 30> Account::UserID() const {
   return userID_;
 }
 
+std::array<char, 30> Account::Password() const {
+  return password_;
+}
+
 unsigned char Account::Privilege() const {
   return privilege_;
 }
