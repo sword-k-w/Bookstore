@@ -74,9 +74,9 @@ struct Operation {
 class LogSystem {
 private:
   MemoryRiver<std::pair<double, double>> finance_;
-  MemoryRiver<std::array<char, 300>> finance_report_;
-  MemoryRiver<std::array<char, 300>> log_;
-  UnrolledLinkedList<std::array<char, 30>, std::array<char, 300>> employee_report_;
+  MemoryRiver<std::array<char, 400>> finance_report_;
+  MemoryRiver<std::array<char, 400>> log_;
+  UnrolledLinkedList<std::array<char, 30>, std::array<char, 400>> employee_report_;
 public:
   LogSystem() = delete;
   LogSystem(const std::string &name) : finance_(name + "_finance"), finance_report_(name + "_finance_report"), log_(name), employee_report_(name + "_employee_report") {

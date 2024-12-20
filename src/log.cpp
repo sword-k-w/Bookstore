@@ -68,13 +68,13 @@ std::string ToString(const Book &book) {
   return "(-ISBN=" + ToString(book.ISBN_) + " -name=\"" + ToString(book.book_name_) + "\" -author=\"" + ToString(book.author_) + "\" -keyword=\"" + ToString(book.keyword_) + "\")";
 }
 
-std::array<char, 300> ToInfo(const std::string &s) {
+std::array<char, 400> ToInfo(const std::string &s) {
   size_t size = s.size();
-  if (size > 300) {
+  if (size > 400) {
     std::cerr << "info too long!";
     exit(1);
   }
-  std::array<char, 300> res;
+  std::array<char, 400> res;
   std::fill(res.begin(), res.end(), 0);
   for (size_t i = 0; i < size; ++i) {
     res[i] = s[i];
@@ -83,7 +83,7 @@ std::array<char, 300> ToInfo(const std::string &s) {
 }
 
 void LogSystem::RecordOperation(const Operation &operation) {
-  std::array<char, 300> info;
+  std::array<char, 400> info;
   std::fill(info.begin(), info.end(), 0);
   Account account;
   switch (operation.operation_type_) {
@@ -159,8 +159,8 @@ void LogSystem::RecordOperation(const Operation &operation) {
   }
 }
 
-std::ostream &operator << (std::ostream &os, const std::array<char, 300> &x) {
-  for (size_t i = 0; i < 300; ++i) {
+std::ostream &operator << (std::ostream &os, const std::array<char, 400> &x) {
+  for (size_t i = 0; i < 400; ++i) {
     if (x[i] != '\0') {
       os << x[i];
     }
@@ -173,7 +173,7 @@ void LogSystem::ReportLog() {
   std::cout << "time\tUserID\t\t\t\t\t\t\t\t\toperation\n";
   size_t size = log_.Length();
   for (size_t i = 0; i < size; ++i) {
-    std::array<char, 300> tmp;
+    std::array<char, 400> tmp;
     log_.Read(tmp, i);
     std::cout << tmp << '\n';
   }
@@ -182,7 +182,7 @@ void LogSystem::ReportLog() {
 void LogSystem::ReportFinance() {
   size_t size = finance_report_.Length();
   for (size_t i = 0; i < size; ++i) {
-    std::array<char, 300> tmp;
+    std::array<char, 400> tmp;
     finance_report_.Read(tmp, i);
     std::cout << tmp << '\n';
   }
