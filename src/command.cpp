@@ -4,11 +4,13 @@
 
 bool Command::Read() {
   cur_pos = 0;
-  if (std::getline(std::cin, command)) {
-    std::cerr << command.size() << '\n';
-    return true;
-  } else {
-    return false;
+  command = "";
+  char ch;
+  while (std::cin.get(ch)) {
+    if (ch == '\r' || ch == '\n') {
+      return true;
+    }
+    command += ch;
   }
 }
 
