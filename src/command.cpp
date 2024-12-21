@@ -12,6 +12,7 @@ bool Command::Read() {
     }
     command += ch;
   }
+  return false;
 }
 
 /**
