@@ -10,3 +10,21 @@ README.md
 # testcases
 tests/**
 
+# storage files
+accounts_Body
+accounts_Head
+books_author_Body
+books_author_Head
+books_id_Body
+books_id_Head
+books_ISBN_Body
+books_ISBN_Head
+books_keyword_Body
+books_keyword_Head
+books_name_Body
+books_name_Head
+log
+log_employee_report_Body
+log_employee_report_Head
+log_finance
+log_finance_report
