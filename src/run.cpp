@@ -1,17 +1,17 @@
-#include "front_end.h"
+#include "run.h"
 
 #include <iomanip>
 #include <iostream>
 #include <algorithm>
 
-FrontEnd::FrontEnd() : account_system_("accounts"), book_system_("books"), log_system_("log") {
+Run::Run() : account_system_("accounts"), book_system_("books"), log_system_("log") {
   time_ = log_system_.QueryTime();
   if (!time_) {
     account_system_.Add(Account(ToUserID("root"), ToPassword("sjtu"), ToUsername("sword"), 7));
   }
 }
 
-FrontEnd::~FrontEnd() {
+Run::~Run() {
   while (!online_.empty()) {
     Logout(true);
   }
@@ -19,7 +19,7 @@ FrontEnd::~FrontEnd() {
   log_system_.RecordTime(time_);
 }
 
-void FrontEnd::run() {
+void Run::run() {
   while (true) {
     bool res = cur_command_.Read();
     std::string type = cur_command_.GetToken();
@@ -78,7 +78,7 @@ void FrontEnd::run() {
   }
 }
 
-void FrontEnd::Login() {
+void Run::Login() {
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     std::cout << "Invalid\n";
@@ -128,7 +128,7 @@ void FrontEnd::Login() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Logout(bool force) {
+void Run::Logout(bool force) {
   if (online_.empty()) {
     std::cout << "Invalid\n";
     return;
@@ -160,7 +160,7 @@ void FrontEnd::Logout(bool force) {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Register() {
+void Run::Register() {
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     std::cout << "Invalid\n";
@@ -207,7 +207,7 @@ void FrontEnd::Register() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Password() {
+void Run::Password() {
   if (cur_account_.Privilege() < 1) {
     std::cout << "Invalid\n";
     return;
@@ -274,7 +274,7 @@ void FrontEnd::Password() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Useradd() {
+void Run::Useradd() {
   if (cur_account_.Privilege() < 3) {
     std::cout << "Invalid\n";
     return;
@@ -332,7 +332,7 @@ void FrontEnd::Useradd() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Delete() {
+void Run::Delete() {
   if (cur_account_.Privilege() != 7) {
     std::cout << "Invalid\n";
     return;
@@ -364,7 +364,7 @@ void FrontEnd::Delete() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Show() {
+void Run::Show() {
   if (cur_account_.Privilege() < 1) {
     std::cout << "Invalid\n";
     return;
@@ -481,7 +481,7 @@ void FrontEnd::Show() {
   }
 }
 
-void FrontEnd::Buy() {
+void Run::Buy() {
   if (cur_account_.Privilege() < 1) {
     std::cout << "Invalid\n";
     return;
@@ -522,7 +522,7 @@ void FrontEnd::Buy() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Select() {
+void Run::Select() {
   if (cur_account_.Privilege() < 3) {
     std::cout << "Invalid\n";
     return;
@@ -548,7 +548,7 @@ void FrontEnd::Select() {
   account_system_.Modify(cur_account_.UserID(), cur_account_);
 }
 
-void FrontEnd::Modify() {
+void Run::Modify() {
   Book cur_book = book_system_.QueryId(cur_book_);
 
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
@@ -652,7 +652,7 @@ void FrontEnd::Modify() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Import() {
+void Run::Import() {
   Book cur_book = book_system_.QueryId(cur_book_);
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
     std::cout << "Invalid\n";
@@ -693,7 +693,7 @@ void FrontEnd::Import() {
   log_system_.RecordOperation(ope);
 }
 
-void FrontEnd::Log() {
+void Run::Log() {
   if (cur_account_.Privilege() < 7) {
     std::cout << "Invalid\n";
     return;
@@ -705,7 +705,7 @@ void FrontEnd::Log() {
   log_system_.ReportLog();
 }
 
-void FrontEnd::Report() {
+void Run::Report() {
   if (cur_account_.Privilege() < 7) {
     std::cout << "Invalid\n";
     return;

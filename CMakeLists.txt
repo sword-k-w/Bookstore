@@ -14,7 +14,7 @@ add_executable(code
         src/book.cpp
         src/log.cpp
         src/command.cpp
-        src/front_end.cpp
+        src/run.cpp
         src/main.cpp
 )
 

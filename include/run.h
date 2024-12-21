@@ -7,7 +7,7 @@
 #include "log.h"
 #include "command.h"
 
-class FrontEnd {
+class Run {
 private:
   AccountSystem account_system_;
   BookSystem book_system_;
@@ -19,8 +19,8 @@ private:
   Account cur_account_;
   Command cur_command_;
 public:
-  FrontEnd();
-  ~FrontEnd();
+  Run();
+  ~Run();
   void run();
   void Login();
   void Logout(bool);

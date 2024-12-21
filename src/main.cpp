@@ -1,11 +1,11 @@
-#include "front_end.h"
+#include "run.h"
 
 int main() {
 #ifdef debug
   freopen("data.txt", "r", stdin);
   freopen("out.txt", "w", stdout);
 #endif
-  FrontEnd a;
+  Run a;
   a.run();
   return 0;
 }
