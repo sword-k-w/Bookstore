@@ -9,16 +9,36 @@ const button_register = document.getElementById("button_register");
 const button_login = document.getElementById("button_login");
 const button_logout = document.getElementById("button_logout");
 const button_password = document.getElementById("button_password");
+const button_useradd = document.getElementById("button_useradd");
 const button_delete = document.getElementById("button_delete");
 const div_login = document.getElementById("div_login");
 const div_login_error = document.getElementById("div_login_error");
 const div_register = document.getElementById("div_register");
 const div_register_password_error = document.getElementById("div_register_password_error");
 const div_register_other_error = document.getElementById("div_register_other_error");
+const div_password = document.getElementById("div_password");
+const div_password_ensure_error = document.getElementById("div_password_ensure_error");
+const div_password_other_error = document.getElementById("div_password_other_error");
+const div_useradd = document.getElementById("div_useradd");
+const div_useradd_error = document.getElementById("div_useradd_error");
+const div_delete = document.getElementById("div_delete");
+const div_delete_error = document.getElementById("div_delete_error");
 
 function CheckDisplay() {
   if (button_login.classList.contains("hidden")) {
     div_login.classList.add("hidden");
+  }
+  if (button_register.classList.contains("hidden")) {
+    div_register.classList.add("hidden");
+  }
+  if (button_password.classList.contains("hidden")) {
+    div_password.classList.add("hidden");
+  }
+  if (button_useradd.classList.contains("hidden")) {
+    div_useradd.classList.add("hidden");
+  }
+  if (button_delete.classList.contains("hidden")) {
+    div_delete.classList.add("hidden");
   }
 }
 fetch('http://localhost:5000/GetUser')
@@ -29,6 +49,10 @@ fetch('http://localhost:5000/GetUser')
     userID = data.userID;
     if (privilege === 7) {
       button_log.classList.remove("hidden");
+      document.getElementById("password_password_text").classList.add("hidden");
+    }
+    if (privilege === 3) {
+      document.getElementById("useradd_privilege_text").classList.add("hidden");
     }
     if (privilege !== 0) {
       button_book.classList.remove("hidden");
@@ -37,15 +61,18 @@ fetch('http://localhost:5000/GetUser')
 
 button_account.addEventListener("click", () => {
   if (privilege === 0) {
-    button_login.classList.toggle("hidden");
-    button_register.classList.toggle("hidden");
+    button_login.classList.remove("hidden");
+    button_register.classList.remove("hidden");
   }
   if (privilege !== 0) {
-    button_logout.classList.toggle("hidden");
-    button_password.classList.toggle("hidden");
-    if (privilege === 7) {
-      button_delete.classList.toggle("hidden");
-    }
+    button_logout.classList.remove("hidden");
+    button_password.classList.remove("hidden");
+  }
+  if (privilege === 7) {
+    button_delete.classList.remove("hidden");
+  }
+  if (privilege >= 3) {
+    button_useradd.classList.remove("hidden");
   }
   CheckDisplay();
 });
@@ -58,20 +85,38 @@ button_login.addEventListener("click", () => {
 button_register.addEventListener("click", () => {
   div_register.classList.remove("hidden");
   div_login.classList.add("hidden");
-})
+});
 
 button_logout.addEventListener("click", () => {
   fetch('http://localhost:5000/Logout')
     .then(response => {
+      alert("注销成功！");
       location.reload();
     })
+});
+
+button_password.addEventListener("click", () => {
+  div_password.classList.remove("hidden");
+  div_useradd.classList.add("hidden");
+  div_delete.classList.add("hidden");
 })
+
+button_useradd.addEventListener("click", () => {
+  div_useradd.classList.remove("hidden");
+  div_password.classList.add("hidden");
+  div_delete.classList.add("hidden");
+});
+
+button_delete.addEventListener("click", () => {
+  div_delete.classList.remove("hidden");
+  div_password.classList.add("hidden");
+  div_useradd.classList.add("hidden");
+});
 
 document.getElementById("form_login").addEventListener("submit", (event) => {
   event.preventDefault();
   const new_userID = document.getElementById("login_ID_text").value;
   const password = document.getElementById("login_password_text").value;
-
   fetch('http://localhost:5000/CheckLogin', {
     method: "POST",
     headers: {
@@ -81,6 +126,7 @@ document.getElementById("form_login").addEventListener("submit", (event) => {
   }).then(response => response.json())
     .then(data => {
       if (data.result) {
+        alert("登录成功！");
         location.reload();
       } else {
         div_login_error.classList.remove("hidden");
@@ -107,6 +153,7 @@ document.getElementById("form_register").addEventListener("submit", (event) => {
     }).then(response => response.json())
       .then(data => {
         if (data.result) {
+          alert("注册成功！");
           location.reload();
         } else {
           div_register_other_error.classList.remove("hidden");
@@ -114,4 +161,83 @@ document.getElementById("form_register").addEventListener("submit", (event) => {
         }
       })
   }
+});
+
+document.getElementById("form_password").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const new_userID = document.getElementById("password_ID_text").value;
+  let password = "";
+  const new_password = document.getElementById("password_new_password_text").value;
+  const new_password_ = document.getElementById("password_new_password_text_").value;
+  if (privilege === 7) {
+    password = document.getElementById("password_password_text").value;
+  }
+  if (new_password !== new_password_) {
+    div_password_ensure_error.classList.remove("hidden");
+    div_password_other_error.classList.add("hidden");
+  } else {
+    fetch('http://localhost:5000/CheckPassword', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({new_userID, password, new_password, new_password_})
+    }).then(response => response.json())
+      .then(data => {
+        if (data.result) {
+          alert("修改成功！");
+          location.reload();
+        } else {
+          div_password_ensure_error.classList.add("hidden");
+          div_password_other_error.classList.remove("hidden");
+        }
+      });
+  }
+});
+
+document.getElementById("form_useradd").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const new_userID = document.getElementById("useradd_ID_text").value;
+  const new_name = document.getElementById("useradd_name_text").value;
+  const password = document.getElementById("useradd_password_text").value;
+  let new_privilege = "1";
+  if (privilege === 7) {
+    new_privilege = document.getElementById("useradd_privilege_text").value;
+  }
+
+  fetch('http://localhost:5000/CheckUseradd', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({new_userID, new_name, password, new_privilege})
+  }).then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        alert("添加成功！");
+        location.reload();
+      } else {
+        div_useradd_error.classList.remove("hidden");
+      }
+    })
+});
+
+document.getElementById("form_delete").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const delete_userID = document.getElementById("delete_ID_text").value;
+  fetch('http://localhost:5000/CheckDelete', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({delete_userID})
+  }).then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        alert("删除成功！");
+        location.reload();
+      } else {
+        div_delete_error.classList.remove("hidden");
+      }
+    })
 })

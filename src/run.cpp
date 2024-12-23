@@ -206,7 +206,9 @@ void Run::Register() {
   }
   Account new_account(userID, password, username);
   account_system_.Add(new_account);
+#ifdef front_end
   std::cout << "Success\n";
+#endif
 
   RegisterOperation register_ope;
   register_ope.time_ = ++time_;
@@ -272,6 +274,9 @@ void Run::Password() {
     cur_account_.UpdatePassword(new_password);
   }
   account_system_.Modify(userID, tmp_acc);
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
 
   PasswordOperation password_ope;
   password_ope.time_ = ++time_;
@@ -331,6 +336,9 @@ void Run::Useradd() {
   }
   Account new_account(userID, password, username, privilege);
   account_system_.Add(new_account);
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
 
   CreateOperation create_ope;
   create_ope.time_ = ++time_;
@@ -363,6 +371,9 @@ void Run::Delete() {
     return;
   }
   account_system_.Delete(tmp_acc);
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
 
   DeleteOperation delete_ope;
   delete_ope.time_ = ++time_;

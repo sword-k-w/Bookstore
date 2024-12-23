@@ -46,5 +46,35 @@ def CheckRegister() :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
 
+@app.route('/CheckPassword', methods = ['POST'])
+def CheckPassword() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("passwd " + tmp.get("new_userID") + " " + tmp.get("password") + " " + tmp.get("new_password") + '\n')
+    cpp_executable.stdin.flush()
+    output = cpp_executable.stdout.readline().strip()
+    if output == "Success" :
+        return jsonify({"result" : True})
+    return jsonify({"result" : False})
+
+@app.route('/CheckUseradd', methods = ['POST'])
+def CheckUseradd() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("useradd " + tmp.get("new_userID") + " " + tmp.get("password") + " " + tmp.get("new_privilege") + " " + tmp.get("new_name") + '\n')
+    cpp_executable.stdin.flush()
+    output = cpp_executable.stdout.readline().strip()
+    if output == "Success" :
+        return jsonify({"result" : True})
+    return jsonify({"result" : False})
+
+@app.route('/CheckDelete', methods = ['POST'])
+def CheckDelete() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("delete " + tmp.get("delete_userID") + '\n')
+    cpp_executable.stdin.flush()
+    output = cpp_executable.stdout.readline().strip()
+    if output == "Success" :
+        return jsonify({"result" : True})
+    return jsonify({"result" : False})
+
 if __name__ == '__main__' :
     app.run(debug = True)
