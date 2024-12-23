@@ -2,14 +2,6 @@
 #include <vector>
 #include <cassert>
 
-std::ostream &operator << (std::ostream &os, const std::array<char, 30> &x) {
-  for (size_t i = 0; i < 30; ++i) {
-    if (x[i] != '\0') {
-      os << x[i];
-    }
-  }
-  return os;
-}
 
 // for debug
 void Account::Print() const {
@@ -41,6 +33,10 @@ std::array<char, 30> Account::UserID() const {
 
 std::array<char, 30> Account::Password() const {
   return password_;
+}
+
+std::array<char, 30> Account::Username() const {
+  return username_;
 }
 
 unsigned char Account::Privilege() const {

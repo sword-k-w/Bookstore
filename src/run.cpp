@@ -69,6 +69,12 @@ void Run::run() {
       Log();
     } else if (type == "report") {
       Report();
+    } else if (type == "info") {
+#ifdef front_end
+      Info();
+#else
+      std::cout << "Invalid\n";
+#endif
     } else {
       std::cout << "Invalid\n";
     }
@@ -118,6 +124,9 @@ void Run::Login() {
   select_.emplace(-1);
   cur_book_ = -1;
   cur_account_ = nxt;
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
 
   LoginOperation login_ope;
   login_ope.time_ = ++time_;
@@ -197,6 +206,7 @@ void Run::Register() {
   }
   Account new_account(userID, password, username);
   account_system_.Add(new_account);
+  std::cout << "Success\n";
 
   RegisterOperation register_ope;
   register_ope.time_ = ++time_;
@@ -730,4 +740,17 @@ void Run::Report() {
   } else {
     std::cout << "Invalid\n";
   }
+}
+
+void Run::Info() {
+  if (!cur_command_.GetToken().empty()) {
+    std::cout << "Invalid\n";
+    return;
+  }
+  std::cout << static_cast<int>(cur_account_.Privilege()) << " ";
+  if (cur_account_.Privilege() == 0) {
+    std::cout << "visitor visitor\n";
+    return;
+  }
+  std::cout << cur_account_.UserID() << " " << cur_account_.Username() << '\n';
 }

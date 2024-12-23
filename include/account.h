@@ -22,12 +22,12 @@ public:
   size_t OnlineCount() const;
   std::array<char, 30> UserID() const;
   std::array<char, 30> Password() const;
+  std::array<char, 30> Username() const;
   unsigned char Privilege() const;
   friend bool operator < (const Account &x, const Account &y);
   friend bool operator == (const Account &x, const Account &y);
   void Print() const;
 };
-
 
 class AccountSystem {
 private:

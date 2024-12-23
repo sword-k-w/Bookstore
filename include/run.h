@@ -35,6 +35,7 @@ public:
   void Import();
   void Log();
   void Report();
+  void Info();
 };
 
 #endif //FRONT_END_H

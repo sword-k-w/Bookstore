@@ -369,4 +369,22 @@ void UnrolledLinkedList<key_type, value_type, max_size, max_block_size>::BlockPr
 //  std::cerr << "\n";
 }
 
+template<size_t length>
+std::string ToString(const std::array<char, length> &tmp) {
+  std::string res;
+  for (size_t i = 0; i < length; ++i) {
+    if (tmp[i] == '\0') {
+      break;
+    }
+    res += tmp[i];
+  }
+  return res;
+}
+
+template<size_t length>
+std::ostream &operator << (std::ostream &os, const std::array<char, length> &x) {
+  os << ToString(x);
+  return os;
+}
+
 #endif //UNROLLEDLINKEDLIST_HPP

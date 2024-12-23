@@ -29,23 +29,6 @@ bool operator == (const Book &x, const Book &y) {
   return x.id_ == y.id_ && x.ISBN_ == y.ISBN_ && x.book_name_ == y.book_name_ && x.author_ == y.author_ && x.keyword_ == y.keyword_ && x.price_ == y.price_ && x.stock_ == y.stock_;
 }
 
-std::ostream &operator << (std::ostream &os, const std::array<char, 20> &x) {
-  for (size_t i = 0; i < 20; ++i) {
-    if (x[i] != '\0') {
-      os << x[i];
-    }
-  }
-  return os;
-}
-
-std::ostream &operator << (std::ostream &os, const std::array<char, 60> &x) {
-  for (size_t i = 0; i < 60; ++i) {
-    if (x[i] != '\0') {
-      os << x[i];
-    }
-  }
-  return os;
-}
 
 void Book::Print() const {
   std::cout << ISBN_ << '\t' << book_name_ << '\t' << author_ << '\t' << keyword_ << '\t';

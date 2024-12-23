@@ -29,3 +29,13 @@ html {
     width: 500px;
     margin: 0 auto;
 }
+
+.option_button {
+    background-color: greenyellow;
+    width: 100px;
+    height: 60px;
+}
+
+.hidden {
+    display: none;
+}
