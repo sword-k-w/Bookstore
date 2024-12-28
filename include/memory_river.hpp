@@ -2,6 +2,7 @@
 #define MEMORYRIVER_HPP
 
 #include <fstream>
+#include <vector>
 
 template<class T, size_t info_len = 2>
 class MemoryRiver {
@@ -115,6 +116,14 @@ public:
       file_.seekg(tmp);
     }
     file_.read(reinterpret_cast<char *>(&t), sizeofT_);
+  }
+
+  std::vector<T> FindAll() {
+    std::vector<T> res(length_);
+    for (size_t i = 0; i < length_; ++i) {
+      Read(res[i], i);
+    }
+    return res;
   }
 };
 

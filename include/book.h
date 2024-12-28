@@ -34,7 +34,7 @@ struct Book {
 
 class BookSystem {
 private:
-  UnrolledLinkedList<int, Book> books_id_;
+  MemoryRiver<Book> books_id_;
   UnrolledLinkedList<std::array<char, 20>, int> books_ISBN_;
   UnrolledLinkedList<std::array<char, 60>, int> books_name_;
   UnrolledLinkedList<std::array<char, 60>, int> books_author_;
@@ -48,7 +48,7 @@ public:
   std::vector<Book> QueryAuthor(const std::array<char, 60> &);
   std::vector<Book> QueryKeyword(const std::array<char, 60> &);
   std::vector<Book> QueryAll();
-  void Add(const Book &);
+  void Add(Book &);
   void ModifyISBN(const std::array<char, 20> &, const std::array<char, 20> &);
   void ModifyName(const std::array<char, 20> &, const std::array<char, 60> &);
   void ModifyAuthor(const std::array<char, 20> &, const std::array<char, 60> &);

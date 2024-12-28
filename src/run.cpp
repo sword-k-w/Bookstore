@@ -512,7 +512,7 @@ void Run::Select() {
   }
   auto book = book_system_.QueryISBN(ISBN)[0];
   if (book.price_ < 0) {
-    book = Book(book_system_.Size() + 1, ISBN);
+    book = Book(book_system_.Size(), ISBN);
     book_system_.Add(book);
   }
   cur_book_ = book.id_;
