@@ -65,7 +65,7 @@ std::vector<std::array<char, 60>> GetKeywords(const std::array<char, 60> &keywor
 }
 
 void BookSystem::Add(Book &book) {
-  books_id_.Update(book, book.id_);
+  books_id_.Write(book);
   books_ISBN_.Insert(book.ISBN_, book.id_);
   books_name_.Insert(book.book_name_, book.id_);
   books_author_.Insert(book.author_, book.id_);
@@ -135,7 +135,7 @@ void BookSystem::ModifyPrice(const std::array<char, 20> &ISBN, const double &new
 }
 
 Book BookSystem::QueryId(const int &id) {
-  if (books_id_.Length() >= id) {
+  if (books_id_.Length() <= id) {
     return Book();
   }
   Book book;

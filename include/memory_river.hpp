@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <vector>
+#include <iostream>
 
 template<class T, size_t info_len = 2>
 class MemoryRiver {

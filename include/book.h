@@ -41,7 +41,9 @@ private:
   UnrolledLinkedList<std::array<char, 60>, int> books_keyword_;
 public:
   BookSystem() = delete;
-  BookSystem(const std::string &name) : books_id_(name + "_id"), books_ISBN_(name + "_ISBN"), books_name_(name + "_name"), books_author_(name + "_author"), books_keyword_(name + "_keyword") {}
+  BookSystem(const std::string &name) : books_id_(name + "_id"), books_ISBN_(name + "_ISBN"), books_name_(name + "_name"), books_author_(name + "_author"), books_keyword_(name + "_keyword") {
+    books_id_.Initialise();
+  }
   Book QueryId(const int &);
   std::vector<Book> QueryISBN(const std::array<char, 20> &);
   std::vector<Book> QueryName(const std::array<char, 60> &);
