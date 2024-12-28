@@ -54,8 +54,6 @@ void LogSystem::QueryTrade(const size_t &count) {
   }
 }
 
-
-
 std::string ToString(const Book &book) {
   return "(-ISBN=" + ToString(book.ISBN_) + " -name=\"" + ToString(book.book_name_) + "\" -author=\"" + ToString(book.author_) + "\" -keyword=\"" + ToString(book.keyword_) + "\")";
 }

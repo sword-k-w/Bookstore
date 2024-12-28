@@ -21,102 +21,101 @@ Run::~Run() {
 
 void Run::run() {
   while (true) {
-    bool res = cur_command_.Read();
-    std::string type = cur_command_.GetToken();
-    if (type.empty()) {
-      if (!res) {
-        break;
-      }
-      continue;
-    } else if (type == "quit" || type == "exit") {
-      if (!cur_command_.GetToken().empty()) {
-        std::cout << "Invalid\n";
+    try {
+      bool res = cur_command_.Read();
+      std::string type = cur_command_.GetToken();
+      if (type.empty()) {
         if (!res) {
           break;
         }
         continue;
-      }
-      ExitOperation exit_ope;
-      exit_ope.time_ = ++time_;
-      Operation ope{};
-      ope.operation_type_ = Operation::kExit;
-      ope.exit_operation_ = exit_ope;
-      log_system_.RecordOperation(ope);
-      break;
-    } else if (type == "su") {
-      Login();
-    } else if (type == "logout") {
-      Logout(false);
-    } else if (type == "register") {
-      Register();
-    } else if (type == "passwd") {
-      Password();
-    } else if (type == "useradd") {
-      Useradd();
-    } else if (type == "delete") {
-      Delete();
-    } else if (type == "show") {
-      Show();
-    } else if (type == "buy") {
-      Buy();
-    } else if (type == "select") {
-      Select();
-    } else if (type == "modify") {
-      Modify();
-    } else if (type == "import") {
-      Import();
-    } else if (type == "log") {
-      Log();
-    } else if (type == "report") {
-      Report();
-    } else if (type == "info") {
+      } else if (type == "quit" || type == "exit") {
+        if (!cur_command_.GetToken().empty()) {
+          std::cout << "Invalid\n";
+          if (!res) {
+            break;
+          }
+          continue;
+        }
+        ExitOperation exit_ope;
+        exit_ope.time_ = ++time_;
+        Operation ope{};
+        ope.operation_type_ = Operation::kExit;
+        ope.exit_operation_ = exit_ope;
+        log_system_.RecordOperation(ope);
+        break;
+      } else if (type == "su") {
+        Login();
+      } else if (type == "logout") {
+        Logout(false);
+      } else if (type == "register") {
+        Register();
+      } else if (type == "passwd") {
+        Password();
+      } else if (type == "useradd") {
+        Useradd();
+      } else if (type == "delete") {
+        Delete();
+      } else if (type == "show") {
+        Show();
+      } else if (type == "buy") {
+        Buy();
+      } else if (type == "select") {
+        Select();
+      } else if (type == "modify") {
+        Modify();
+      } else if (type == "import") {
+        Import();
+      } else if (type == "log") {
+        Log();
+      } else if (type == "report") {
+        Report();
+      } else if (type == "info") {
 #ifdef front_end
-      Info();
+        Info();
 #else
-      std::cout << "Invalid\n";
+        std::cout << "Invalid\n";
 #endif
-    } else {
-      std::cout << "Invalid\n";
+      } else {
+        std::cout << "Invalid\n";
+      }
+      if (!res) {
+        break;
+      }
+    } catch(Invalid x) {
+      std::cout << x.what();
     }
-    if (!res) {
-      break;
-    }
+
   }
 }
 
 void Run::Login() {
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto userID = ToUserID(tmp);
   if (userID[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   Account nxt = account_system_.Find(userID);
 
   if (!nxt.Privilege()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     if (nxt.Privilege() >= cur_account_.Privilege()) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
   } else {
     auto password = ToPassword(tmp);
     if (password[0] == '\n' || !nxt.CheckPassword(password)) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
   }
   if (!cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   nxt.ModifyOnlineCount(1);
   account_system_.Modify(userID, nxt);
@@ -139,12 +138,10 @@ void Run::Login() {
 
 void Run::Logout(bool force) {
   if (online_.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   if (!cur_command_.GetToken().empty() && !force) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
 
   LogoutOperation logout_ope;
@@ -172,37 +169,30 @@ void Run::Logout(bool force) {
 void Run::Register() {
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto userID = ToUserID(tmp);
   if (userID[0] == '\n' || account_system_.Find(userID).Privilege()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto password = ToPassword(tmp);
   if (password[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto username = ToUsername(tmp);
   if (username[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   if (!cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   Account new_account(userID, password, username);
   account_system_.Add(new_account);
@@ -221,51 +211,42 @@ void Run::Register() {
 
 void Run::Password() {
   if (cur_account_.Privilege() < 1) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto userID = ToUserID(tmp);
   if (userID[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   Account tmp_acc = account_system_.Find(userID);
   if (!tmp_acc.Privilege()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto password = ToPassword(tmp);
   if (password[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   std::array<char, 30> new_password;
   if (tmp.empty()) {
     if (cur_account_.Privilege() != 7) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
     new_password = password;
   } else {
     std::array<char, 30> password_prime = ToPassword(tmp);
     if (password_prime[0] == '\n' || !tmp_acc.CheckPassword(password)) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
     if (!cur_command_.GetToken().empty()) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
     new_password = password_prime;
   }
@@ -291,48 +272,39 @@ void Run::Password() {
 
 void Run::Useradd() {
   if (cur_account_.Privilege() < 3) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto userID = ToUserID(tmp);
   if (userID[0] == '\n' || account_system_.Find(userID).Privilege()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto password = ToPassword(tmp);
   if (password[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto privilege = ToPrivilege(tmp);
   if (!privilege || privilege >= cur_account_.Privilege()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto username = ToUsername(tmp);
   if (username[0] == '\n' || !cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   Account new_account(userID, password, username, privilege);
   account_system_.Add(new_account);
@@ -352,23 +324,19 @@ void Run::Useradd() {
 
 void Run::Delete() {
   if (cur_account_.Privilege() != 7) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::array<char, 30> userID = ToUserID(tmp);
   if (userID[0] == '\n' || !cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   Account tmp_acc = account_system_.Find(userID);
   if (!tmp_acc.Privilege() || tmp_acc.OnlineCount()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   account_system_.Delete(tmp_acc);
 #ifdef front_end
@@ -387,8 +355,7 @@ void Run::Delete() {
 
 void Run::Show() {
   if (cur_account_.Privilege() < 1) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
@@ -397,18 +364,17 @@ void Run::Show() {
     if (books.empty()) {
       std::cout << '\n';
     }
-    std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+    std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
       return x.ISBN_ < y.ISBN_;
     });
-    for (auto &book : books) {
+    for (auto &book: books) {
       book.Print();
     }
   } else {
     if (tmp == "finance") {
       // finance log
       if (cur_account_.Privilege() < 7) {
-        std::cout << "Invalid\n";
-        return;
+        throw Invalid();
       }
       tmp = cur_command_.GetToken();
       if (tmp.empty()) {
@@ -416,8 +382,7 @@ void Run::Show() {
       } else {
         auto count = ToCount(tmp);
         if (count < 0 || !cur_command_.GetToken().empty()) {
-          std::cout << "Invalid\n";
-          return;
+          throw Invalid();
         }
         log_system_.QueryTrade(count);
       }
@@ -430,59 +395,54 @@ void Run::Show() {
           if (author[0] == '\n') {
             auto keyword = ToKeyword_(tmp);
             if (keyword[0] == '\n') {
-              std::cout << "Invalid\n";
-              return;
+              throw Invalid();
             }
             if (!cur_command_.GetToken().empty()) {
-              std::cout << "Invalid\n";
-              return;
+              throw Invalid();
             }
             auto books = book_system_.QueryKeyword(keyword);
-            std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+            std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
               return x.ISBN_ < y.ISBN_;
             });
             if (books.empty()) {
               std::cout << '\n';
             }
-            for (auto &book : books) {
+            for (auto &book: books) {
               book.Print();
             }
           } else {
             if (!cur_command_.GetToken().empty()) {
-              std::cout << "Invalid\n";
-              return;
+              throw Invalid();
             }
             auto books = book_system_.QueryAuthor(author);
-            std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+            std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
               return x.ISBN_ < y.ISBN_;
             });
             if (books.empty()) {
               std::cout << '\n';
             }
-            for (auto &book : books) {
+            for (auto &book: books) {
               book.Print();
             }
           }
         } else {
           if (!cur_command_.GetToken().empty()) {
-            std::cout << "Invalid\n";
-            return;
+            throw Invalid();
           }
           auto books = book_system_.QueryName(book_name);
-          std::sort(books.begin(), books.end(), [&] (const Book &x, const Book &y) {
+          std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
             return x.ISBN_ < y.ISBN_;
           });
           if (books.empty()) {
             std::cout << '\n';
           }
-          for (auto &book : books) {
+          for (auto &book: books) {
             book.Print();
           }
         }
       } else {
         if (!cur_command_.GetToken().empty()) {
-          std::cout << "Invalid\n";
-          return;
+          throw Invalid();
         }
         Book book = book_system_.QueryISBN(ISBN)[0];
         if (book.price_ < 0) {
@@ -504,29 +464,24 @@ void Run::Show() {
 
 void Run::Buy() {
   if (cur_account_.Privilege() < 1) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto ISBN = ToISBN(tmp);
   if (ISBN[0] == '\n') {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   auto quantity = ToQuantity(tmp);
   if (quantity <= 0 || !cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto book = book_system_.QueryISBN(ISBN)[0];
   if (book.stock_ < quantity) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   book_system_.ModifyStock(ISBN, book.stock_ - quantity);
   log_system_.RecordTrade(quantity * book.price_);
@@ -545,18 +500,15 @@ void Run::Buy() {
 
 void Run::Select() {
   if (cur_account_.Privilege() < 3) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto ISBN = ToISBN(tmp);
   if (ISBN[0] == '\n' || !cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto book = book_system_.QueryISBN(ISBN)[0];
   if (book.price_ < 0) {
@@ -573,13 +525,11 @@ void Run::Modify() {
   Book cur_book = book_system_.QueryId(cur_book_);
 
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::array<char, 20> new_ISBN = {'\n'};
   std::array<char, 60> new_name = {'\n'};
@@ -590,45 +540,39 @@ void Run::Modify() {
     auto ISBN = ToISBN_(tmp);
     if (ISBN[0] != '\n') {
       if (new_ISBN[0] != '\n') {
-        std::cout << "Invalid\n";
-        return;
+        throw Invalid();
       }
       new_ISBN = ISBN;
     } else {
       auto book_name = ToBookName_(tmp);
       if (book_name[0] != '\n') {
         if (new_name[0] != '\n') {
-          std::cout << "Invalid\n";
-          return;
+          throw Invalid();
         }
         new_name = book_name;
       } else {
         auto author = ToAuthor_(tmp);
         if (author[0] != '\n') {
           if (new_author[0] != '\n') {
-            std::cout << "Invalid\n";
-            return;
+            throw Invalid();
           }
           new_author = author;
         } else {
           auto keyword = ToKeywords_(tmp);
           if (keyword[0] != '\n') {
             if (new_keyword[0] != '\n') {
-              std::cout << "Invalid\n";
-              return;
+              throw Invalid();
             }
             new_keyword = keyword;
           } else {
             auto price = ToPrice_(tmp);
             if (price >= 0) {
               if (new_price >= 0) {
-                std::cout << "Invalid\n";
-                return;
+                throw Invalid();
               }
               new_price = price;
             } else {
-              std::cout << "Invalid\n";
-              return;
+              throw Invalid();
             }
           }
         }
@@ -637,8 +581,7 @@ void Run::Modify() {
     tmp = cur_command_.GetToken();
   }
   if (book_system_.QueryISBN(new_ISBN)[0].price_ >= 0) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   Book tmp_book = cur_book;
   if (new_name[0] != '\n') {
@@ -676,28 +619,23 @@ void Run::Modify() {
 void Run::Import() {
   Book cur_book = book_system_.QueryId(cur_book_);
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto quantity = ToQuantity(tmp);
   if (quantity <= 0) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   auto total_cost = ToTotalCost(tmp);
   if (total_cost <= 0 || !cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   book_system_.ModifyStock(cur_book.ISBN_, cur_book.stock_ + quantity);
   log_system_.RecordTrade(-total_cost);
@@ -716,47 +654,40 @@ void Run::Import() {
 
 void Run::Log() {
   if (cur_account_.Privilege() < 7) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   if (!cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   log_system_.ReportLog();
 }
 
 void Run::Report() {
   if (cur_account_.Privilege() < 7) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::string tmp = cur_command_.GetToken();
   if (tmp.empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   if (tmp == "finance") {
     if (!cur_command_.GetToken().empty()) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
     log_system_.ReportFinance();
   } else if (tmp == "employee") {
     if (!cur_command_.GetToken().empty()) {
-      std::cout << "Invalid\n";
-      return;
+      throw Invalid();
     }
     log_system_.ReportEmployee();
   } else {
-    std::cout << "Invalid\n";
+    throw Invalid();
   }
 }
 
 void Run::Info() {
   if (!cur_command_.GetToken().empty()) {
-    std::cout << "Invalid\n";
-    return;
+    throw Invalid();
   }
   std::cout << static_cast<int>(cur_account_.Privilege()) << " ";
   if (cur_account_.Privilege() == 0) {

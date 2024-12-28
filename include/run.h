@@ -7,6 +7,13 @@
 #include "log.h"
 #include "command.h"
 
+class Invalid : std::exception {
+public:
+  const char *what() const noexcept override {
+    return"Invalid\n";
+  }
+};
+
 class Run {
 private:
   AccountSystem account_system_;
