@@ -376,7 +376,21 @@ std::string ToString(const std::array<unsigned int, length> &tmp) {
     if (tmp[i] == '\0') {
       break;
     }
-    res += tmp[i];
+    if (tmp[i] <= 0x7F) { // 0xxxxxxx
+      res += tmp[i];
+    } else if (tmp[i] <= 0x7FF) { // 110xxxxx 10xxxxxx
+      res += (0xC0 | (tmp[i] >> 6));
+      res += (0x80 | (tmp[i] & 0x3F));
+    } else if (tmp[i] <= 0xFFFF) { // 1110xxxx 10xxxxxx 10xxxxxx
+      res += (0xE0 | (tmp[i] >> 12));
+      res += (0x80 | ((tmp[i] >> 6) & 0x3F));
+      res += (0x80 | (tmp[i] & 0x3F));
+    } else { // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+      res += (0xF0 | (tmp[i] >> 18));
+      res += (0x80 | ((tmp[i] >> 12) & 0x3F));
+      res += (0x80 | ((tmp[i] >> 6) & 0x3F));
+      res += (0x80 | (tmp[i] & 0x3F));
+    }
   }
   return res;
 }

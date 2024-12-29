@@ -18,6 +18,7 @@ public:
   std::basic_string<unsigned int> GetToken();
 };
 
+bool IsChinese(unsigned int);
 std::array<unsigned int, 30> ToUserID(const std::basic_string<unsigned int> &);
 std::array<unsigned int, 30> ToPassword(const std::basic_string<unsigned int> &);
 std::array<unsigned int, 30> ToUsername(const std::basic_string<unsigned int> &);

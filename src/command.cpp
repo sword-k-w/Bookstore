@@ -18,7 +18,7 @@ bool Command::Read() {
     } else if ((ch & 0xE0) == 0xC0) { // 110xxxxx 10xxxxxxx
       res = (ch & 0x1F) << 6;
       assert(std::cin.get(ch));
-      res |= ch & 0x3F;
+      res |= (ch & 0x3F);
     } else if ((ch & 0xF0) == 0xE0) { // 1110xxxx 10xxxxxxx 10xxxxxx
       res = (ch & 0x0F) << 12;
       assert(std::cin.get(ch));
@@ -35,7 +35,7 @@ bool Command::Read() {
       assert(std::cin.get(ch));
       res |= ch & 0x3F;
     }
-    command += ch;
+    command += res;
   }
   return false;
 }
@@ -53,6 +53,13 @@ std::basic_string<unsigned int> Command::GetToken() {
     ++cur_pos;
   }
   return res;
+}
+
+bool IsChinese(unsigned int x) {
+  return x == 0x00B7 || x == 0x2014 || x == 0xFF08 || x == 0xFF09 || x == 0xFF1A || (0x4E00 <= x && x <= 0x9FFF)
+    || (0x3400 <= x && x <= 0x4DBF) || (0x20000 <= x && x <= 0x2A6DF) || (0x2A700 <= x && x <= 0x2B73F)
+    || (0x2B740 <= x && x <= 0x2B81F) || (0x2B820 <= x && x <= 0x2CEAF) || (0x30000 <= x && x <= 0x3134F)
+    || (0x31350 <= x && x <= 0x323AF) || (0xF900 <= x && x <= 0xFAFF) || (0x2F800 <= x && x <= 0x2FA1F);
 }
 
 /**
@@ -140,7 +147,7 @@ std::array<unsigned int, 60> ToBookName(const std::basic_string<unsigned int> &s
   std::array<unsigned int, 60> res;
   std::fill(res.begin(), res.end(), 0);
   for (size_t i = 0; i < size; ++i) {
-    if (!isprint(s[i]) || s[i] == '\"') {
+    if ((!isprint(s[i]) || s[i] == '\"') && !IsChinese(s[i])) {
       return {'\n'};
     }
     res[i] = s[i];
@@ -166,7 +173,7 @@ std::array<unsigned int, 60> ToKeyword(const std::basic_string<unsigned int> &s)
   std::array<unsigned int, 60> res;
   std::fill(res.begin(), res.end(), 0);
   for (size_t i = 0; i < size; ++i) {
-    if (!isprint(s[i]) || s[i] == '\"' || s[i] == '|') {
+    if ((!isprint(s[i]) || s[i] == '\"' || s[i] == '|') && !IsChinese(s[i])) {
       return {'\n'};
     }
     res[i] = s[i];
@@ -185,7 +192,7 @@ std::array<unsigned int, 60> ToKeywords(const std::basic_string<unsigned int> &s
   std::set<std::basic_string<unsigned int>> keywords;
   keywords.insert({});
   for (size_t i = 0; i < size; ++i) {
-    if (!isprint(s[i]) || s[i] == '\"') {
+    if ((!isprint(s[i]) || s[i] == '\"') && !IsChinese(s[i])) {
       return {'\n'};
     }
     if (s[i] == '|') {
