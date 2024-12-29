@@ -20,7 +20,7 @@ private:
   BookSystem book_system_;
   LogSystem log_system_;
   size_t time_;
-  std::stack<std::array<char, 30>> online_;
+  std::stack<std::array<unsigned int, 30>> online_;
   std::stack<int> select_;
   int cur_book_;
   Account cur_account_;

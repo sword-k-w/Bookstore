@@ -26,7 +26,7 @@ struct DeleteOperation : BasicInfo {
 };
 
 struct PasswordOperation : BasicInfo {
-  std::array<char, 30> new_password_;
+  std::array<unsigned int, 30> new_password_;
   Account modified_;
 };
 
@@ -74,9 +74,9 @@ struct Operation {
 class LogSystem {
 private:
   MemoryRiver<std::pair<double, double>> finance_;
-  MemoryRiver<std::array<char, 400>> finance_report_;
-  MemoryRiver<std::array<char, 400>> log_;
-  UnrolledLinkedList<std::array<char, 30>, std::array<char, 400>> employee_report_;
+  MemoryRiver<std::array<unsigned int, 400>> finance_report_;
+  MemoryRiver<std::array<unsigned int, 400>> log_;
+  UnrolledLinkedList<std::array<unsigned int, 30>, std::array<unsigned int, 400>> employee_report_;
 public:
   LogSystem() = delete;
   LogSystem(const std::string &name) : finance_(name + "_finance"), finance_report_(name + "_finance_report"), log_(name), employee_report_(name + "_employee_report") {

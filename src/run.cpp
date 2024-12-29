@@ -4,10 +4,23 @@
 #include <iostream>
 #include <algorithm>
 
+bool operator == (const std::basic_string<unsigned int> &a, const std::string &b) {
+  if (a.size() != b.size()) {
+    return false;
+  }
+  size_t size = a.size();
+  for (size_t i = 0; i < size; ++i) {
+    if (a[i] != b[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 Run::Run() : account_system_("accounts"), book_system_("books"), log_system_("log") {
   time_ = log_system_.QueryTime();
   if (!time_) {
-    account_system_.Add(Account(ToUserID("root"), ToPassword("sjtu"), ToUsername("sword"), 7));
+    account_system_.Add(Account(ToUserID({'r', 'o', 'o', 't'}), ToPassword({'s', 'j', 't', 'u'}), ToUsername({'s', 'w', 'o', 'r', 'd'}), 7));
   }
 }
 
@@ -23,7 +36,7 @@ void Run::run() {
   while (true) {
     try {
       bool res = cur_command_.Read();
-      std::string type = cur_command_.GetToken();
+      std::basic_string<unsigned int> type = cur_command_.GetToken();
       if (type.empty()) {
         if (!res) {
           break;
@@ -90,7 +103,7 @@ void Run::run() {
 }
 
 void Run::Login() {
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -167,7 +180,7 @@ void Run::Logout(bool force) {
 }
 
 void Run::Register() {
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -213,7 +226,7 @@ void Run::Password() {
   if (cur_account_.Privilege() < 1) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -234,14 +247,14 @@ void Run::Password() {
     throw Invalid();
   }
   tmp = cur_command_.GetToken();
-  std::array<char, 30> new_password;
+  std::array<unsigned int, 30> new_password;
   if (tmp.empty()) {
     if (cur_account_.Privilege() != 7) {
       throw Invalid();
     }
     new_password = password;
   } else {
-    std::array<char, 30> password_prime = ToPassword(tmp);
+    std::array<unsigned int, 30> password_prime = ToPassword(tmp);
     if (password_prime[0] == '\n' || !tmp_acc.CheckPassword(password)) {
       throw Invalid();
     }
@@ -274,7 +287,7 @@ void Run::Useradd() {
   if (cur_account_.Privilege() < 3) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -326,11 +339,11 @@ void Run::Delete() {
   if (cur_account_.Privilege() != 7) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
-  std::array<char, 30> userID = ToUserID(tmp);
+  std::array<unsigned int, 30> userID = ToUserID(tmp);
   if (userID[0] == '\n' || !cur_command_.GetToken().empty()) {
     throw Invalid();
   }
@@ -357,7 +370,7 @@ void Run::Show() {
   if (cur_account_.Privilege() < 1) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     // show all books
     auto books = book_system_.QueryAll();
@@ -466,7 +479,7 @@ void Run::Buy() {
   if (cur_account_.Privilege() < 1) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -502,7 +515,7 @@ void Run::Select() {
   if (cur_account_.Privilege() < 3) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -527,14 +540,14 @@ void Run::Modify() {
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
-  std::array<char, 20> new_ISBN = {'\n'};
-  std::array<char, 60> new_name = {'\n'};
-  std::array<char, 60> new_author = {'\n'};
-  std::array<char, 60> new_keyword = {'\n'};
+  std::array<unsigned int, 20> new_ISBN = {'\n'};
+  std::array<unsigned int, 60> new_name = {'\n'};
+  std::array<unsigned int, 60> new_author = {'\n'};
+  std::array<unsigned int, 60> new_keyword = {'\n'};
   double new_price = -1;
   while (!tmp.empty()) {
     auto ISBN = ToISBN_(tmp);
@@ -621,7 +634,7 @@ void Run::Import() {
   if (cur_account_.Privilege() < 3 || cur_book.price_ < 0) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }
@@ -666,7 +679,7 @@ void Run::Report() {
   if (cur_account_.Privilege() < 7) {
     throw Invalid();
   }
-  std::string tmp = cur_command_.GetToken();
+  std::basic_string<unsigned int> tmp = cur_command_.GetToken();
   if (tmp.empty()) {
     throw Invalid();
   }

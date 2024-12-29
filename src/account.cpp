@@ -19,23 +19,23 @@ void Account::ModifyOnlineCount(const int &delta) {
 }
 
 
-bool Account::CheckPassword(const std::array<char, 30> &password) const {
+bool Account::CheckPassword(const std::array<unsigned int, 30> &password) const {
   return password == password_;
 }
 
-void Account::UpdatePassword(const std::array<char, 30> &new_password) {
+void Account::UpdatePassword(const std::array<unsigned int, 30> &new_password) {
   password_ = new_password;
 }
 
-std::array<char, 30> Account::UserID() const {
+std::array<unsigned int, 30> Account::UserID() const {
   return userID_;
 }
 
-std::array<char, 30> Account::Password() const {
+std::array<unsigned int, 30> Account::Password() const {
   return password_;
 }
 
-std::array<char, 30> Account::Username() const {
+std::array<unsigned int, 30> Account::Username() const {
   return username_;
 }
 
@@ -67,7 +67,7 @@ bool operator == (const Account &x, const Account &y) {
  *
  * @return if not finded, the privilege is zero.
  */
-Account AccountSystem::Find(const std::array<char, 30> &userID) {
+Account AccountSystem::Find(const std::array<unsigned int, 30> &userID) {
   std::vector<Account> res = accounts_.Find(userID);
   if (res.empty()) {
     return Account();
@@ -90,7 +90,7 @@ void AccountSystem::Delete(const Account &account) {
   accounts_.Delete(account.UserID(), account);
 }
 
-void AccountSystem::Modify(const std::array<char, 30> &userID, const Account &new_account) {
+void AccountSystem::Modify(const std::array<unsigned int, 30> &userID, const Account &new_account) {
   Account tmp = accounts_.Find(userID)[0];
   accounts_.Delete(userID, tmp);
   accounts_.Insert(userID, new_account);

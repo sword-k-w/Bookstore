@@ -58,13 +58,13 @@ std::string ToString(const Book &book) {
   return "(-ISBN=" + ToString(book.ISBN_) + " -name=\"" + ToString(book.book_name_) + "\" -author=\"" + ToString(book.author_) + "\" -keyword=\"" + ToString(book.keyword_) + "\")";
 }
 
-std::array<char, 400> ToInfo(const std::string &s) {
+std::array<unsigned int, 400> ToInfo(const std::string &s) {
   size_t size = s.size();
   if (size > 400) {
     std::cerr << "info too long!";
     exit(1);
   }
-  std::array<char, 400> res;
+  std::array<unsigned int, 400> res;
   std::fill(res.begin(), res.end(), 0);
   for (size_t i = 0; i < size; ++i) {
     res[i] = s[i];
@@ -76,7 +76,7 @@ constexpr int kWidthParameter1 = 7;
 constexpr int kWidthParameter2 = 35;
 
 void LogSystem::RecordOperation(const Operation &operation) {
-  std::array<char, 400> info;
+  std::array<unsigned int, 400> info;
   std::fill(info.begin(), info.end(), 0);
   Account account;
   std::stringstream ss;
@@ -184,7 +184,7 @@ void LogSystem::RecordOperation(const Operation &operation) {
   }
 }
 
-std::ostream &operator << (std::ostream &os, const std::array<char, 400> &x) {
+std::ostream &operator << (std::ostream &os, const std::array<unsigned int, 400> &x) {
   for (size_t i = 0; i < 400; ++i) {
     if (x[i] != '\0') {
       os << x[i];
@@ -199,7 +199,7 @@ void LogSystem::ReportLog() {
   std::cout << std::left << std::setw(kWidthParameter2) << "UserID" << "operation\n";
   size_t size = log_.Length();
   for (size_t i = 0; i < size; ++i) {
-    std::array<char, 400> tmp;
+    std::array<unsigned int, 400> tmp;
     log_.Read(tmp, i);
     std::cout << tmp << '\n';
   }
@@ -211,13 +211,13 @@ void LogSystem::ReportFinance() {
   std::cout << std::left << std::setw(kWidthParameter2) << "UserID" << "operation\n";
   size_t size = finance_report_.Length();
   for (size_t i = 0; i < size; ++i) {
-    std::array<char, 400> tmp;
+    std::array<unsigned int, 400> tmp;
     finance_report_.Read(tmp, i);
     std::cout << tmp << '\n';
   }
 }
 
-int ToTime(const std::array<char, 400> &x) {
+int ToTime(const std::array<unsigned int, 400> &x) {
   int res = 0;
   for (size_t i = 0; i < 6; ++i) {
     if (isdigit(x[i])) {
@@ -230,7 +230,7 @@ int ToTime(const std::array<char, 400> &x) {
 void LogSystem::ReportEmployee() {
   std::cout << "The Employee Report of Sword's Bookstore\n";
   auto tmp = employee_report_.FindAllInfo();
-  std::sort(tmp.begin(), tmp.end(), [&] (const std::pair<std::array<char, 30>, std::array<char, 400>> &x, const std::pair<std::array<char, 30>, std::array<char, 400>> &y) {
+  std::sort(tmp.begin(), tmp.end(), [&] (const std::pair<std::array<unsigned int, 30>, std::array<unsigned int, 400>> &x, const std::pair<std::array<unsigned int, 30>, std::array<unsigned int, 400>> &y) {
     return ToTime(x.second) < ToTime(y.second);
   });
   std::cout << "root's working log:\n";

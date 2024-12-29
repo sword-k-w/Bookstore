@@ -36,11 +36,11 @@ void Book::Print() const {
   std::cout << stock_ << '\n';
 }
 
-std::vector<std::array<char, 60>> GetKeywords(const std::array<char, 60> &keyword) {
-  std::vector<std::array<char, 60>> res;
+std::vector<std::array<unsigned int, 60>> GetKeywords(const std::array<unsigned int, 60> &keyword) {
+  std::vector<std::array<unsigned int, 60>> res;
   size_t las = 0;
   for (size_t i = 1; i < 60; ++i) {
-    std::array<char, 60> tmp;
+    std::array<unsigned int, 60> tmp;
     std::fill(tmp.begin(), tmp.end(), 0);
     if (keyword[i] == '|') {
       for (size_t j = las; j < i; ++j) {
@@ -75,7 +75,7 @@ void BookSystem::Add(Book &book) {
   }
 }
 
-void BookSystem::ModifyISBN(const std::array<char, 20> &ISBN, const std::array<char, 20> &new_ISBN) {
+void BookSystem::ModifyISBN(const std::array<unsigned int, 20> &ISBN, const std::array<unsigned int, 20> &new_ISBN) {
   Book book;
   books_id_.Read(book, books_ISBN_.Find(ISBN)[0]);
   books_ISBN_.Delete(ISBN, book.id_);
@@ -84,7 +84,7 @@ void BookSystem::ModifyISBN(const std::array<char, 20> &ISBN, const std::array<c
   books_ISBN_.Insert(new_ISBN, book.id_);
 }
 
-void BookSystem::ModifyName(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_name) {
+void BookSystem::ModifyName(const std::array<unsigned int, 20> &ISBN, const std::array<unsigned int, 60> &new_name) {
   Book book;
   books_id_.Read(book, books_ISBN_.Find(ISBN)[0]);
   books_name_.Delete(book.book_name_, book.id_);
@@ -93,7 +93,7 @@ void BookSystem::ModifyName(const std::array<char, 20> &ISBN, const std::array<c
   books_name_.Insert(new_name, book.id_);
 }
 
-void BookSystem::ModifyAuthor(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_author) {
+void BookSystem::ModifyAuthor(const std::array<unsigned int, 20> &ISBN, const std::array<unsigned int, 60> &new_author) {
   Book book;
   books_id_.Read(book, books_ISBN_.Find(ISBN)[0]);
   books_author_.Delete(book.author_, book.id_);
@@ -102,7 +102,7 @@ void BookSystem::ModifyAuthor(const std::array<char, 20> &ISBN, const std::array
   books_author_.Insert(new_author, book.id_);
 }
 
-void BookSystem::ModifyKeyword(const std::array<char, 20> &ISBN, const std::array<char, 60> &new_keyword) {
+void BookSystem::ModifyKeyword(const std::array<unsigned int, 20> &ISBN, const std::array<unsigned int, 60> &new_keyword) {
   Book book;
   books_id_.Read(book, books_ISBN_.Find(ISBN)[0]);
 
@@ -120,14 +120,14 @@ void BookSystem::ModifyKeyword(const std::array<char, 20> &ISBN, const std::arra
   }
 }
 
-void BookSystem::ModifyStock(const std::array<char, 20> &ISBN, const int &new_stock) {
+void BookSystem::ModifyStock(const std::array<unsigned int, 20> &ISBN, const int &new_stock) {
   Book book;
   books_id_.Read(book, books_ISBN_.Find(ISBN)[0]);
   book.stock_ = new_stock;
   books_id_.Update(book, book.id_);
 }
 
-void BookSystem::ModifyPrice(const std::array<char, 20> &ISBN, const double &new_price) {
+void BookSystem::ModifyPrice(const std::array<unsigned int, 20> &ISBN, const double &new_price) {
   Book book;
   books_id_.Read(book, books_ISBN_.Find(ISBN)[0]);
   book.price_ = new_price;
@@ -143,7 +143,7 @@ Book BookSystem::QueryId(const int &id) {
   return book;
 }
 
-std::vector<Book> BookSystem::QueryISBN(const std::array<char, 20> &ISBN) {
+std::vector<Book> BookSystem::QueryISBN(const std::array<unsigned int, 20> &ISBN) {
   std::vector<int> ids = books_ISBN_.Find(ISBN);
   if (ids.empty()) {
     return {Book()};
@@ -154,7 +154,7 @@ std::vector<Book> BookSystem::QueryISBN(const std::array<char, 20> &ISBN) {
   }
 }
 
-std::vector<Book> BookSystem::QueryName(const std::array<char, 60> &name) {
+std::vector<Book> BookSystem::QueryName(const std::array<unsigned int, 60> &name) {
   std::vector<int> ids = books_name_.Find(name);
   size_t size = ids.size();
   std::vector<Book> books(size);
@@ -164,7 +164,7 @@ std::vector<Book> BookSystem::QueryName(const std::array<char, 60> &name) {
   return books;
 }
 
-std::vector<Book> BookSystem::QueryAuthor(const std::array<char, 60> &author) {
+std::vector<Book> BookSystem::QueryAuthor(const std::array<unsigned int, 60> &author) {
   std::vector<int> ids = books_author_.Find(author);
   size_t size = ids.size();
   std::vector<Book> books(size);
@@ -174,7 +174,7 @@ std::vector<Book> BookSystem::QueryAuthor(const std::array<char, 60> &author) {
   return books;
 }
 
-std::vector<Book> BookSystem::QueryKeyword(const std::array<char, 60> &keyword) {
+std::vector<Book> BookSystem::QueryKeyword(const std::array<unsigned int, 60> &keyword) {
   std::vector<int> ids = books_keyword_.Find(keyword);
   size_t size = ids.size();
   std::vector<Book> books(size);
