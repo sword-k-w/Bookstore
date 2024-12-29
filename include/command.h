@@ -13,7 +13,6 @@ private:
 public:
   std::basic_string<unsigned int> command;
   Command() : cur_pos(0) {}
-  unsigned int Unicode(bool);
   bool Read();
   std::basic_string<unsigned int> GetToken();
 };
