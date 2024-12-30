@@ -11,6 +11,7 @@ const button_logout = document.getElementById("button_logout");
 const button_password = document.getElementById("button_password");
 const button_useradd = document.getElementById("button_useradd");
 const button_delete = document.getElementById("button_delete");
+const button_addbook = document.getElementById("button_addbook");
 const div_login = document.getElementById("div_login");
 const div_login_error = document.getElementById("div_login_error");
 const div_register = document.getElementById("div_register");
@@ -23,6 +24,8 @@ const div_useradd = document.getElementById("div_useradd");
 const div_useradd_error = document.getElementById("div_useradd_error");
 const div_delete = document.getElementById("div_delete");
 const div_delete_error = document.getElementById("div_delete_error");
+const div_addbook = document.getElementById("div_addbook");
+const div_addbook_error = document.getElementById("div_addbook_error");
 
 function CheckDisplay() {
   if (button_login.classList.contains("hidden")) {
@@ -40,7 +43,26 @@ function CheckDisplay() {
   if (button_delete.classList.contains("hidden")) {
     div_delete.classList.add("hidden");
   }
+  if (button_addbook.classList.contains("hidden")) {
+    div_addbook.classList.add("hidden");
+  }
 }
+
+function RemoveAccount() {
+  button_login.classList.add("hidden");
+  button_logout.classList.add("hidden");
+  button_register.classList.add("hidden");
+  button_password.classList.add("hidden");
+  button_useradd.classList.add("hidden");
+  button_delete.classList.add("hidden");
+  CheckDisplay();
+}
+
+function RemoveBook() {
+  button_addbook.classList.add("hidden");
+  CheckDisplay();
+}
+
 fetch('http://localhost:5000/GetUser')
   .then(response => response.json())
   .then(data => {
@@ -61,20 +83,20 @@ fetch('http://localhost:5000/GetUser')
 
 button_account.addEventListener("click", () => {
   if (privilege === 0) {
-    button_login.classList.remove("hidden");
-    button_register.classList.remove("hidden");
+    button_login.classList.toggle("hidden");
+    button_register.classList.toggle("hidden");
   }
   if (privilege !== 0) {
-    button_logout.classList.remove("hidden");
-    button_password.classList.remove("hidden");
+    button_logout.classList.toggle("hidden");
+    button_password.classList.toggle("hidden");
   }
   if (privilege === 7) {
-    button_delete.classList.remove("hidden");
+    button_delete.classList.toggle("hidden");
   }
   if (privilege >= 3) {
-    button_useradd.classList.remove("hidden");
+    button_useradd.classList.toggle("hidden");
   }
-  CheckDisplay();
+  RemoveBook();
 });
 
 button_login.addEventListener("click", () => {
@@ -112,6 +134,17 @@ button_delete.addEventListener("click", () => {
   div_password.classList.add("hidden");
   div_useradd.classList.add("hidden");
 });
+
+button_book.addEventListener("click", () => {
+  if (privilege >= 3) {
+    button_addbook.classList.toggle("hidden");
+  }
+  RemoveAccount();
+})
+
+button_addbook.addEventListener("click", () => {
+  div_addbook.classList.remove("hidden");
+})
 
 document.getElementById("form_login").addEventListener("submit", (event) => {
   event.preventDefault();
@@ -238,6 +271,33 @@ document.getElementById("form_delete").addEventListener("submit", (event) => {
         location.reload();
       } else {
         div_delete_error.classList.remove("hidden");
+      }
+    })
+})
+
+document.getElementById("form_addbook").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const ISBN = document.getElementById("addbook_ISBN").value;
+  const bookname = document.getElementById("addbook_bookname").value;
+  const author = document.getElementById("addbook_author").value;
+  const keyword1 = document.getElementById("addbook_keyword1").value;
+  const keyword2 = document.getElementById("addbook_keyword2").value;
+  const keyword3 = document.getElementById("addbook_keyword3").value;
+  const keyword4 = document.getElementById("addbook_keyword4").value;
+  const keyword5 = document.getElementById("addbook_keyword5").value;
+  fetch('http://localhost:5000/CheckAddbook', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ISBN, bookname, author, keyword1, keyword2, keyword3, keyword4, keyword5})
+  }).then(response => response.json())
+    .then(data =>{
+      if (data.result) {
+        alert("添加成功！");
+        location.reload();
+      } else {
+        div_addbook_error.classList.remove("hidden");
       }
     })
 })

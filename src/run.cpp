@@ -89,8 +89,6 @@ void Run::run() {
 #else
         std::cout << "Invalid\n";
 #endif
-      } else {
-        std::cout << "Invalid\n";
       }
       if (!res) {
         break;
@@ -399,6 +397,7 @@ void Run::Show() {
         }
         log_system_.QueryTrade(count);
       }
+      return;
     } else {
       auto ISBN = ToISBN_(tmp);
       if (ISBN[0] == '\n') {
@@ -465,14 +464,14 @@ void Run::Show() {
         }
       }
     }
-    SearchOperation search_ope;
-    search_ope.time_ = ++time_;
-    search_ope.cur_account_ = cur_account_;
-    Operation ope{};
-    ope.operation_type_ = Operation::kSearch;
-    ope.search_operation_ = search_ope;
-    log_system_.RecordOperation(ope);
   }
+  SearchOperation search_ope;
+  search_ope.time_ = ++time_;
+  search_ope.cur_account_ = cur_account_;
+  Operation ope{};
+  ope.operation_type_ = Operation::kSearch;
+  ope.search_operation_ = search_ope;
+  log_system_.RecordOperation(ope);
 }
 
 void Run::Buy() {
@@ -528,6 +527,9 @@ void Run::Select() {
     book = Book(book_system_.Size(), ISBN);
     book_system_.Add(book);
   }
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
   cur_book_ = book.id_;
   select_.pop();
   select_.emplace(book.id_);
@@ -617,6 +619,10 @@ void Run::Modify() {
     book_system_.ModifyISBN(cur_book.ISBN_, new_ISBN);
     cur_book.ISBN_ = new_ISBN;
   }
+
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
 
   ModifyOperation modify_ope;
   modify_ope.time_ = ++time_;

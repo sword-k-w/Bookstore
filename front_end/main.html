@@ -39,6 +39,9 @@
     <button class="option_button hidden" id="button_delete">
       <span>删除账户</span>
     </button>
+    <button class="option_button hidden" id="button_addbook">
+      <span>添加图书</span>
+    </button>
     <div id="div_login" class="hidden">
       <h2>登录</h2>
       <form id="form_login">
@@ -112,6 +115,25 @@
         </div>
         <button type="submit" id="button_try_delete">
           删除用户
+        </button>
+      </form>
+    </div>
+    <div id="div_addbook" class="hidden">
+      <h2>添加图书</h2>
+      <form id="form_addbook">
+        <input id="addbook_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
+        <input id="addbook_bookname" type="text" placeholder="请输入图书的书名"/>
+        <input id="addbook_author" type="text" placeholder="请输入图书的作者"/>
+        <input id="addbook_keyword1" type="text" placeholder="请输入图书的关键词1"/>
+        <input id="addbook_keyword2" type="text" placeholder="请输入图书的关键词2"/>
+        <input id="addbook_keyword3" type="text" placeholder="请输入图书的关键词3"/>
+        <input id="addbook_keyword4" type="text" placeholder="请输入图书的关键词4"/>
+        <input id="addbook_keyword5" type="text" placeholder="请输入图书的关键词5"/>
+        <div id="div_addbook_error" class="hidden">
+          该图书已存在或信息不合法
+        </div>
+        <button type="submit" id="button_try_addbook">
+          添加图书
         </button>
       </form>
     </div>
