@@ -9,23 +9,21 @@ app = Flask(__name__)
 
 CORS(app)
 
-def clear_cpp_output(cpp_executable):
-    """清空 C++ 程序的输出缓冲区"""
-    # 检查是否有多余的输出数据
-    while True:
-        # 使用 select 检查 stdout 是否有数据
-        ready_to_read, _, _ = select.select([cpp_executable.stdout], [], [], 0)
-        if not ready_to_read:
+def Output() :
+    ls = []
+    while True :
+        ready_to_read, _, _ = select.select([cpp_executable.stdout], [], [], 0.1)
+        if ready_to_read :
+            ls.append(cpp_executable.stdout.readline().strip())
+        else :
             break
-
-        # 读取并忽略数据
-        leftover = cpp_executable.stdout.readline().strip()
+    return ls
 
 @app.route('/GetUser', methods = ['GET'])
 def GetUser() :
     cpp_executable.stdin.write("info\n")
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().split()
+    output = Output()[0].split()
     return jsonify({
         "privilege" : int(output[0]),
         "userID" : output[1],
@@ -38,8 +36,7 @@ def CheckLogin() :
 
     cpp_executable.stdin.write("su " + tmp.get("new_userID") + " " + tmp.get("password") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    if output == "Success" :
+    if Output()[0] == "Success" :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
 
@@ -54,8 +51,7 @@ def CheckRegister() :
     tmp = request.get_json()
     cpp_executable.stdin.write("register " + tmp.get("new_userID") + " " + tmp.get("password") + " " + tmp.get("new_name") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    if output == "Success" :
+    if Output()[0] == "Success" :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
 
@@ -64,8 +60,7 @@ def CheckPassword() :
     tmp = request.get_json()
     cpp_executable.stdin.write("passwd " + tmp.get("new_userID") + " " + tmp.get("password") + " " + tmp.get("new_password") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    if output == "Success" :
+    if Output()[0] == "Success" :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
 
@@ -74,8 +69,7 @@ def CheckUseradd() :
     tmp = request.get_json()
     cpp_executable.stdin.write("useradd " + tmp.get("new_userID") + " " + tmp.get("password") + " " + tmp.get("new_privilege") + " " + tmp.get("new_name") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    if output == "Success" :
+    if Output()[0] == "Success" :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
 
@@ -84,8 +78,7 @@ def CheckDelete() :
     tmp = request.get_json()
     cpp_executable.stdin.write("delete " + tmp.get("delete_userID") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    if output == "Success" :
+    if Output()[0] == "Success" :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
 
@@ -94,16 +87,13 @@ def CheckAddbook() :
     tmp = request.get_json()
     cpp_executable.stdin.write("show -ISBN=" + tmp.get("ISBN") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline()
-    clear_cpp_output(cpp_executable)
-    if output != "\n" :
+    output = Output()
+    if output[0] != "" :
         return jsonify({"result" : False})
 
     cpp_executable.stdin.write("select " + tmp.get("ISBN") + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    clear_cpp_output(cpp_executable)
-    if output != "Success" :
+    if Output()[0] != "Success" :
         return jsonify({"result" : False})
 
     input = "modify"
@@ -119,14 +109,118 @@ def CheckAddbook() :
         input += " -keyword=\"" + keyword_set.pop()
         while bool(keyword_set) :
             input += "|" + keyword_set.pop()
-    input += "\""
+        input += "\""
+    if input == "modify" :
+        return jsonify({"result" : True})
     cpp_executable.stdin.write(input + '\n')
     cpp_executable.stdin.flush()
-    output = cpp_executable.stdout.readline().strip()
-    clear_cpp_output(cpp_executable)
-    if output == "Success" :
+    if Output()[0] == "Success" :
         return jsonify({"result" : True})
     return jsonify({"result" : False})
+
+@app.route('/CheckModifybook', methods = ['POST'])
+def CheckModifybook() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("show -ISBN=" + tmp.get("ISBN") +'\n')
+    cpp_executable.stdin.flush()
+    if Output()[0] == "" :
+        return jsonify({"result" : False})
+    cpp_executable.stdin.write("select " + tmp.get("ISBN") + '\n')
+    cpp_executable.stdin.flush()
+    if Output()[0] != "Success" :
+        return jsonify({"result" : False})
+
+    input = "modify"
+    if (tmp.get("new_ISBN") != "") :
+        input += " -ISBN=" + tmp.get("new_ISBN")
+    if tmp.get("bookname") != "" :
+        input += " -name=\"" + tmp.get("bookname") + "\""
+    if tmp.get("author") != "" :
+        input += " -author=\"" + tmp.get("author") + "\""
+    keyword_set = set()
+    for i in {"1", "2", "3", "4", "5"} :
+        if tmp.get("keyword" + i) != "" :
+            keyword_set.add(tmp.get("keyword" + i))
+    if bool(keyword_set) :
+        input += " -keyword=\"" + keyword_set.pop()
+        while bool(keyword_set) :
+            input += "|" + keyword_set.pop()
+        input += "\""
+    if input == "modify" :
+        return jsonify({"result" : True})
+    cpp_executable.stdin.write(input + '\n')
+    cpp_executable.stdin.flush()
+    if Output()[0] == "Success" :
+        return jsonify({"result" : True})
+    return jsonify({"result" : False})
+
+def GetBooks(output) :
+    books = []
+    if output[0] == "" :
+        return books
+    for str in output :
+        book_info = {}
+        for item in str.split() :
+            key, value = item.split('=')
+            book_info[key] = value
+        books.append({
+            "ISBN" : book_info.get("ISBN"),
+            "bookname" : book_info.get("name"),
+            "author" : book_info.get("author"),
+            "keyword" : book_info.get("keyword"),
+            "price" : book_info.get("price"),
+            "stock" : book_info.get("stock")
+        })
+    return books
+
+@app.route('/CheckQuerybookISBN', methods = ['POST'])
+def CheckQuerybookISBN() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("show -ISBN=" + tmp.get("ISBN") + '\n')
+    cpp_executable.stdin.flush()
+    output = Output()
+    if output[0] == "Invalid" :
+        return jsonify({"result" : False})
+    return jsonify({"result" : True, "books" : GetBooks(output)})
+
+@app.route('/CheckQuerybookBookname', methods = ['POST'])
+def CheckQuerybookBookname() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("show -name=\"" + tmp.get("bookname") + "\"\n")
+    cpp_executable.stdin.flush()
+    output = Output()
+    if output[0] == "Invalid" :
+        return jsonify({"result" : False})
+    return jsonify({"result" : True, "books" : GetBooks(output)})
+
+@app.route('/CheckQuerybookAuthor', methods = ['POST'])
+def CheckQuerybookAuthor() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("show -author=\"" + tmp.get("author") + "\"\n")
+    cpp_executable.stdin.flush()
+    output = Output()
+    if output[0] == "Invalid" :
+        return jsonify({"result" : False})
+    return jsonify({"result" : True, "books" : GetBooks(output)})
+
+@app.route('/CheckQuerybookKeyword', methods = ['POST'])
+def CheckQuerybookKeyword() :
+    tmp = request.get_json()
+    cpp_executable.stdin.write("show -keyword=\"" + tmp.get("keyword") + "\"\n")
+    cpp_executable.stdin.flush()
+    output = Output()
+    if output[0] == "Invalid" :
+        return jsonify({"result" : False})
+    return jsonify({"result" : True, "books" : GetBooks(output)})
+
+@app.route('/CheckQueryAll', methods = ['GET'])
+def CheckQueryAll() :
+    cpp_executable.stdin.write("show\n")
+    cpp_executable.stdin.flush()
+    output = Output()
+    if output[0] == "Invalid" :
+        return jsonify({"result" : False})
+    return jsonify({"result" : True, "books" : GetBooks(output)})
 
 if __name__ == '__main__' :
     app.run(debug = True)

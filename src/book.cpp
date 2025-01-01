@@ -31,9 +31,15 @@ bool operator == (const Book &x, const Book &y) {
 
 
 void Book::Print() const {
+#ifdef front_end
+  std::cout << "ISBN=" << ISBN_ << " name=" << book_name_ << " author=" << author_ << " keyword=" << keyword_ << " price=";
+  std::cout << std::fixed << std::setprecision(2) << price_ << " stock=";
+  std::cout << stock_ << '\n';
+#else
   std::cout << ISBN_ << '\t' << book_name_ << '\t' << author_ << '\t' << keyword_ << '\t';
   std::cout << std::fixed << std::setprecision(2) << price_ << '\t';
   std::cout << stock_ << '\n';
+#endif
 }
 
 std::vector<std::array<unsigned int, 60>> GetKeywords(const std::array<unsigned int, 60> &keyword) {
