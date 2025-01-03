@@ -6,7 +6,7 @@ int main() {
   freopen("out.txt", "w", stdout);
 #endif
   Run a;
-  a.run();
+  a.RunProgram();
   return 0;
 }
 

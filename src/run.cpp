@@ -32,7 +32,7 @@ Run::~Run() {
   log_system_.RecordTime(time_);
 }
 
-void Run::run() {
+void Run::RunProgram() {
   while (true) {
     try {
       bool res = cur_command_.Read();

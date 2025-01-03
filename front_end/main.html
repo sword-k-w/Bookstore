@@ -48,6 +48,12 @@
     <button class="option_button hidden" id="button_querybook">
       <span>查询图书</span>
     </button>
+    <button class="option_button hidden" id="button_import">
+      <span>进货</span>
+    </button>
+    <button class="option_button hidden" id="button_buy">
+      <span>买书</span>
+    </button>
     <div id="div_login" class="hidden">
       <h2>登录</h2>
       <form id="form_login">
@@ -209,6 +215,20 @@
       </div>
       <div id="div_querybook_error" class="hidden">
         信息不合法
+      </div>
+    </div>
+    <div id="div_import" class="hidden">
+      <h2>进货</h2>
+      <form id="form_import">
+        <input id="import_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
+        <input id="import_quantity" type="text" placeholder="请输入进货数量" required/>
+        <input id="import_cost" type="text" placeholder="请输入总开销" required/>
+        <button type="submit" id="button_try_import">
+          进货
+        </button>
+      </form>
+      <div id="div_import_error" class="hidden">
+        该图书不存在或信息不合法
       </div>
     </div>
     <script src="main.js"></script>

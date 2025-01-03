@@ -28,7 +28,7 @@ private:
 public:
   Run();
   ~Run();
-  void run();
+  void RunProgram();
   void Login();
   void Logout(bool);
   void Register();

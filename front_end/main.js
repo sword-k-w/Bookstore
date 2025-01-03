@@ -19,6 +19,8 @@ const button_ISBN = document.getElementById("button_ISBN");
 const button_bookname = document.getElementById("button_bookname");
 const button_author = document.getElementById("button_author");
 const button_keyword = document.getElementById("button_keyword");
+const button_import = document.getElementById("button_import");
+const button_buy = document.getElementById("button_buy");
 const div_login = document.getElementById("div_login");
 const div_login_error = document.getElementById("div_login_error");
 const div_register = document.getElementById("div_register");
@@ -42,6 +44,8 @@ const form_querybook_bookname = document.getElementById("form_querybook_bookname
 const form_querybook_author = document.getElementById("form_querybook_author");
 const form_querybook_keyword = document.getElementById("form_querybook_keyword");
 const book_table = document.getElementById("book_table");
+const div_import = document.getElementById("div_import");
+const div_import_error = document.getElementById("div_import_error");
 
 function CheckDisplay() {
   if (button_login.classList.contains("hidden")) {
@@ -68,6 +72,9 @@ function CheckDisplay() {
   if (button_querybook.classList.contains("hidden")) {
     div_querybook.classList.add("hidden");
   }
+  if (button_import.classList.contains("hidden")) {
+    div_import.classList.add("hidden");
+  }
 }
 
 function RemoveAccount() {
@@ -84,6 +91,8 @@ function RemoveBook() {
   button_addbook.classList.add("hidden");
   button_modifybook.classList.add("hidden");
   button_querybook.classList.add("hidden");
+  button_import.classList.add("hidden");
+  button_buy.classList.add("hidden");
   CheckDisplay();
 }
 
@@ -190,9 +199,11 @@ button_delete.addEventListener("click", () => {
 
 button_book.addEventListener("click", () => {
   button_querybook.classList.toggle("hidden");
+  button_buy.classList.toggle("hidden");
   if (privilege >= 3) {
     button_addbook.classList.toggle("hidden");
     button_modifybook.classList.toggle("hidden");
+    button_import.classList.toggle("hidden");
   }
   RemoveAccount();
 });
@@ -201,16 +212,26 @@ button_addbook.addEventListener("click", () => {
   div_addbook.classList.remove("hidden");
   div_modifybook.classList.add("hidden");
   div_querybook.classList.add("hidden");
+  div_import.classList.add("hidden");
 });
 
 button_modifybook.addEventListener("click", () => {
   div_modifybook.classList.remove("hidden");
   div_addbook.classList.add("hidden");
   div_querybook.classList.add("hidden");
+  div_import.classList.add("hidden");
 });
 
 button_querybook.addEventListener("click", () => {
   div_querybook.classList.remove("hidden");
+  div_addbook.classList.add("hidden");
+  div_modifybook.classList.add("hidden");
+  div_import.classList.add("hidden");
+});
+
+button_import.addEventListener("click", () => {
+  div_import.classList.remove("hidden");
+  div_querybook.classList.add("hidden");
   div_addbook.classList.add("hidden");
   div_modifybook.classList.add("hidden");
 });

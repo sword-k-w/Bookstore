@@ -27,3 +27,6 @@ log_employee_report_Body
 log_employee_report_Head
 log_finance
 log_finance_report
+
+# CLion
+.idea/**
