@@ -89,6 +89,8 @@ void Run::run() {
 #else
         std::cout << "Invalid\n";
 #endif
+      } else {
+        std::cout << "Invalid\n";
       }
       if (!res) {
         break;
