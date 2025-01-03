@@ -5,8 +5,8 @@
 
 
 bool Command::Read() {
-  cur_pos = 0;
-  command.clear();
+  cur_pos_ = 0;
+  command_.clear();
   char ch;
   while (std::cin.get(ch)) {
     if (ch == '\r' || ch == '\n') {
@@ -35,7 +35,7 @@ bool Command::Read() {
       assert(std::cin.get(ch));
       res |= ch & 0x3F;
     }
-    command += res;
+    command_ += res;
   }
   return false;
 }
@@ -43,14 +43,14 @@ bool Command::Read() {
  * @return empty string if failed to find a token
  */
 std::basic_string<unsigned int> Command::GetToken() {
-  size_t size = command.size();
-  while (cur_pos < size && command[cur_pos] == ' ') {
-    ++cur_pos;
+  size_t size = command_.size();
+  while (cur_pos_ < size && command_[cur_pos_] == ' ') {
+    ++cur_pos_;
   }
   std::basic_string<unsigned int> res;
-  while (cur_pos < size && command[cur_pos] != ' ') {
-    res += command[cur_pos];
-    ++cur_pos;
+  while (cur_pos_ < size && command_[cur_pos_] != ' ') {
+    res += command_[cur_pos_];
+    ++cur_pos_;
   }
   return res;
 }

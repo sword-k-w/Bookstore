@@ -9,10 +9,10 @@
 
 class Command {
 private:
-  size_t cur_pos;
+  size_t cur_pos_;
 public:
-  std::basic_string<unsigned int> command;
-  Command() : cur_pos(0) {}
+  std::basic_string<unsigned int> command_;
+  Command() : cur_pos_(0) {}
   bool Read();
   std::basic_string<unsigned int> GetToken();
 };
