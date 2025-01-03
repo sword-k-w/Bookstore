@@ -184,15 +184,6 @@ void LogSystem::RecordOperation(const Operation &operation) {
   }
 }
 
-std::ostream &operator << (std::ostream &os, const std::array<unsigned int, 400> &x) {
-  for (size_t i = 0; i < 400; ++i) {
-    if (x[i] != '\0') {
-      os << x[i];
-    }
-  }
-  return os;
-}
-
 void LogSystem::ReportLog() {
   std::cout << "The Log of Sword's Bookstore\n";
   std::cout << std::left << std::setw(kWidthParameter1) << "time";
@@ -231,11 +222,12 @@ void LogSystem::ReportEmployee() {
   std::cout << "The Employee Report of Sword's Bookstore\n";
   auto tmp = employee_report_.FindAllInfo();
   std::sort(tmp.begin(), tmp.end(), [&] (const std::pair<std::array<unsigned int, 30>, std::array<unsigned int, 400>> &x, const std::pair<std::array<unsigned int, 30>, std::array<unsigned int, 400>> &y) {
-    return ToTime(x.second) < ToTime(y.second);
+    return x.first == y.first ? ToTime(x.second) < ToTime(y.second) : x.first < y.first;
   });
   std::cout << "root's working log:\n";
   std::cout << std::left << std::setw(kWidthParameter1) << "time";
   std::cout << std::left << std::setw(kWidthParameter2) << "UserID" << "operation\n";
+
   for (auto &x : tmp) {
     if (ToString(x.first) == "root") {
       std::cout << x.second << '\n';

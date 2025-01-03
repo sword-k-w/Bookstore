@@ -7,9 +7,9 @@ include_directories(include)
 
 #add_definitions(-Ddebug)
 
-add_definitions(-DFileClear)
+#add_definitions(-DFileClear)
 
-add_definitions(-Dfront_end)
+#add_definitions(-Dfront_end)
 
 add_executable(code
         src/account.cpp

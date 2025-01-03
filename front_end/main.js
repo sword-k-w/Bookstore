@@ -87,6 +87,35 @@ function RemoveBook() {
   CheckDisplay();
 }
 
+function GetTable(books) {
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>书名</th>
+        <th>作者</th>
+        <th>关键词</th>
+        <th>价格</th>
+        <th>库存</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${books.map(book => `
+        <tr>
+          <td>${book.ISBN}</td>
+          <td>${book.bookname}</td>
+          <td>${book.author}</td>
+          <td>${book.keyword}</td>
+          <td>${book.price}</td>
+          <td>${book.stock}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+  return table;
+}
+
 fetch('http://localhost:5000/GetUser')
   .then(response => response.json())
   .then(data => {
@@ -199,7 +228,9 @@ button_queryall.addEventListener("click", (event) => {
         book_table.classList.remove("hidden");
         div_querybook_error.classList.add("hidden");
         book_table.innerHTML = '';
-        book_table.appendChild(GetTable(data.books));
+        setTimeout(() => {
+          book_table.appendChild(GetTable(data.books));
+        }, 500);
       } else {
         book_table.classList.add("hidden");
         div_querybook_error.classList.remove("hidden");
@@ -427,35 +458,6 @@ document.getElementById("form_modifybook").addEventListener("submit", (event) =>
     });
 });
 
-function GetTable(books) {
-  const table = document.createElement("table");
-  table.innerHTML = `
-    <thead>
-      <tr>
-        <th>ISBN</th>
-        <th>书名</th>
-        <th>作者</th>
-        <th>关键词</th>
-        <th>价格</th>
-        <th>库存</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${books.map(book => `
-        <tr>
-          <td>${book.ISBN}</td>
-          <td>${book.bookname}</td>
-          <td>${book.author}</td>
-          <td>${book.keyword}</td>
-          <td>${book.price}</td>
-          <td>${book.stock}</td>
-        </tr>
-      `).join('')}
-    </tbody>
-  `;
-  return table;
-}
-
 document.getElementById("form_querybook_ISBN").addEventListener("submit", (event) => {
   event.preventDefault();
   const ISBN = document.getElementById("querybook_ISBN").value;
@@ -471,7 +473,9 @@ document.getElementById("form_querybook_ISBN").addEventListener("submit", (event
         book_table.classList.remove("hidden");
         div_querybook_error.classList.add("hidden");
         book_table.innerHTML = '';
-        book_table.appendChild(GetTable(data.books));
+        setTimeout(() => {
+          book_table.appendChild(GetTable(data.books));
+        }, 500);
       } else {
         book_table.classList.add("hidden");
         div_querybook_error.classList.remove("hidden");
@@ -494,7 +498,9 @@ document.getElementById("form_querybook_bookname").addEventListener("submit", (e
         book_table.classList.remove("hidden");
         div_querybook_error.classList.add("hidden");
         book_table.innerHTML = '';
-        book_table.appendChild(GetTable(data.books));
+        setTimeout(() => {
+          book_table.appendChild(GetTable(data.books));
+        }, 500);
       } else {
         book_table.classList.add("hidden");
         div_querybook_error.classList.remove("hidden");
@@ -517,7 +523,9 @@ document.getElementById("form_querybook_author").addEventListener("submit", (eve
         book_table.classList.remove("hidden");
         div_querybook_error.classList.add("hidden");
         book_table.innerHTML = '';
-        book_table.appendChild(GetTable(data.books));
+        setTimeout(() => {
+          book_table.appendChild(GetTable(data.books));
+        }, 500);
       } else {
         book_table.classList.add("hidden");
         div_querybook_error.classList.remove("hidden");
@@ -540,7 +548,9 @@ document.getElementById("form_querybook_keyword").addEventListener("submit", (ev
         book_table.classList.remove("hidden");
         div_querybook_error.classList.add("hidden");
         book_table.innerHTML = '';
-        book_table.appendChild(GetTable(data.books));
+        setTimeout(() => {
+          book_table.appendChild(GetTable(data.books));
+        }, 500);
       } else {
         book_table.classList.add("hidden");
         div_querybook_error.classList.remove("hidden");

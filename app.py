@@ -9,10 +9,11 @@ app = Flask(__name__)
 
 CORS(app)
 
+# problem : 第一次按下查询所有图书时无法显示所有信息
 def Output() :
     ls = []
     while True :
-        ready_to_read, _, _ = select.select([cpp_executable.stdout], [], [], 0.1)
+        ready_to_read, _, _ = select.select([cpp_executable.stdout], [], [], 0.02)
         if ready_to_read :
             ls.append(cpp_executable.stdout.readline().strip())
         else :
