@@ -15,8 +15,7 @@ accounts_Body
 accounts_Head
 books_author_Body
 books_author_Head
-books_id_Body
-books_id_Head
+books_id
 books_ISBN_Body
 books_ISBN_Head
 books_keyword_Body
