@@ -74,6 +74,8 @@ std::array<unsigned int, 400> ToInfo(const std::string &s) {
 
 constexpr int kWidthParameter1 = 7;
 constexpr int kWidthParameter2 = 35;
+constexpr int kWidthParameter3 = 100;
+constexpr int kWidthParameter4 = 20;
 
 void LogSystem::RecordOperation(const Operation &operation) {
   std::array<unsigned int, 400> info;
@@ -149,12 +151,13 @@ void LogSystem::RecordOperation(const Operation &operation) {
     case Operation::kImport : {
       ss << std::left << std::setw(kWidthParameter1) << std::to_string(operation.import_operation_.time_);
       ss << std::left << std::setw(kWidthParameter2) << ToString(operation.import_operation_.cur_account_.UserID());
-      ss << "import " << std::to_string(operation.import_operation_.quantity_) + " book with -ISBN= " + ToString(operation.import_operation_.book_.ISBN_) + " and cost " + std::to_string(operation.import_operation_.cost_);
+      ss << std::left << std::setw(kWidthParameter3) << "import " + std::to_string(operation.import_operation_.quantity_) + " book with -ISBN= " + ToString(operation.import_operation_.book_.ISBN_) + " and cost " + std::to_string(operation.import_operation_.cost_);
       info = ToInfo(ss.str());
       account = operation.import_operation_.cur_account_;
       std::pair<double, double> tmp;
       finance_.Read(tmp, finance_.Length() - 1);
-      ss << " || current income : " << std::to_string(tmp.first) << " || current expenditure : " << std::to_string(tmp.second);
+      ss << " || ";
+      ss << std::left << std::setw(kWidthParameter4) << std::to_string(tmp.first) << " || " << std::to_string(tmp.second);
       auto t = ToInfo(ss.str());
       finance_report_.Write(t);
       break;
@@ -162,11 +165,12 @@ void LogSystem::RecordOperation(const Operation &operation) {
     case Operation::kBuy : {
       ss << std::left << std::setw(kWidthParameter1) << std::to_string(operation.buy_operation_.time_);
       ss << std::left << std::setw(kWidthParameter2) << ToString(operation.buy_operation_.cur_account_.UserID());
-      ss << "buy " << std::to_string(operation.buy_operation_.quantity_) + " book with -ISBN= " + ToString(operation.buy_operation_.book_.ISBN_) + " and cost " + std::to_string(operation.buy_operation_.quantity_ * operation.buy_operation_.book_.price_);
+      ss << std::left << std::setw(kWidthParameter3) << "buy " + std::to_string(operation.buy_operation_.quantity_) + " book with -ISBN= " + ToString(operation.buy_operation_.book_.ISBN_) + " and cost " + std::to_string(operation.buy_operation_.quantity_ * operation.buy_operation_.book_.price_);
       info = ToInfo(ss.str());
       std::pair<double, double> tmp;
       finance_.Read(tmp, finance_.Length() - 1);
-      ss << " || current income : " << std::to_string(tmp.first) << " || current expenditure : " << std::to_string(tmp.second);
+      ss << " || ";
+      ss << std::left << std::setw(kWidthParameter4) << std::to_string(tmp.first) << " || " << std::to_string(tmp.second);
       auto t = ToInfo(ss.str());
       finance_report_.Write(t);
       break;
@@ -199,7 +203,10 @@ void LogSystem::ReportLog() {
 void LogSystem::ReportFinance() {
   std::cout << "The Finance Report of Sword's Bookstore\n";
   std::cout << std::left << std::setw(kWidthParameter1) << "time";
-  std::cout << std::left << std::setw(kWidthParameter2) << "UserID" << "operation\n";
+  std::cout << std::left << std::setw(kWidthParameter2) << "UserID";
+  std::cout << std::left << std::setw(kWidthParameter3 + 4) << "operation";
+  std::cout << std::left << std::setw(kWidthParameter4 + 4) << "income";
+  std::cout << "expenditure\n";
   size_t size = finance_report_.Length();
   for (size_t i = 0; i < size; ++i) {
     std::array<unsigned int, 400> tmp;
