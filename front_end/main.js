@@ -2,6 +2,8 @@ let account = document.getElementById("account");
 let privilege;
 let userID;
 
+const button_account_group = document.getElementById("button_account_group");
+const button_book_group = document.getElementById("button_book_group");
 const button_account = document.getElementById("button_account");
 const button_book = document.getElementById("button_book");
 const button_log = document.getElementById("button_log");
@@ -21,6 +23,8 @@ const button_author = document.getElementById("button_author");
 const button_keyword = document.getElementById("button_keyword");
 const button_import = document.getElementById("button_import");
 const button_buy = document.getElementById("button_buy");
+const button_finance = document.getElementById("button_finance");
+const button_log_log = document.getElementById("button_log_log");
 const div_login = document.getElementById("div_login");
 const div_login_error = document.getElementById("div_login_error");
 const div_register = document.getElementById("div_register");
@@ -44,8 +48,12 @@ const form_querybook_bookname = document.getElementById("form_querybook_bookname
 const form_querybook_author = document.getElementById("form_querybook_author");
 const form_querybook_keyword = document.getElementById("form_querybook_keyword");
 const book_table = document.getElementById("book_table");
+const log_table = document.getElementById("log_table");
 const div_import = document.getElementById("div_import");
 const div_import_error = document.getElementById("div_import_error");
+const div_buy = document.getElementById("div_buy");
+const div_buy_error = document.getElementById("div_buy_error");
+const div_log = document.getElementById("div_log");
 
 function CheckDisplay() {
   if (button_login.classList.contains("hidden")) {
@@ -75,6 +83,24 @@ function CheckDisplay() {
   if (button_import.classList.contains("hidden")) {
     div_import.classList.add("hidden");
   }
+  if (button_buy.classList.contains("hidden")) {
+    div_buy.classList.add("hidden");
+  }
+  if (div_log.classList.contains("hidden")) {
+    log_table.classList.add("hidden");
+  }
+  if (button_ISBN.classList.contains("hidden")) {
+    form_querybook_ISBN.classList.add("hidden");
+  }
+  if (button_bookname.classList.contains("hidden")) {
+    form_querybook_bookname.classList.add("hidden");
+  }
+  if (button_author.classList.contains("hidden")) {
+    form_querybook_author.classList.add("hidden");
+  }
+  if (button_keyword.classList.contains("hidden")) {
+    form_querybook_keyword.classList.add("hidden");
+  }
 }
 
 function RemoveAccount() {
@@ -93,6 +119,13 @@ function RemoveBook() {
   button_querybook.classList.add("hidden");
   button_import.classList.add("hidden");
   button_buy.classList.add("hidden");
+  CheckDisplay();
+}
+
+function RemoveLog() {
+  div_log.classList.add("hidden");
+  button_finance.classList.add("hidden");
+  button_log_log.classList.add("hidden");
   CheckDisplay();
 }
 
@@ -125,6 +158,56 @@ function GetTable(books) {
   return table;
 }
 
+function GetLog5(logs) {
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>时间</th>
+        <th>操作者</th>
+        <th>操作</th>
+        <th>收入</th>
+        <th>支出</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${logs.map(log => `
+        <tr>
+          <td>${log[0]}</td>
+          <td>${log[1]}</td>
+          <td>${log[2]}</td>
+          <td>${log[3]}</td>
+          <td>${log[4]}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+  return table;
+}
+
+function GetLog3(logs) {
+  const table = document.createElement("table");
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>时间</th>
+        <th>操作者</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${logs.map(log => `
+        <tr>
+          <td>${log[0]}</td>
+          <td>${log[1]}</td>
+          <td>${log[2]}</td>
+        </tr>
+      `).join('')}
+    </tbody>
+  `;
+  return table;
+}
+
 fetch('http://localhost:5000/GetUser')
   .then(response => response.json())
   .then(data => {
@@ -144,6 +227,9 @@ fetch('http://localhost:5000/GetUser')
   });
 
 button_account.addEventListener("click", () => {
+  button_account_group.classList.add("active");
+  button_book_group.classList.remove("active");
+  div_log.classList.remove("active");
   if (privilege === 0) {
     button_login.classList.toggle("hidden");
     button_register.classList.toggle("hidden");
@@ -159,6 +245,7 @@ button_account.addEventListener("click", () => {
     button_useradd.classList.toggle("hidden");
   }
   RemoveBook();
+  RemoveLog();
 });
 
 button_login.addEventListener("click", () => {
@@ -198,6 +285,9 @@ button_delete.addEventListener("click", () => {
 });
 
 button_book.addEventListener("click", () => {
+  button_book_group.classList.add("active");
+  button_account_group.classList.remove("active");
+  div_log.classList.remove("active");
   button_querybook.classList.toggle("hidden");
   button_buy.classList.toggle("hidden");
   if (privilege >= 3) {
@@ -206,6 +296,7 @@ button_book.addEventListener("click", () => {
     button_import.classList.toggle("hidden");
   }
   RemoveAccount();
+  RemoveLog();
 });
 
 button_addbook.addEventListener("click", () => {
@@ -213,6 +304,8 @@ button_addbook.addEventListener("click", () => {
   div_modifybook.classList.add("hidden");
   div_querybook.classList.add("hidden");
   div_import.classList.add("hidden");
+  div_buy.classList.add("hidden");
+  CheckDisplay();
 });
 
 button_modifybook.addEventListener("click", () => {
@@ -220,6 +313,8 @@ button_modifybook.addEventListener("click", () => {
   div_addbook.classList.add("hidden");
   div_querybook.classList.add("hidden");
   div_import.classList.add("hidden");
+  div_buy.classList.add("hidden");
+  CheckDisplay();
 });
 
 button_querybook.addEventListener("click", () => {
@@ -227,6 +322,12 @@ button_querybook.addEventListener("click", () => {
   div_addbook.classList.add("hidden");
   div_modifybook.classList.add("hidden");
   div_import.classList.add("hidden");
+  div_buy.classList.add("hidden");
+  CheckDisplay();
+  form_querybook_ISBN.classList.add("hidden");
+  form_querybook_bookname.classList.add("hidden");
+  form_querybook_author.classList.add("hidden");
+  form_querybook_keyword.classList.add("hidden");
 });
 
 button_import.addEventListener("click", () => {
@@ -234,6 +335,17 @@ button_import.addEventListener("click", () => {
   div_querybook.classList.add("hidden");
   div_addbook.classList.add("hidden");
   div_modifybook.classList.add("hidden");
+  div_buy.classList.add("hidden");
+  CheckDisplay();
+});
+
+button_buy.addEventListener("click", () => {
+  div_buy.classList.remove("hidden");
+  div_import.classList.add("hidden");
+  div_querybook.classList.add("hidden");
+  div_addbook.classList.add("hidden");
+  div_modifybook.classList.add("hidden");
+  CheckDisplay();
 });
 
 button_queryall.addEventListener("click", (event) => {
@@ -293,6 +405,17 @@ button_keyword.addEventListener("click", () => {
   form_querybook_author.classList.add("hidden");
   book_table.classList.add("hidden");
   div_querybook_error.classList.add("hidden");
+});
+
+button_log.addEventListener("click", () => {
+  div_log.classList.add("active");
+  button_book_group.classList.remove("active");
+  button_account_group.classList.remove("active");
+  div_log.classList.remove("hidden");
+  button_finance.classList.remove("hidden");
+  button_log_log.classList.remove("hidden");
+  RemoveAccount();
+  RemoveBook();
 });
 
 document.getElementById("form_login").addEventListener("submit", (event) => {
@@ -576,5 +699,74 @@ document.getElementById("form_querybook_keyword").addEventListener("submit", (ev
         book_table.classList.add("hidden");
         div_querybook_error.classList.remove("hidden");
       }
+    });
+});
+
+document.getElementById("form_import").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const ISBN = document.getElementById("import_ISBN").value;
+  const quantity = document.getElementById("import_quantity").value;
+  const cost = document.getElementById("import_cost").value;
+  fetch('http://localhost:5000/CheckImport', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ISBN, quantity, cost})
+  }).then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        alert("进货成功！");
+        location.reload();
+      } else {
+        div_import_error.classList.add("hidden");
+      }
+    });
+});
+
+document.getElementById("form_buy").addEventListener("submit", (event) => {
+  event.preventDefault();
+  const ISBN = document.getElementById("buy_ISBN").value;
+  const quantity = document.getElementById("buy_quantity").value;
+  fetch('http://localhost:5000/CheckBuy', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ISBN, quantity})
+  }).then(response => response.json())
+    .then(data => {
+      if (data.result) {
+        alert("购买成功！你花了" + data.cost);
+        location.reload();
+      } else {
+        div_buy_error.classList.add("hidden");
+      }
+    });
+});
+
+button_finance.addEventListener("click", (event) => {
+  event.preventDefault();
+  fetch('http://localhost:5000/CheckFinance')
+    .then(response => response.json())
+    .then(data => {
+      log_table.classList.remove("hidden");
+      log_table.innerHTML = '';
+      setTimeout(() => {
+        log_table.appendChild(GetLog5(data.info));
+      }, 500);
+    });
+});
+
+button_log_log.addEventListener("click", (event) => {
+  event.preventDefault();
+  fetch('http://localhost:5000/CheckLog')
+    .then(response => response.json())
+    .then(data => {
+      log_table.classList.remove("hidden");
+      log_table.innerHTML = '';
+      setTimeout(() => {
+        log_table.appendChild(GetLog3(data.info));
+      }, 500);
     });
 });

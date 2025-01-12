@@ -189,10 +189,14 @@ void LogSystem::RecordOperation(const Operation &operation) {
 }
 
 void LogSystem::ReportLog() {
+  size_t size = log_.Length();
+#ifdef front_end
+  std::cout << size << '\n';
+#else
   std::cout << "The Log of Sword's Bookstore\n";
   std::cout << std::left << std::setw(kWidthParameter1) << "time";
   std::cout << std::left << std::setw(kWidthParameter2) << "UserID" << "operation\n";
-  size_t size = log_.Length();
+#endif
   for (size_t i = 0; i < size; ++i) {
     std::array<unsigned int, 400> tmp;
     log_.Read(tmp, i);
@@ -201,13 +205,17 @@ void LogSystem::ReportLog() {
 }
 
 void LogSystem::ReportFinance() {
+  size_t size = finance_report_.Length();
+#ifdef front_end
+  std::cout << size << '\n';
+#else
   std::cout << "The Finance Report of Sword's Bookstore\n";
   std::cout << std::left << std::setw(kWidthParameter1) << "time";
   std::cout << std::left << std::setw(kWidthParameter2) << "UserID";
   std::cout << std::left << std::setw(kWidthParameter3 + 4) << "operation";
   std::cout << std::left << std::setw(kWidthParameter4 + 4) << "income";
   std::cout << "expenditure\n";
-  size_t size = finance_report_.Length();
+#endif
   for (size_t i = 0; i < size; ++i) {
     std::array<unsigned int, 400> tmp;
     finance_report_.Read(tmp, i);

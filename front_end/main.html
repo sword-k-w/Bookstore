@@ -6,229 +6,273 @@
     <title>sword 的书店</title>
   </head>
   <body>
-    <div id="div_welcome">
-      <span id="welcome">欢迎来到 sword 的书店。现在还在装修中...</span>
-    </div>
-    <div class="div_account">
-      <span id="account"></span>
-    </div>
-    <button class="option_button" id="button_account">
-      <span>账户</span>
-    </button>
-    <button class="option_button hidden" id="button_book">
-      <span>图书</span>
-    </button>
-    <button class="option_button hidden" id="button_log">
-      <span>日志</span>
-    </button>
-    <button class="option_button hidden" id="button_register">
-      <span>注册</span>
-    </button>
-    <button class="option_button hidden" id="button_login">
-      <span>登录</span>
-    </button>
-    <button class="option_button hidden" id="button_logout">
-      <span>注销</span>
-    </button>
-    <button class="option_button hidden" id="button_password">
-      <span>修改密码</span>
-    </button>
-    <button class="option_button hidden" id="button_useradd">
-      <span>添加用户</span>
-    </button>
-    <button class="option_button hidden" id="button_delete">
-      <span>删除账户</span>
-    </button>
-    <button class="option_button hidden" id="button_addbook">
-      <span>添加图书</span>
-    </button>
-    <button class="option_button hidden" id="button_modifybook">
-      <span>修改图书</span>
-    </button>
-    <button class="option_button hidden" id="button_querybook">
-      <span>查询图书</span>
-    </button>
-    <button class="option_button hidden" id="button_import">
-      <span>进货</span>
-    </button>
-    <button class="option_button hidden" id="button_buy">
-      <span>买书</span>
-    </button>
-    <div id="div_login" class="hidden">
-      <h2>登录</h2>
-      <form id="form_login">
-        <input id="login_ID_text" type="text" placeholder="请输入你的ID" required/>
-        <input id="login_password_text" type="password" placeholder="请输入你的密码" required/>
-        <button type="submit" id="button_try_login">
-          登录
-        </button>
-      </form>
-      <div id="div_login_error" class="hidden">
-        用户或密码错误！
+    <div class="container">
+      <div class="header">
+        <div id="div_welcome">
+          <span id="welcome">这里是 sword 的书店</span>
+        </div>
+        <div class="div_account">
+          <span id="account"></span>
+        </div>
       </div>
-    </div>
-    <div id="div_register" class="hidden">
-      <h2>注册</h2>
-      <form id="form_register">
-        <input id="register_ID_text" type="text" placeholder="请输入你的ID" required/>
-        <input id="register_name_text" type="text" placeholder="请输入你的用户名" required/>
-        <input id="register_password_text" type="password" placeholder="请输入你的密码" required/>
-        <input id="register_password_text_" type="password" placeholder="请确认你的密码" required/>
-        <button type="submit" id="button_try_register">
-          注册
-        </button>
-      </form>
-      <div id="div_register_password_error" class="hidden">
-        密码不匹配，请重新输入
+      <div class="left_side_bar">
+        <div class="main_button_group">
+          <button class="option_button" id="button_account">
+            <span>账户</span>
+          </button>
+          <button class="option_button hidden" id="button_book">
+            <span>图书</span>
+          </button>
+          <button class="option_button hidden" id="button_log">
+            <span>日志</span>
+          </button>
+        </div>
       </div>
-      <div id="div_register_other_error" class="hidden">
-        ID 重复或者输入不合法，请重新输入
+      <div class="upper_side_bar">
+        <div class="button_group" id="button_account_group">
+          <button class="option_button hidden" id="button_register">
+            <span>注册</span>
+          </button>
+          <button class="option_button hidden" id="button_login">
+            <span>登录</span>
+          </button>
+          <button class="option_button hidden" id="button_logout">
+            <span>注销</span>
+          </button>
+          <button class="option_button hidden" id="button_password">
+            <span>修改密码</span>
+          </button>
+          <button class="option_button hidden" id="button_useradd">
+            <span>添加用户</span>
+          </button>
+          <button class="option_button hidden" id="button_delete">
+            <span>删除账户</span>
+          </button>
+        </div>
+        <div class="button_group" id="button_book_group">
+          <button class="option_button hidden" id="button_addbook">
+            <span>添加图书</span>
+          </button>
+          <button class="option_button hidden" id="button_modifybook">
+            <span>修改图书</span>
+          </button>
+          <button class="option_button hidden" id="button_querybook">
+            <span>查询图书</span>
+          </button>
+          <button class="option_button hidden" id="button_import">
+            <span>进货</span>
+          </button>
+          <button class="option_button hidden" id="button_buy">
+            <span>买书</span>
+          </button>
+        </div>
+        <div id="div_log" class="hidden button_group">
+          <button class="option_button hidden" id="button_finance">
+            <span>财务报表</span>
+          </button>
+          <button class="option_button hidden" id="button_log_log">
+            <span>操作日志</span>
+          </button>
+        </div>
       </div>
-    </div>
-    <div id="div_password" class="hidden">
-      <h2>修改密码</h2>
-      <form id="form_password">
-        <input id="password_ID_text" type="text" placeholder="请输入需要修改密码的账户ID" required/>
-        <input id="password_password_text" type="password" placeholder="请输入原始密码"/>
-        <input id="password_new_password_text" type="password" placeholder="请输入新密码" required/>
-        <input id="password_new_password_text_" type="password" placeholder="请确认新密码" required/>
-        <button type="submit" id="button_try_password">
-          修改密码
-        </button>
-      </form>
-      <div id="div_password_ensure_error" class="hidden">
-        密码不匹配，请重新输入
-      </div>
-      <div id="div_password_other_error" class="hidden">
-        ID 重复或者输入不合法，请重新输入
-      </div>
-    </div>
-    <div id="div_useradd" class="hidden">
-      <h2>添加用户</h2>
-      <form id="form_useradd">
-        <input id="useradd_ID_text" type="text" placeholder="请输入ID" required/>
-        <input id="useradd_name_text" type="text" placeholder="请输入用户名" required/>
-        <input id="useradd_password_text" type="text" placeholder="请输入密码" required/>
-        <input id="useradd_privilege_text" type="text" placeholder="请输入权限，1表示顾客，3表示员工"/>
-        <button type="submit" id="button_try_useradd">
-          添加用户
-        </button>
-      </form>
-      <div id="div_useradd_error" class="hidden">
-        ID 重复或者输入不合法，请重新输入
-      </div>
-    </div>
-    <div id="div_delete" class="hidden">
-      <h2>删除用户</h2>
-      <form id="form_delete">
-        <input id="delete_ID_text" type="text" placeholder="请输入删除的ID" required/>
-        <button type="submit" id="button_try_delete">
-          删除用户
-        </button>
-      </form>
-      <div id="div_delete_error" class="hidden">
-        ID 不存在或输入不合法，请重新输入
-      </div>
-    </div>
-    <div id="div_addbook" class="hidden">
-      <h2>添加图书</h2>
-      <form id="form_addbook">
-        <input id="addbook_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
-        <input id="addbook_bookname" type="text" placeholder="请输入图书的书名"/>
-        <input id="addbook_author" type="text" placeholder="请输入图书的作者"/>
-        <input id="addbook_keyword1" type="text" placeholder="请输入图书的关键词1"/>
-        <input id="addbook_keyword2" type="text" placeholder="请输入图书的关键词2"/>
-        <input id="addbook_keyword3" type="text" placeholder="请输入图书的关键词3"/>
-        <input id="addbook_keyword4" type="text" placeholder="请输入图书的关键词4"/>
-        <input id="addbook_keyword5" type="text" placeholder="请输入图书的关键词5"/>
-        <button type="submit" id="button_try_addbook">
-          添加图书
-        </button>
-      </form>
-      <div id="div_addbook_error" class="hidden">
-        该图书已存在或信息不合法
-      </div>
-    </div>
-    <div id="div_modifybook" class="hidden">
-      <h2>修改图书</h2>
-      <form id="form_modifybook">
-        <input id="modifybook_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
-        <input id="modifybook_new_ISBN" type="text" placeholder="请输入图书的新ISBN号"/>
-        <input id="modifybook_bookname" type="text" placeholder="请输入图书的新书名"/>
-        <input id="modifybook_author" type="text" placeholder="请输入图书的新作者"/>
-        <input id="modifybook_keyword1" type="text" placeholder="请输入图书的新关键词1"/>
-        <input id="modifybook_keyword2" type="text" placeholder="请输入图书的新关键词2"/>
-        <input id="modifybook_keyword3" type="text" placeholder="请输入图书的新关键词3"/>
-        <input id="modifybook_keyword4" type="text" placeholder="请输入图书的新关键词4"/>
-        <input id="modifybook_keyword5" type="text" placeholder="请输入图书的新关键词5"/>
-        <button type="submit" id="button_try_modifybook">
-          修改
-        </button>
-      </form>
-      <div id="div_modifybook_error" class="hidden">
-        该图书不存在或信息不合法
-      </div>
-    </div>
-    <div id="div_querybook" class="hidden">
-      <h2>查询图书</h2>
-      <button class="option_button" id="button_queryall">
-        <span>查询所有图书</span>
-      </button>
-      <button class="option_button" id="button_ISBN">
-        <span>按ISBN查询</span>
-      </button>
-      <button class="option_button" id="button_bookname">
-        <span>按书名查询</span>
-      </button>
-      <button class="option_button" id="button_author">
-        <span>按作者查询</span>
-      </button>
-      <button class="option_button" id="button_keyword">
-        <span>按关键词查询</span>
-      </button>
-      <form id="form_querybook_ISBN" class="hidden">
-        <input id="querybook_ISBN" type="text" placeholder="请输入查询的ISBN号" required/>
-        <button type="submit" id="button_try_querybook_ISBN">
-          查询
-        </button>
-      </form>
-      <form id="form_querybook_bookname" class="hidden">
-        <input id="querybook_bookname" type="text" placeholder="请输入查询的书名" required/>
-        <button type="submit" id="button_try_querybook_bookname">
-          查询
-        </button>
-      </form>
-      <form id="form_querybook_author" class="hidden">
-        <input id="querybook_author" type="text" placeholder="请输入查询的作者" required/>
-        <button type="submit" id="button_try_querybook_author">
-          查询
-        </button>
-      </form>
-      <form id="form_querybook_keyword" class="hidden">
-        <input id="querybook_keyword" type="text" placeholder="请输入查询的关键词" required/>
-        <button type="submit" id="button_try_querybook_keyword">
-          查询
-        </button>
-      </form>
-      <div id="book_table" class="hidden">
-        <!-- 查询到的图书信息 -->
-      </div>
-      <div id="div_querybook_error" class="hidden">
-        信息不合法
-      </div>
-    </div>
-    <div id="div_import" class="hidden">
-      <h2>进货</h2>
-      <form id="form_import">
-        <input id="import_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
-        <input id="import_quantity" type="text" placeholder="请输入进货数量" required/>
-        <input id="import_cost" type="text" placeholder="请输入总开销" required/>
-        <button type="submit" id="button_try_import">
-          进货
-        </button>
-      </form>
-      <div id="div_import_error" class="hidden">
-        该图书不存在或信息不合法
+      <div class="main_container">
+        <div id="div_login" class="hidden">
+          <h2 class="title">登录</h2>
+          <form id="form_login">
+            <input id="login_ID_text" type="text" placeholder="请输入你的ID" required/>
+            <input id="login_password_text" type="password" placeholder="请输入你的密码" required/>
+            <button type="submit" id="button_try_login">
+              登录
+            </button>
+          </form>
+          <div id="div_login_error" class="hidden">
+            用户或密码错误！
+          </div>
+        </div>
+        <div id="div_register" class="hidden">
+          <h2 class="title">注册</h2>
+          <form id="form_register">
+            <input id="register_ID_text" type="text" placeholder="请输入你的ID" required/>
+            <input id="register_name_text" type="text" placeholder="请输入你的用户名" required/>
+            <input id="register_password_text" type="password" placeholder="请输入你的密码" required/>
+            <input id="register_password_text_" type="password" placeholder="请确认你的密码" required/>
+            <button type="submit" id="button_try_register">
+              注册
+            </button>
+          </form>
+          <div id="div_register_password_error" class="hidden">
+            密码不匹配，请重新输入
+          </div>
+          <div id="div_register_other_error" class="hidden">
+            ID 重复或者输入不合法，请重新输入
+          </div>
+        </div>
+        <div id="div_password" class="hidden">
+          <h2 class="title">修改密码</h2>
+          <form id="form_password">
+            <input id="password_ID_text" type="text" placeholder="请输入需要修改密码的账户ID" required/>
+            <input id="password_password_text" type="password" placeholder="请输入原始密码"/>
+            <input id="password_new_password_text" type="password" placeholder="请输入新密码" required/>
+            <input id="password_new_password_text_" type="password" placeholder="请确认新密码" required/>
+            <button type="submit" id="button_try_password">
+              修改密码
+            </button>
+          </form>
+          <div id="div_password_ensure_error" class="hidden">
+            密码不匹配，请重新输入
+          </div>
+          <div id="div_password_other_error" class="hidden">
+            ID 重复或者输入不合法，请重新输入
+          </div>
+        </div>
+        <div id="div_useradd" class="hidden">
+          <h2 class="title">添加用户</h2>
+          <form id="form_useradd">
+            <input id="useradd_ID_text" type="text" placeholder="请输入ID" required/>
+            <input id="useradd_name_text" type="text" placeholder="请输入用户名" required/>
+            <input id="useradd_password_text" type="text" placeholder="请输入密码" required/>
+            <input id="useradd_privilege_text" type="text" placeholder="请输入权限，1表示顾客，3表示员工"/>
+            <button type="submit" id="button_try_useradd">
+              添加用户
+            </button>
+          </form>
+          <div id="div_useradd_error" class="hidden">
+            ID 重复或者输入不合法，请重新输入
+          </div>
+        </div>
+        <div id="div_delete" class="hidden">
+          <h2 class="title">删除用户</h2>
+          <form id="form_delete">
+            <input id="delete_ID_text" type="text" placeholder="请输入删除的ID" required/>
+            <button type="submit" id="button_try_delete">
+              删除用户
+            </button>
+          </form>
+          <div id="div_delete_error" class="hidden">
+            ID 不存在或输入不合法，请重新输入
+          </div>
+        </div>
+        <div id="div_addbook" class="hidden">
+          <h2 class="title">添加图书</h2>
+          <form id="form_addbook">
+            <input id="addbook_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
+            <input id="addbook_bookname" type="text" placeholder="请输入图书的书名"/>
+            <input id="addbook_author" type="text" placeholder="请输入图书的作者"/>
+            <input id="addbook_keyword1" type="text" placeholder="请输入图书的关键词1"/>
+            <input id="addbook_keyword2" type="text" placeholder="请输入图书的关键词2"/>
+            <input id="addbook_keyword3" type="text" placeholder="请输入图书的关键词3"/>
+            <input id="addbook_keyword4" type="text" placeholder="请输入图书的关键词4"/>
+            <input id="addbook_keyword5" type="text" placeholder="请输入图书的关键词5"/>
+            <button type="submit" id="button_try_addbook">
+              添加图书
+            </button>
+          </form>
+          <div id="div_addbook_error" class="hidden">
+            该图书已存在或信息不合法
+          </div>
+        </div>
+        <div id="div_modifybook" class="hidden">
+          <h2 class="title">修改图书</h2>
+          <form id="form_modifybook">
+            <input id="modifybook_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
+            <input id="modifybook_new_ISBN" type="text" placeholder="请输入图书的新ISBN号"/>
+            <input id="modifybook_bookname" type="text" placeholder="请输入图书的新书名"/>
+            <input id="modifybook_author" type="text" placeholder="请输入图书的新作者"/>
+            <input id="modifybook_keyword1" type="text" placeholder="请输入图书的新关键词1"/>
+            <input id="modifybook_keyword2" type="text" placeholder="请输入图书的新关键词2"/>
+            <input id="modifybook_keyword3" type="text" placeholder="请输入图书的新关键词3"/>
+            <input id="modifybook_keyword4" type="text" placeholder="请输入图书的新关键词4"/>
+            <input id="modifybook_keyword5" type="text" placeholder="请输入图书的新关键词5"/>
+            <button type="submit" id="button_try_modifybook">
+              修改
+            </button>
+          </form>
+          <div id="div_modifybook_error" class="hidden">
+            该图书不存在或信息不合法
+          </div>
+        </div>
+        <div id="div_querybook" class="hidden">
+          <h2 class="title">查询图书</h2>
+          <div class="book_button_group">
+            <button class="option_button" id="button_queryall">
+              <span>查询所有图书</span>
+            </button>
+            <button class="option_button" id="button_ISBN">
+              <span>按ISBN查询</span>
+            </button>
+            <button class="option_button" id="button_bookname">
+              <span>按书名查询</span>
+            </button>
+            <button class="option_button" id="button_author">
+              <span>按作者查询</span>
+            </button>
+            <button class="option_button" id="button_keyword">
+              <span>按关键词查询</span>
+            </button>
+          </div>
+          <div class="querybook_container">
+            <form id="form_querybook_ISBN" class="hidden">
+              <input id="querybook_ISBN" type="text" placeholder="请输入查询的ISBN号" required/>
+              <button type="submit" id="button_try_querybook_ISBN">
+                查询
+              </button>
+            </form>
+            <form id="form_querybook_bookname" class="hidden">
+              <input id="querybook_bookname" type="text" placeholder="请输入查询的书名" required/>
+              <button type="submit" id="button_try_querybook_bookname">
+                查询
+              </button>
+            </form>
+            <form id="form_querybook_author" class="hidden">
+              <input id="querybook_author" type="text" placeholder="请输入查询的作者" required/>
+              <button type="submit" id="button_try_querybook_author">
+                查询
+              </button>
+            </form>
+            <form id="form_querybook_keyword" class="hidden">
+              <input id="querybook_keyword" type="text" placeholder="请输入查询的关键词" required/>
+              <button type="submit" id="button_try_querybook_keyword">
+                查询
+              </button>
+            </form>
+          </div>
+          <div id="book_table" class="hidden">
+            <!-- 查询到的图书信息 -->
+          </div>
+          <div id="div_querybook_error" class="hidden">
+            信息不合法
+          </div>
+        </div>
+        <div id="div_import" class="hidden">
+          <h2 class="title">进货</h2>
+          <form id="form_import">
+            <input id="import_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
+            <input id="import_quantity" type="text" placeholder="请输入进货数量" required/>
+            <input id="import_cost" type="text" placeholder="请输入总开销" required/>
+            <button type="submit" id="button_try_import">
+              进货
+            </button>
+          </form>
+          <div id="div_import_error" class="hidden">
+            该图书不存在或信息不合法
+          </div>
+        </div>
+        <div id="div_buy" class="hidden">
+          <h2 class="title">买书</h2>
+          <form id="form_buy">
+            <input id="buy_ISBN" type="text" placeholder="请输入图书的ISBN号" required/>
+            <input id="buy_quantity" type="text" placeholder="请输入购买数量" required/>
+            <button type="submit" id="button_try_buy">
+              进货
+            </button>
+          </form>
+          <div id="div_buy_error" class="hidden">
+            该图书不存在或信息不合法
+          </div>
+        </div>
+        <div id="log_table" class="hidden">
+          <!-- 查询到的日志信息 -->
+        </div>
       </div>
     </div>
     <script src="main.js"></script>

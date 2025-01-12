@@ -1,41 +1,247 @@
-html {
-    background-color: white;
+/* Reset and basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.div_account {
-    position: absolute;
-    right: 30px;
-    top: 30px;
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: white;
     color: black;
-    width: 300px;
-    height: 70px;
-    border: 1px solid black;
-    background-color: white;
+    line-height: 1.6;
 }
 
-#account {
-    display: block;
-    width: 200px;
-    margin: 0 auto;
+h2 {
+    color: black;
+    margin-bottom: 1em;
 }
 
-#div_welcome {
+.container {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-template-rows: 60px 60px 60px 1fr;
+    height: 100vh;
     width: 100%;
-    color: deepskyblue;
-}
-
-#welcome {
-    display: block;
-    width: 500px;
-    margin: 0 auto;
-}
-
-.option_button {
-    background-color: greenyellow;
-    width: 100px;
-    height: 60px;
 }
 
 .hidden {
     display: none;
+}
+
+.header {
+    grid-column: 1 / 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+}
+
+#div_welcome {
+     width: 100%;
+     position: fixed;
+     top: 0;
+     left: 0;
+     background-color: #2ecc71;
+     color: black; /* 文字颜色 */
+     text-align: center; /* 文字居中 */
+     padding: 15px 0; /* 上下内边距 */
+     font-size: 20px; /* 字体大小 */
+     font-family: 'Arial', sans-serif; /* 字体 */
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+     z-index: 1000; /* 确保它显示在最前面 */
+ }
+
+#welcome {
+    font-weight: bold; /* 字体加粗 */
+    letter-spacing: 2px; /* 字母间距 */
+}
+
+.div_account {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: #3498db;
+    color: black;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.div_account span {
+    font-weight: bold;
+}
+
+.left_side_bar {
+    grid-row: 2 / 5;
+    border-right: 1px solid #ccc;
+}
+
+.main_button_group {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.main_button_group .option_button {
+    flex: 1;
+}
+
+.upper_side_bar {
+    grid-column: 2 / 3;
+    position: relative;
+}
+
+.option_button {
+    background-color: #3498db;
+    color: black;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.option_button:hover {
+    background-color: #2980b9;
+}
+
+.option_button:focus {
+    outline: none;
+}
+
+.button_group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    z-index: 1;
+}
+
+.button_group.active {
+     display: flex;
+     z-index: 2;
+ }
+
+.button_group .option_button {
+    flex: 1;
+}
+
+.main_container {
+    grid-row: 3 / 4;
+}
+
+.book_button_group {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.book_button_group {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+}
+
+.book_button_group .option_button {
+    width: 18.9%;
+}
+
+.book_button_group.option_button:hover {
+    background-color: #2980b9; /* 鼠标悬停时的背景色 */
+}
+
+.book_button_group.option_button:focus {
+    outline: none; /* 去掉焦点时的轮廓 */
+}
+
+.querybook_container {
+    margin-top: 115px;
+}
+/* Form styling */
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2em;
+}
+
+input[type="text"], input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #3498db;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+button[type="submit"]:hover {
+    background-color: #27ae60;
+}
+
+/* Error message styling */
+.error_message {
+    color: red;
+    margin-top: 10px;
+}
+
+.error_message.hidden {
+    display: none;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #3498db;
+    color: black;
+}
+
+td {
+    background-color: #f9f9f9;
+}
+
+td:hover {
+    background-color: #e9e9e9;
+}
+
+tbody tr:hover td {
+    background-color: #f1f1f1;
+}
+
+.title {
+    text-align: center;
 }

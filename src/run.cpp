@@ -374,8 +374,13 @@ void Run::Show() {
   if (tmp.empty()) {
     // show all books
     auto books = book_system_.QueryAll();
+#ifdef front_end
+    std::cout << books.size() << '\n';
+#endif
     if (books.empty()) {
+#ifndef front_end
       std::cout << '\n';
+#endif
     }
     std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
       return x.ISBN_ < y.ISBN_;
@@ -415,11 +420,16 @@ void Run::Show() {
               throw Invalid();
             }
             auto books = book_system_.QueryKeyword(keyword);
+#ifdef front_end
+            std::cout << books.size() << '\n';
+#endif
             std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
               return x.ISBN_ < y.ISBN_;
             });
             if (books.empty()) {
+#ifndef front_end
               std::cout << '\n';
+#endif
             }
             for (auto &book: books) {
               book.Print();
@@ -429,11 +439,16 @@ void Run::Show() {
               throw Invalid();
             }
             auto books = book_system_.QueryAuthor(author);
+#ifdef front_end
+            std::cout << books.size() << '\n';
+#endif
             std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
               return x.ISBN_ < y.ISBN_;
             });
             if (books.empty()) {
+#ifndef front_end
               std::cout << '\n';
+#endif
             }
             for (auto &book: books) {
               book.Print();
@@ -444,11 +459,16 @@ void Run::Show() {
             throw Invalid();
           }
           auto books = book_system_.QueryName(book_name);
+#ifdef front_end
+          std::cout << books.size() << '\n';
+#endif
           std::sort(books.begin(), books.end(), [&](const Book &x, const Book &y) {
             return x.ISBN_ < y.ISBN_;
           });
           if (books.empty()) {
+#ifndef front_end
             std::cout << '\n';
+#endif
           }
           for (auto &book: books) {
             book.Print();
@@ -459,14 +479,24 @@ void Run::Show() {
           throw Invalid();
         }
         Book book = book_system_.QueryISBN(ISBN)[0];
+#ifdef front_end
+        if (book.price_ < 0) {
+          std::cout << "0\n";
+        } else {
+          std::cout << "1\n";
+          book.Print();
+        }
+#else
         if (book.price_ < 0) {
           std::cout << '\n';
         } else {
           book.Print();
         }
+#endif
       }
     }
   }
+#ifndef front_end
   SearchOperation search_ope;
   search_ope.time_ = ++time_;
   search_ope.cur_account_ = cur_account_;
@@ -474,6 +504,7 @@ void Run::Show() {
   ope.operation_type_ = Operation::kSearch;
   ope.search_operation_ = search_ope;
   log_system_.RecordOperation(ope);
+#endif
 }
 
 void Run::Buy() {
@@ -658,6 +689,10 @@ void Run::Import() {
   if (total_cost <= 0 || !cur_command_.GetToken().empty()) {
     throw Invalid();
   }
+#ifdef front_end
+  std::cout << "Success\n";
+#endif
+
   book_system_.ModifyStock(cur_book.ISBN_, cur_book.stock_ + quantity);
   log_system_.RecordTrade(-total_cost);
 
